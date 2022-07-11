@@ -132,14 +132,14 @@ func NewChainTester() *ChainTester {
 
 	var transport thrift.TTransport
 
-	transport = thrift.NewTSocketConf(addr, cfg)
+	transport = thrift.NewTSocketConf("127.0.0.1:9090", cfg)
 	transport, err := transportFactory.GetTransport(transport)
 	if err != nil {
-		return nil, err
+		panic(err)
 	}
-	defer transport.Close()
+	// defer transport.Close()
 	if err := transport.Open(); err != nil {
-		return nil, err
+		panic(err)
 	}
 	iprot := protocolFactory.GetProtocol(transport)
 	oprot := protocolFactory.GetProtocol(transport)
