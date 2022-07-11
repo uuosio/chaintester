@@ -65,7 +65,13 @@ func NewApplyRequestHandler() *ApplyRequestHandler {
 func callNativeApply(receiver uint64, firstReceiver uint64, action uint64)
 
 func getUint64(value *interfaces.Uint64) uint64 {
-	return uint64(value.Lo<<32) | uint64(value.Hi)
+	return (uint64(value.Hi) << 32) | uint64(value.Lo)
+}
+
+var g_apply_func func(uint64, uint64, uint64)
+
+func SetApplyFunc(apply func(uint64, uint64, uint64)) {
+	g_apply_func = apply
 }
 
 func (p *ApplyRequestHandler) ApplyRequest(ctx context.Context, receiver *interfaces.Uint64, firstReceiver *interfaces.Uint64, action *interfaces.Uint64) (_r int32, _err error) {
@@ -74,7 +80,11 @@ func (p *ApplyRequestHandler) ApplyRequest(ctx context.Context, receiver *interf
 	_receiver := getUint64(receiver)
 	_firstReceiver := getUint64(firstReceiver)
 	_action := getUint64(action)
-	callNativeApply(_receiver, _firstReceiver, _action)
+	if g_apply_func == nil {
+		panic("apply function not set!")
+	}
+	g_apply_func(_receiver, _firstReceiver, _action)
+	GetVMAPI().EndApply(ctx)
 	return 1, nil
 }
 
