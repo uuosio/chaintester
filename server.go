@@ -12,6 +12,21 @@ import (
 	"github.com/apache/thrift/lib/go/thrift"
 )
 
+var g_VMAPI *interfaces.ApplyClient
+
+func GetVMAPI() *interfaces.ApplyClient {
+	if g_VMAPI != nil {
+		return g_VMAPI
+	}
+
+	var err error
+	g_VMAPI, err = NewVMAPIClient("127.0.0.1:9092")
+	if err != nil {
+		panic(err)
+	}
+	return g_VMAPI
+}
+
 func NewVMAPIClient(addr string) (*interfaces.ApplyClient, error) {
 	var transport thrift.TTransport
 

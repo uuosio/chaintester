@@ -107,7 +107,7 @@ func (p *IPCClient) Call(ctx context.Context, method string, args, result thrift
 
 var defaultCtx = context.Background()
 
-type ChainTesterClient struct {
+type ChainTester struct {
 	interfaces.IPCChainTesterClient
 	client             *IPCClient
 	applyRequestServer *ApplyRequestServer
@@ -117,15 +117,42 @@ type ChainTesterClient struct {
 // 	func(ctx context.Context, method string, args github.com/apache/thrift/lib/go/thrift.TStruct, result github.com/apache/thrift/lib/go/thrift.TStruct) (chaintester.ResponseMeta, error), want
 // 	func(ctx context.Context, method string, args github.com/apache/thrift/lib/go/thrift.TStruct, result github.com/apache/thrift/lib/go/thrift.TStruct) (github.com/apache/thrift/lib/go/thrift.ResponseMeta, error))compilerInvalidIfaceAssign
 
-func NewChainTesterClient(c *IPCClient) *ChainTesterClient {
-	return &ChainTesterClient{
+func NewChainTester() *ChainTester {
+	var protocolFactory thrift.TProtocolFactory
+	protocolFactory = thrift.NewTBinaryProtocolFactoryConf(nil)
+
+	var transportFactory thrift.TTransportFactory
+	cfg := &thrift.TConfiguration{
+		TLSConfig: &tls.Config{
+			InsecureSkipVerify: true,
+		},
+	}
+
+	transportFactory = thrift.NewTBufferedTransportFactory(8192)
+
+	var transport thrift.TTransport
+
+	transport = thrift.NewTSocketConf(addr, cfg)
+	transport, err := transportFactory.GetTransport(transport)
+	if err != nil {
+		return nil, err
+	}
+	defer transport.Close()
+	if err := transport.Open(); err != nil {
+		return nil, err
+	}
+	iprot := protocolFactory.GetProtocol(transport)
+	oprot := protocolFactory.GetProtocol(transport)
+	c := NewIPCClient(iprot, oprot)
+
+	return &ChainTester{
 		IPCChainTesterClient: *interfaces.NewIPCChainTesterClient(c),
 		client:               c,
 		applyRequestServer:   NewApplyRequestServer(),
 	}
 }
 
-func (p *ChainTesterClient) Call(ctx context.Context, method string, args, result thrift.TStruct) (thrift.ResponseMeta, error) {
+func (p *ChainTester) Call(ctx context.Context, method string, args, result thrift.TStruct) (thrift.ResponseMeta, error) {
 	p.client.seqId++
 	seqId := p.client.seqId
 
@@ -155,7 +182,7 @@ func (p *ChainTesterClient) Call(ctx context.Context, method string, args, resul
 	}, err
 }
 
-func (p *ChainTesterClient) PushAction(ctx context.Context, id int32, account string, action string, arguments string, permissions string) (_r int32, _err error) {
+func (p *ChainTester) PushAction(ctx context.Context, id int32, account string, action string, arguments string, permissions string) (_r int32, _err error) {
 	var _args6 interfaces.IPCChainTesterPushActionArgs
 	_args6.ID = id
 	_args6.Account = account
@@ -172,7 +199,7 @@ func (p *ChainTesterClient) PushAction(ctx context.Context, id int32, account st
 	return _result8.GetSuccess(), nil
 }
 
-func handleClient(client *ChainTesterClient) (err error) {
+func handleClient(client *ChainTester) (err error) {
 	args := `
 	{
 		"name": "go"
@@ -191,53 +218,4 @@ func handleClient(client *ChainTesterClient) (err error) {
 	id := int32(0)
 	client.PushAction(defaultCtx, id, "hello", "sayhello", args, permissions)
 	return nil
-}
-
-func runClient(transportFactory thrift.TTransportFactory, protocolFactory thrift.TProtocolFactory, addr string, secure bool, cfg *thrift.TConfiguration) error {
-	var transport thrift.TTransport
-	if secure {
-		transport = thrift.NewTSSLSocketConf(addr, cfg)
-	} else {
-		transport = thrift.NewTSocketConf(addr, cfg)
-	}
-	transport, err := transportFactory.GetTransport(transport)
-	if err != nil {
-		return err
-	}
-	defer transport.Close()
-	if err := transport.Open(); err != nil {
-		return err
-	}
-	iprot := protocolFactory.GetProtocol(transport)
-	oprot := protocolFactory.GetProtocol(transport)
-	return handleClient(NewChainTesterClient(NewIPCClient(iprot, oprot)))
-}
-
-func NewChainTester(addr string) (*ChainTesterClient, error) {
-	var protocolFactory thrift.TProtocolFactory
-	protocolFactory = thrift.NewTBinaryProtocolFactoryConf(nil)
-
-	var transportFactory thrift.TTransportFactory
-	cfg := &thrift.TConfiguration{
-		TLSConfig: &tls.Config{
-			InsecureSkipVerify: true,
-		},
-	}
-
-	transportFactory = thrift.NewTBufferedTransportFactory(8192)
-
-	var transport thrift.TTransport
-
-	transport = thrift.NewTSocketConf(addr, cfg)
-	transport, err := transportFactory.GetTransport(transport)
-	if err != nil {
-		return nil, err
-	}
-	defer transport.Close()
-	if err := transport.Open(); err != nil {
-		return nil, err
-	}
-	iprot := protocolFactory.GetProtocol(transport)
-	oprot := protocolFactory.GetProtocol(transport)
-	return NewChainTesterClient(NewIPCClient(iprot, oprot)), nil
 }
