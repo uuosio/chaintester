@@ -1,7 +1,8 @@
-package main
+package chaintester
 
 import (
 	"context"
+	"crypto/tls"
 	"fmt"
 	"reflect"
 
@@ -210,4 +211,33 @@ func runClient(transportFactory thrift.TTransportFactory, protocolFactory thrift
 	iprot := protocolFactory.GetProtocol(transport)
 	oprot := protocolFactory.GetProtocol(transport)
 	return handleClient(NewChainTesterClient(NewIPCClient(iprot, oprot)))
+}
+
+func NewChainTester(addr string) (*ChainTesterClient, error) {
+	var protocolFactory thrift.TProtocolFactory
+	protocolFactory = thrift.NewTBinaryProtocolFactoryConf(nil)
+
+	var transportFactory thrift.TTransportFactory
+	cfg := &thrift.TConfiguration{
+		TLSConfig: &tls.Config{
+			InsecureSkipVerify: true,
+		},
+	}
+
+	transportFactory = thrift.NewTBufferedTransportFactory(8192)
+
+	var transport thrift.TTransport
+
+	transport = thrift.NewTSocketConf(addr, cfg)
+	transport, err := transportFactory.GetTransport(transport)
+	if err != nil {
+		return nil, err
+	}
+	defer transport.Close()
+	if err := transport.Open(); err != nil {
+		return nil, err
+	}
+	iprot := protocolFactory.GetProtocol(transport)
+	oprot := protocolFactory.GetProtocol(transport)
+	return NewChainTesterClient(NewIPCClient(iprot, oprot)), nil
 }

@@ -1,10 +1,12 @@
-package main
+package chaintester
 
 import (
 	"chaintester/interfaces"
 	"context"
 	"crypto/tls"
 	"fmt"
+
+	_ "unsafe"
 
 	"github.com/apache/thrift/lib/go/thrift"
 )
@@ -43,22 +45,20 @@ func NewApplyRequestHandler() *ApplyRequestHandler {
 	return &ApplyRequestHandler{}
 }
 
+//go:linkname callNativeApply main.native_apply
+func callNativeApply(receiver uint64, firstReceiver uint64, action uint64)
+
+func getUint64(value *interfaces.Uint64) uint64 {
+	return uint64(value.Lo<<32) | uint64(value.Hi)
+}
+
 func (p *ApplyRequestHandler) ApplyRequest(ctx context.Context, receiver *interfaces.Uint64, firstReceiver *interfaces.Uint64, action *interfaces.Uint64) (_r int32, _err error) {
 	fmt.Println("+++++++ApplyRequest called!")
-	apiClient, err := NewVMAPIClient("127.0.0.1:9092")
-	if err != nil {
-		panic(err)
-	}
 
-	_, err = apiClient.Prints(ctx, "hello, world")
-	if err != nil {
-		panic(err)
-	}
-
-	_, err = apiClient.EndApply(ctx)
-	if err != nil {
-		panic(err)
-	}
+	_receiver := getUint64(receiver)
+	_firstReceiver := getUint64(firstReceiver)
+	_action := getUint64(action)
+	callNativeApply(_receiver, _firstReceiver, _action)
 	return 1, nil
 }
 
