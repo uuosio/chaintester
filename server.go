@@ -1,10 +1,11 @@
 package chaintester
 
 import (
-	"chaintester/interfaces"
 	"context"
 	"crypto/tls"
 	"fmt"
+
+	"github.com/learnforpractice/chaintester/interfaces"
 
 	_ "unsafe"
 

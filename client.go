@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"reflect"
 
-	"chaintester/interfaces"
+	"github.com/learnforpractice/chaintester/interfaces"
 
 	"github.com/apache/thrift/lib/go/thrift"
 )
