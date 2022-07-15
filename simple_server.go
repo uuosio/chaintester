@@ -50,8 +50,9 @@ type SimpleIPCServer struct {
 
 	// Headers to auto forward in THeaderProtocol
 	forwardHeaders []string
-
-	logger thrift.Logger
+	logger         thrift.Logger
+	client         thrift.TTransport
+	end_loop       bool
 }
 
 func NewSimpleIPCServer2(processor thrift.TProcessor, serverTransport thrift.TServerTransport) *SimpleIPCServer {
@@ -198,11 +199,14 @@ func (p *SimpleIPCServer) AcceptOnce() (int32, error) {
 	if err != nil {
 		return 0, err
 	}
+	fmt.Println("+++++++++SimpleIPCServer: new client connected")
+	p.client = client
+	return 0, nil
+}
 
-	if client != nil {
-		if err := p.processRequests(client); err != nil {
-			p.logger(fmt.Sprintf("error processing request: %v", err))
-		}
+func (p *SimpleIPCServer) ProcessRequests() (int32, error) {
+	if err := p.processRequests(p.client); err != nil {
+		p.logger(fmt.Sprintf("error processing request: %v", err))
 	}
 	return 0, nil
 }
@@ -261,6 +265,10 @@ func treatEOFErrorsAsNil(err error) error {
 		return nil
 	}
 	return err
+}
+
+func (p *SimpleIPCServer) EndProcessRequests() {
+	p.end_loop = true
 }
 
 func (p *SimpleIPCServer) processRequests(client thrift.TTransport) (err error) {
@@ -324,6 +332,12 @@ func (p *SimpleIPCServer) processRequests(client thrift.TTransport) (err error) 
 		}
 
 		ok, err := processor.Process(ctx, inputProtocol, outputProtocol)
+
+		if p.end_loop {
+			p.end_loop = false
+			return nil
+		}
+
 		if errors.Is(err, ErrAbandonRequest) {
 			return client.Close()
 		}

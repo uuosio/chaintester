@@ -3,6 +3,7 @@ package chaintester
 import (
 	"context"
 	"crypto/tls"
+	"encoding/binary"
 	"fmt"
 
 	"github.com/learnforpractice/chaintester/interfaces"
@@ -27,7 +28,7 @@ func GetVMAPI() *interfaces.ApplyClient {
 	return g_VMAPI
 }
 
-func NewVMAPIClient(addr string) (*interfaces.ApplyClient, error) {
+func NewProtocol(addr string) (thrift.TProtocol, thrift.TProtocol, error) {
 	var transport thrift.TTransport
 
 	protocolFactory := thrift.NewTBinaryProtocolFactoryConf(nil)
@@ -41,14 +42,22 @@ func NewVMAPIClient(addr string) (*interfaces.ApplyClient, error) {
 	transport = thrift.NewTSocketConf(addr, cfg)
 	transport, err := transportFactory.GetTransport(transport)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 	// defer transport.Close()
 	if err := transport.Open(); err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 	iprot := protocolFactory.GetProtocol(transport)
 	oprot := protocolFactory.GetProtocol(transport)
+	return iprot, oprot, nil
+}
+
+func NewVMAPIClient(addr string) (*interfaces.ApplyClient, error) {
+	iprot, oprot, err := NewProtocol(addr)
+	if err != nil {
+		return nil, err
+	}
 	// transport.Close()
 	// oprot.Transport().Close()
 	return interfaces.NewApplyClient(NewIPCClient(iprot, oprot)), nil
@@ -65,7 +74,7 @@ func NewApplyRequestHandler() *ApplyRequestHandler {
 func callNativeApply(receiver uint64, firstReceiver uint64, action uint64)
 
 func getUint64(value *interfaces.Uint64) uint64 {
-	return (uint64(value.Hi) << 32) | uint64(value.Lo)
+	return binary.LittleEndian.Uint64(value.RawValue)
 }
 
 var g_apply_func func(uint64, uint64, uint64)
@@ -89,6 +98,8 @@ func (p *ApplyRequestHandler) ApplyRequest(ctx context.Context, receiver *interf
 }
 
 func (p *ApplyRequestHandler) ApplyEnd(ctx context.Context) (_r int32, _err error) {
+	fmt.Println("+++++++ApplyEnd")
+	GetApplyRequestServer().server.EndProcessRequests()
 	return 1, nil
 }
 
@@ -121,6 +132,11 @@ func NewApplyRequestServer() *ApplyRequestServer {
 	return server
 }
 
-func (server *ApplyRequestServer) Serve() (int32, error) {
+func (server *ApplyRequestServer) AcceptOnce() (int32, error) {
 	return server.server.AcceptOnce()
+}
+
+func (server *ApplyRequestServer) Serve() (int32, error) {
+	fmt.Println("+++++++ApplyRequestServer:ProcessRequests")
+	return server.server.ProcessRequests()
 }

@@ -2,7 +2,6 @@ package chaintester
 
 import (
 	"context"
-	"crypto/tls"
 	"fmt"
 	"reflect"
 
@@ -109,8 +108,39 @@ var defaultCtx = context.Background()
 
 type ChainTester struct {
 	interfaces.IPCChainTesterClient
-	client             *IPCClient
-	applyRequestServer *ApplyRequestServer
+	client *IPCClient
+	id     int32
+}
+
+var g_ApplyRequestServer *ApplyRequestServer
+
+func GetApplyRequestServer() *ApplyRequestServer {
+	if g_ApplyRequestServer == nil {
+		g_ApplyRequestServer = NewApplyRequestServer()
+		g_ApplyRequestServer.AcceptOnce()
+	}
+	return g_ApplyRequestServer
+}
+
+var g_IPCClient *IPCClient = nil
+
+func GetIPCClient() *IPCClient {
+	if g_IPCClient == nil {
+		iprot, oprot, err := NewProtocol("127.0.0.1:9090")
+		if err != nil {
+			return nil
+		}
+		g_IPCClient = NewIPCClient(iprot, oprot)
+		tester := interfaces.NewIPCChainTesterClient(g_IPCClient)
+
+		tester.InitVMAPI(defaultCtx)
+		GetVMAPI() //init vm api client
+
+		tester.InitApplyRequest(defaultCtx)
+		GetApplyRequestServer() // init apply request server
+
+	}
+	return g_IPCClient
 }
 
 // cannot use c (variable of type *IPCClient) as thrift.TClient value in argument to interfaces.NewIPCChainTesterClient: wrong type for method Call (have
@@ -118,38 +148,19 @@ type ChainTester struct {
 // 	func(ctx context.Context, method string, args github.com/apache/thrift/lib/go/thrift.TStruct, result github.com/apache/thrift/lib/go/thrift.TStruct) (github.com/apache/thrift/lib/go/thrift.ResponseMeta, error))compilerInvalidIfaceAssign
 
 func NewChainTester() *ChainTester {
-	var protocolFactory thrift.TProtocolFactory
-	protocolFactory = thrift.NewTBinaryProtocolFactoryConf(nil)
+	c := GetIPCClient()
 
-	var transportFactory thrift.TTransportFactory
-	cfg := &thrift.TConfiguration{
-		TLSConfig: &tls.Config{
-			InsecureSkipVerify: true,
-		},
+	tester := &ChainTester{
+		IPCChainTesterClient: *interfaces.NewIPCChainTesterClient(c),
+		client:               c,
 	}
 
-	transportFactory = thrift.NewTBufferedTransportFactory(8192)
-
-	var transport thrift.TTransport
-
-	transport = thrift.NewTSocketConf("127.0.0.1:9090", cfg)
-	transport, err := transportFactory.GetTransport(transport)
+	var err error
+	tester.id, err = tester.NewChain_(defaultCtx)
 	if err != nil {
 		panic(err)
 	}
-	// defer transport.Close()
-	if err := transport.Open(); err != nil {
-		panic(err)
-	}
-	iprot := protocolFactory.GetProtocol(transport)
-	oprot := protocolFactory.GetProtocol(transport)
-	c := NewIPCClient(iprot, oprot)
-
-	return &ChainTester{
-		IPCChainTesterClient: *interfaces.NewIPCChainTesterClient(c),
-		client:               c,
-		applyRequestServer:   NewApplyRequestServer(),
-	}
+	return tester
 }
 
 func (p *ChainTester) Call(ctx context.Context, method string, args, result thrift.TStruct) (thrift.ResponseMeta, error) {
@@ -168,7 +179,9 @@ func (p *ChainTester) Call(ctx context.Context, method string, args, result thri
 	//runApplyRequestServer
 
 	//start apply request server
-	p.applyRequestServer.Serve()
+	if "push_action" == method {
+		GetApplyRequestServer().Serve()
+	}
 
 	err := p.client.Recv(ctx, p.client.iprot, seqId, method, result)
 	var headers thrift.THeaderMap
@@ -182,21 +195,22 @@ func (p *ChainTester) Call(ctx context.Context, method string, args, result thri
 	}, err
 }
 
-func (p *ChainTester) PushAction(ctx context.Context, id int32, account string, action string, arguments string, permissions string) (_r int32, _err error) {
-	var _args6 interfaces.IPCChainTesterPushActionArgs
-	_args6.ID = id
-	_args6.Account = account
-	_args6.Action = action
-	_args6.Arguments = arguments
-	_args6.Permissions = permissions
-	var _result8 interfaces.IPCChainTesterPushActionResult
-	var _meta7 thrift.ResponseMeta
-	_meta7, _err = p.Call(ctx, "push_action", &_args6, &_result8)
-	p.SetLastResponseMeta_(_meta7)
+func (p *ChainTester) PushAction(account string, action string, arguments string, permissions string) []byte {
+	var _args20 interfaces.IPCChainTesterPushActionArgs
+	_args20.ID = p.id
+	_args20.Account = account
+	_args20.Action = action
+	_args20.Arguments = arguments
+	_args20.Permissions = permissions
+	var _result22 interfaces.IPCChainTesterPushActionResult
+	var _meta21 thrift.ResponseMeta
+	var _err error
+	_meta21, _err = p.Call(defaultCtx, "push_action", &_args20, &_result22)
 	if _err != nil {
-		return
+		panic(_err)
 	}
-	return _result8.GetSuccess(), nil
+	p.SetLastResponseMeta_(_meta21)
+	return _result22.GetSuccess()
 }
 
 func handleClient(client *ChainTester) (err error) {
@@ -215,7 +229,6 @@ func handleClient(client *ChainTester) (err error) {
 	// if err != nil {
 	// 	return err
 	// }
-	id := int32(0)
-	client.PushAction(defaultCtx, id, "hello", "sayhello", args, permissions)
+	client.PushAction("hello", "sayhello", args, permissions)
 	return nil
 }

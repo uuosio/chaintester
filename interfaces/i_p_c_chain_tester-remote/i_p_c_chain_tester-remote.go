@@ -22,9 +22,16 @@ func Usage() {
   fmt.Fprintln(os.Stderr, "Usage of ", os.Args[0], " [-h host:port] [-u url] [-f[ramed]] function [arg1 [arg2...]]:")
   flag.PrintDefaults()
   fmt.Fprintln(os.Stderr, "\nFunctions:")
+  fmt.Fprintln(os.Stderr, "  void init_vm_api()")
+  fmt.Fprintln(os.Stderr, "  void init_apply_request()")
+  fmt.Fprintln(os.Stderr, "  string pack_abi(string abi)")
+  fmt.Fprintln(os.Stderr, "  string pack_action_args(i32 id, string contract, string action, string action_args)")
+  fmt.Fprintln(os.Stderr, "  string unpack_action_args(i32 id, string contract, string action, string raw_args)")
   fmt.Fprintln(os.Stderr, "  i32 new_chain()")
   fmt.Fprintln(os.Stderr, "  i32 free_chain(i32 id)")
-  fmt.Fprintln(os.Stderr, "  i32 push_action(i32 id, string account, string action, string arguments, string permissions)")
+  fmt.Fprintln(os.Stderr, "  void produce_block(i32 id)")
+  fmt.Fprintln(os.Stderr, "  string push_action(i32 id, string account, string action, string arguments, string permissions)")
+  fmt.Fprintln(os.Stderr, "  string push_actions(i32 id,  actions)")
   fmt.Fprintln(os.Stderr)
   os.Exit(0)
 }
@@ -147,6 +154,74 @@ func main() {
   }
   
   switch cmd {
+  case "init_vm_api":
+    if flag.NArg() - 1 != 0 {
+      fmt.Fprintln(os.Stderr, "InitVMAPI requires 0 args")
+      flag.Usage()
+    }
+    fmt.Print(client.InitVMAPI(context.Background()))
+    fmt.Print("\n")
+    break
+  case "init_apply_request":
+    if flag.NArg() - 1 != 0 {
+      fmt.Fprintln(os.Stderr, "InitApplyRequest requires 0 args")
+      flag.Usage()
+    }
+    fmt.Print(client.InitApplyRequest(context.Background()))
+    fmt.Print("\n")
+    break
+  case "pack_abi":
+    if flag.NArg() - 1 != 1 {
+      fmt.Fprintln(os.Stderr, "PackAbi requires 1 args")
+      flag.Usage()
+    }
+    argvalue0 := flag.Arg(1)
+    value0 := argvalue0
+    fmt.Print(client.PackAbi(context.Background(), value0))
+    fmt.Print("\n")
+    break
+  case "pack_action_args":
+    if flag.NArg() - 1 != 4 {
+      fmt.Fprintln(os.Stderr, "PackActionArgs_ requires 4 args")
+      flag.Usage()
+    }
+    tmp0, err30 := (strconv.Atoi(flag.Arg(1)))
+    if err30 != nil {
+      Usage()
+      return
+    }
+    argvalue0 := int32(tmp0)
+    value0 := argvalue0
+    argvalue1 := flag.Arg(2)
+    value1 := argvalue1
+    argvalue2 := flag.Arg(3)
+    value2 := argvalue2
+    argvalue3 := flag.Arg(4)
+    value3 := argvalue3
+    fmt.Print(client.PackActionArgs_(context.Background(), value0, value1, value2, value3))
+    fmt.Print("\n")
+    break
+  case "unpack_action_args":
+    if flag.NArg() - 1 != 4 {
+      fmt.Fprintln(os.Stderr, "UnpackActionArgs_ requires 4 args")
+      flag.Usage()
+    }
+    tmp0, err34 := (strconv.Atoi(flag.Arg(1)))
+    if err34 != nil {
+      Usage()
+      return
+    }
+    argvalue0 := int32(tmp0)
+    value0 := argvalue0
+    argvalue1 := flag.Arg(2)
+    value1 := argvalue1
+    argvalue2 := flag.Arg(3)
+    value2 := argvalue2
+    argvalue3 := []byte(flag.Arg(4))
+    value3 := argvalue3
+    fmt.Print(client.UnpackActionArgs_(context.Background(), value0, value1, value2, value3))
+    fmt.Print("\n")
+    break
   case "new_chain":
     if flag.NArg() - 1 != 0 {
       fmt.Fprintln(os.Stderr, "NewChain_ requires 0 args")
@@ -160,8 +235,8 @@ func main() {
       fmt.Fprintln(os.Stderr, "FreeChain requires 1 args")
       flag.Usage()
     }
-    tmp0, err11 := (strconv.Atoi(flag.Arg(1)))
-    if err11 != nil {
+    tmp0, err38 := (strconv.Atoi(flag.Arg(1)))
+    if err38 != nil {
       Usage()
       return
     }
@@ -170,13 +245,28 @@ func main() {
     fmt.Print(client.FreeChain(context.Background(), value0))
     fmt.Print("\n")
     break
+  case "produce_block":
+    if flag.NArg() - 1 != 1 {
+      fmt.Fprintln(os.Stderr, "ProduceBlock requires 1 args")
+      flag.Usage()
+    }
+    tmp0, err39 := (strconv.Atoi(flag.Arg(1)))
+    if err39 != nil {
+      Usage()
+      return
+    }
+    argvalue0 := int32(tmp0)
+    value0 := argvalue0
+    fmt.Print(client.ProduceBlock(context.Background(), value0))
+    fmt.Print("\n")
+    break
   case "push_action":
     if flag.NArg() - 1 != 5 {
       fmt.Fprintln(os.Stderr, "PushAction requires 5 args")
       flag.Usage()
     }
-    tmp0, err12 := (strconv.Atoi(flag.Arg(1)))
-    if err12 != nil {
+    tmp0, err40 := (strconv.Atoi(flag.Arg(1)))
+    if err40 != nil {
       Usage()
       return
     }
@@ -191,6 +281,39 @@ func main() {
     argvalue4 := flag.Arg(5)
     value4 := argvalue4
     fmt.Print(client.PushAction(context.Background(), value0, value1, value2, value3, value4))
+    fmt.Print("\n")
+    break
+  case "push_actions":
+    if flag.NArg() - 1 != 2 {
+      fmt.Fprintln(os.Stderr, "PushActions requires 2 args")
+      flag.Usage()
+    }
+    tmp0, err45 := (strconv.Atoi(flag.Arg(1)))
+    if err45 != nil {
+      Usage()
+      return
+    }
+    argvalue0 := int32(tmp0)
+    value0 := argvalue0
+    arg46 := flag.Arg(2)
+    mbTrans47 := thrift.NewTMemoryBufferLen(len(arg46))
+    defer mbTrans47.Close()
+    _, err48 := mbTrans47.WriteString(arg46)
+    if err48 != nil { 
+      Usage()
+      return
+    }
+    factory49 := thrift.NewTJSONProtocolFactory()
+    jsProt50 := factory49.GetProtocol(mbTrans47)
+    containerStruct1 := interfaces.NewIPCChainTesterPushActionsArgs()
+    err51 := containerStruct1.ReadField2(context.Background(), jsProt50)
+    if err51 != nil {
+      Usage()
+      return
+    }
+    argvalue1 := containerStruct1.Actions
+    value1 := argvalue1
+    fmt.Print(client.PushActions(context.Background(), value0, value1))
     fmt.Print("\n")
     break
   case "":
