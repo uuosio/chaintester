@@ -53,6 +53,10 @@ type SimpleIPCServer struct {
 	logger         thrift.Logger
 	client         thrift.TTransport
 	end_loop       bool
+
+	inputTransport, outputTransport thrift.TTransport
+	inputProtocol, outputProtocol   thrift.TProtocol
+	headerProtocol                  *thrift.THeaderProtocol
 }
 
 func NewSimpleIPCServer2(processor thrift.TProcessor, serverTransport thrift.TServerTransport) *SimpleIPCServer {
@@ -201,6 +205,38 @@ func (p *SimpleIPCServer) AcceptOnce() (int32, error) {
 	}
 	fmt.Println("+++++++++SimpleIPCServer: new client connected")
 	p.client = client
+
+	p.inputTransport, err = p.inputTransportFactory.GetTransport(client)
+	if err != nil {
+		return 0, err
+	}
+	p.inputProtocol = p.inputProtocolFactory.GetProtocol(p.inputTransport)
+	// var outputTransport thrift.TTransport
+	// var outputProtocol thrift.TProtocol
+
+	// for THeaderProtocol, we must use the same protocol instance for
+	// input and output so that the response is in the same dialect that
+	// the server detected the request was in.
+	var ok bool
+	p.headerProtocol, ok = p.inputProtocol.(*thrift.THeaderProtocol)
+	if ok {
+		p.outputProtocol = p.inputProtocol
+	} else {
+		oTrans, err := p.outputTransportFactory.GetTransport(client)
+		if err != nil {
+			return 0, err
+		}
+		p.outputTransport = oTrans
+		p.outputProtocol = p.outputProtocolFactory.GetProtocol(p.outputTransport)
+	}
+
+	// if inputTransport != nil {
+	// 	defer inputTransport.Close()
+	// }
+	// if outputTransport != nil {
+	// 	defer outputTransport.Close()
+	// }
+
 	return 0, nil
 }
 
@@ -277,35 +313,6 @@ func (p *SimpleIPCServer) processRequests(client thrift.TTransport) (err error) 
 	}()
 
 	processor := p.processorFactory.GetProcessor(client)
-	inputTransport, err := p.inputTransportFactory.GetTransport(client)
-	if err != nil {
-		return err
-	}
-	inputProtocol := p.inputProtocolFactory.GetProtocol(inputTransport)
-	var outputTransport thrift.TTransport
-	var outputProtocol thrift.TProtocol
-
-	// for THeaderProtocol, we must use the same protocol instance for
-	// input and output so that the response is in the same dialect that
-	// the server detected the request was in.
-	headerProtocol, ok := inputProtocol.(*thrift.THeaderProtocol)
-	if ok {
-		outputProtocol = inputProtocol
-	} else {
-		oTrans, err := p.outputTransportFactory.GetTransport(client)
-		if err != nil {
-			return err
-		}
-		outputTransport = oTrans
-		outputProtocol = p.outputProtocolFactory.GetProtocol(outputTransport)
-	}
-
-	if inputTransport != nil {
-		defer inputTransport.Close()
-	}
-	if outputTransport != nil {
-		defer outputTransport.Close()
-	}
 	for {
 		if atomic.LoadInt32(&p.closed) != 0 {
 			return nil
@@ -314,24 +321,24 @@ func (p *SimpleIPCServer) processRequests(client thrift.TTransport) (err error) 
 		ctx := thrift.SetResponseHelper(
 			defaultCtx,
 			thrift.TResponseHelper{
-				THeaderResponseHelper: thrift.NewTHeaderResponseHelper(outputProtocol),
+				THeaderResponseHelper: thrift.NewTHeaderResponseHelper(p.outputProtocol),
 			},
 		)
-		if headerProtocol != nil {
+		if p.headerProtocol != nil {
 			// We need to call ReadFrame here, otherwise we won't
 			// get any headers on the AddReadTHeaderToContext call.
 			//
 			// ReadFrame is safe to be called multiple times so it
 			// won't break when it's called again later when we
 			// actually start to read the message.
-			if err := headerProtocol.ReadFrame(ctx); err != nil {
+			if err := p.headerProtocol.ReadFrame(ctx); err != nil {
 				return err
 			}
-			ctx = thrift.AddReadTHeaderToContext(ctx, headerProtocol.GetReadHeaders())
+			ctx = thrift.AddReadTHeaderToContext(ctx, p.headerProtocol.GetReadHeaders())
 			ctx = thrift.SetWriteHeaderList(ctx, p.forwardHeaders)
 		}
 
-		ok, err := processor.Process(ctx, inputProtocol, outputProtocol)
+		ok, err := processor.Process(ctx, p.inputProtocol, p.outputProtocol)
 
 		if p.end_loop {
 			p.end_loop = false
