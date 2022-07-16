@@ -28,10 +28,18 @@ func GetVMAPI() *interfaces.ApplyClient {
 	return g_VMAPI
 }
 
+var g_VMAPITransport thrift.TTransport
+
+func CloseVMAPI() {
+	g_VMAPITransport.Close()
+	// g_VMAPI.Client_().(*IPCClient).iprot.Close()
+	// g_VMAPI.Client_().(*IPCClient).oprot.Close()
+}
+
 func NewProtocol(addr string) (thrift.TProtocol, thrift.TProtocol, error) {
-	var transport thrift.TTransport
 
 	protocolFactory := thrift.NewTBinaryProtocolFactoryConf(nil)
+	// protocolFactory := thrift.NewTCompactProtocolFactoryConf(nil)
 	transportFactory := thrift.NewTBufferedTransportFactory(8192)
 
 	cfg := &thrift.TConfiguration{
@@ -39,17 +47,17 @@ func NewProtocol(addr string) (thrift.TProtocol, thrift.TProtocol, error) {
 			InsecureSkipVerify: true,
 		},
 	}
-	transport = thrift.NewTSocketConf(addr, cfg)
-	transport, err := transportFactory.GetTransport(transport)
+	g_VMAPITransport = thrift.NewTSocketConf(addr, cfg)
+	g_VMAPITransport, err := transportFactory.GetTransport(g_VMAPITransport)
 	if err != nil {
 		return nil, nil, err
 	}
 	// defer transport.Close()
-	if err := transport.Open(); err != nil {
+	if err := g_VMAPITransport.Open(); err != nil {
 		return nil, nil, err
 	}
-	iprot := protocolFactory.GetProtocol(transport)
-	oprot := protocolFactory.GetProtocol(transport)
+	iprot := protocolFactory.GetProtocol(g_VMAPITransport)
+	oprot := protocolFactory.GetProtocol(g_VMAPITransport)
 	return iprot, oprot, nil
 }
 
@@ -84,8 +92,7 @@ func SetApplyFunc(apply func(uint64, uint64, uint64)) {
 }
 
 func (p *ApplyRequestHandler) ApplyRequest(ctx context.Context, receiver *interfaces.Uint64, firstReceiver *interfaces.Uint64, action *interfaces.Uint64) (_r int32, _err error) {
-	fmt.Println("+++++++ApplyRequest called!")
-
+	// fmt.Println("+++++++ApplyRequest called!")
 	_receiver := getUint64(receiver)
 	_firstReceiver := getUint64(firstReceiver)
 	_action := getUint64(action)
@@ -98,7 +105,7 @@ func (p *ApplyRequestHandler) ApplyRequest(ctx context.Context, receiver *interf
 }
 
 func (p *ApplyRequestHandler) ApplyEnd(ctx context.Context) (_r int32, _err error) {
-	fmt.Println("+++++++ApplyEnd")
+	// fmt.Println("+++++++ApplyEnd")
 	GetApplyRequestServer().server.EndProcessRequests()
 	return 1, nil
 }
@@ -119,6 +126,8 @@ func NewApplyRequestServer() *ApplyRequestServer {
 	processor := interfaces.NewApplyRequestProcessor(handler)
 
 	protocolFactory := thrift.NewTBinaryProtocolFactoryConf(nil)
+	// protocolFactory := thrift.NewTCompactProtocolFactoryConf(nil)
+
 	transportFactory := thrift.NewTBufferedTransportFactory(8192)
 
 	server := &ApplyRequestServer{
@@ -137,6 +146,11 @@ func (server *ApplyRequestServer) AcceptOnce() (int32, error) {
 }
 
 func (server *ApplyRequestServer) Serve() (int32, error) {
-	fmt.Println("+++++++ApplyRequestServer:ProcessRequests")
+	// fmt.Println("+++++++ApplyRequestServer:ProcessRequests")
 	return server.server.ProcessRequests()
+}
+
+func (server *ApplyRequestServer) Stop() error {
+	fmt.Println("+++++++ApplyRequestServer:Stop")
+	return server.server.Stop()
 }

@@ -24,6 +24,8 @@ func Usage() {
   fmt.Fprintln(os.Stderr, "\nFunctions:")
   fmt.Fprintln(os.Stderr, "  void init_vm_api()")
   fmt.Fprintln(os.Stderr, "  void init_apply_request()")
+  fmt.Fprintln(os.Stderr, "  void enable_debug_contract(i32 id, string contract, bool enable)")
+  fmt.Fprintln(os.Stderr, "  bool is_debug_contract_enabled(i32 id, string contract)")
   fmt.Fprintln(os.Stderr, "  string pack_abi(string abi)")
   fmt.Fprintln(os.Stderr, "  string pack_action_args(i32 id, string contract, string action, string action_args)")
   fmt.Fprintln(os.Stderr, "  string unpack_action_args(i32 id, string contract, string action, string raw_args)")
@@ -170,6 +172,42 @@ func main() {
     fmt.Print(client.InitApplyRequest(context.Background()))
     fmt.Print("\n")
     break
+  case "enable_debug_contract":
+    if flag.NArg() - 1 != 3 {
+      fmt.Fprintln(os.Stderr, "EnableDebugContract requires 3 args")
+      flag.Usage()
+    }
+    tmp0, err35 := (strconv.Atoi(flag.Arg(1)))
+    if err35 != nil {
+      Usage()
+      return
+    }
+    argvalue0 := int32(tmp0)
+    value0 := argvalue0
+    argvalue1 := flag.Arg(2)
+    value1 := argvalue1
+    argvalue2 := flag.Arg(3) == "true"
+    value2 := argvalue2
+    fmt.Print(client.EnableDebugContract(context.Background(), value0, value1, value2))
+    fmt.Print("\n")
+    break
+  case "is_debug_contract_enabled":
+    if flag.NArg() - 1 != 2 {
+      fmt.Fprintln(os.Stderr, "IsDebugContractEnabled requires 2 args")
+      flag.Usage()
+    }
+    tmp0, err38 := (strconv.Atoi(flag.Arg(1)))
+    if err38 != nil {
+      Usage()
+      return
+    }
+    argvalue0 := int32(tmp0)
+    value0 := argvalue0
+    argvalue1 := flag.Arg(2)
+    value1 := argvalue1
+    fmt.Print(client.IsDebugContractEnabled(context.Background(), value0, value1))
+    fmt.Print("\n")
+    break
   case "pack_abi":
     if flag.NArg() - 1 != 1 {
       fmt.Fprintln(os.Stderr, "PackAbi requires 1 args")
@@ -185,8 +223,8 @@ func main() {
       fmt.Fprintln(os.Stderr, "PackActionArgs_ requires 4 args")
       flag.Usage()
     }
-    tmp0, err30 := (strconv.Atoi(flag.Arg(1)))
-    if err30 != nil {
+    tmp0, err41 := (strconv.Atoi(flag.Arg(1)))
+    if err41 != nil {
       Usage()
       return
     }
@@ -206,8 +244,8 @@ func main() {
       fmt.Fprintln(os.Stderr, "UnpackActionArgs_ requires 4 args")
       flag.Usage()
     }
-    tmp0, err34 := (strconv.Atoi(flag.Arg(1)))
-    if err34 != nil {
+    tmp0, err45 := (strconv.Atoi(flag.Arg(1)))
+    if err45 != nil {
       Usage()
       return
     }
@@ -235,8 +273,8 @@ func main() {
       fmt.Fprintln(os.Stderr, "FreeChain requires 1 args")
       flag.Usage()
     }
-    tmp0, err38 := (strconv.Atoi(flag.Arg(1)))
-    if err38 != nil {
+    tmp0, err49 := (strconv.Atoi(flag.Arg(1)))
+    if err49 != nil {
       Usage()
       return
     }
@@ -250,8 +288,8 @@ func main() {
       fmt.Fprintln(os.Stderr, "ProduceBlock requires 1 args")
       flag.Usage()
     }
-    tmp0, err39 := (strconv.Atoi(flag.Arg(1)))
-    if err39 != nil {
+    tmp0, err50 := (strconv.Atoi(flag.Arg(1)))
+    if err50 != nil {
       Usage()
       return
     }
@@ -265,8 +303,8 @@ func main() {
       fmt.Fprintln(os.Stderr, "PushAction requires 5 args")
       flag.Usage()
     }
-    tmp0, err40 := (strconv.Atoi(flag.Arg(1)))
-    if err40 != nil {
+    tmp0, err51 := (strconv.Atoi(flag.Arg(1)))
+    if err51 != nil {
       Usage()
       return
     }
@@ -288,26 +326,26 @@ func main() {
       fmt.Fprintln(os.Stderr, "PushActions requires 2 args")
       flag.Usage()
     }
-    tmp0, err45 := (strconv.Atoi(flag.Arg(1)))
-    if err45 != nil {
+    tmp0, err56 := (strconv.Atoi(flag.Arg(1)))
+    if err56 != nil {
       Usage()
       return
     }
     argvalue0 := int32(tmp0)
     value0 := argvalue0
-    arg46 := flag.Arg(2)
-    mbTrans47 := thrift.NewTMemoryBufferLen(len(arg46))
-    defer mbTrans47.Close()
-    _, err48 := mbTrans47.WriteString(arg46)
-    if err48 != nil { 
+    arg57 := flag.Arg(2)
+    mbTrans58 := thrift.NewTMemoryBufferLen(len(arg57))
+    defer mbTrans58.Close()
+    _, err59 := mbTrans58.WriteString(arg57)
+    if err59 != nil { 
       Usage()
       return
     }
-    factory49 := thrift.NewTJSONProtocolFactory()
-    jsProt50 := factory49.GetProtocol(mbTrans47)
+    factory60 := thrift.NewTJSONProtocolFactory()
+    jsProt61 := factory60.GetProtocol(mbTrans58)
     containerStruct1 := interfaces.NewIPCChainTesterPushActionsArgs()
-    err51 := containerStruct1.ReadField2(context.Background(), jsProt50)
-    if err51 != nil {
+    err62 := containerStruct1.ReadField2(context.Background(), jsProt61)
+    if err62 != nil {
       Usage()
       return
     }

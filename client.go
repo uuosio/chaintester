@@ -209,8 +209,25 @@ func (p *ChainTester) PushAction(account string, action string, arguments string
 	if _err != nil {
 		panic(_err)
 	}
-	p.SetLastResponseMeta_(_meta21)
+	p.IPCChainTesterClient.SetLastResponseMeta_(_meta21)
 	return _result22.GetSuccess()
+}
+
+func (p *ChainTester) EnableDebugContract(contract string, enable bool) error {
+	err := p.IPCChainTesterClient.EnableDebugContract(defaultCtx, p.id, contract, enable)
+	return err
+}
+
+func (p *ChainTester) PackAbi(abi string) ([]byte, error) {
+	return p.IPCChainTesterClient.PackAbi(defaultCtx, abi)
+}
+
+func (p *ChainTester) FreeChain() (int32, error) {
+	return p.IPCChainTesterClient.FreeChain(defaultCtx, p.id)
+}
+
+func (p *ChainTester) ProduceBlock() error {
+	return p.IPCChainTesterClient.ProduceBlock(defaultCtx, p.id)
 }
 
 func handleClient(client *ChainTester) (err error) {
