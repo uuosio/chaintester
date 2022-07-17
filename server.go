@@ -93,6 +93,13 @@ func SetApplyFunc(apply func(uint64, uint64, uint64)) {
 
 func (p *ApplyRequestHandler) ApplyRequest(ctx context.Context, receiver *interfaces.Uint64, firstReceiver *interfaces.Uint64, action *interfaces.Uint64) (_r int32, _err error) {
 	// fmt.Println("+++++++ApplyRequest called!")
+	defer func() {
+		if r := recover(); r != nil {
+			//TODO: handle different kinds of error
+			fmt.Printf("recovered from error: %v", r)
+		}
+	}()
+
 	_receiver := getUint64(receiver)
 	_firstReceiver := getUint64(firstReceiver)
 	_action := getUint64(action)
