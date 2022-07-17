@@ -2,6 +2,7 @@ package chaintester
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"reflect"
 
@@ -195,7 +196,7 @@ func (p *ChainTester) Call(ctx context.Context, method string, args, result thri
 	}, err
 }
 
-func (p *ChainTester) PushAction(account string, action string, arguments string, permissions string) []byte {
+func (p *ChainTester) PushAction(account string, action string, arguments string, permissions string) (*JsonValue, error) {
 	var _args20 interfaces.IPCChainTesterPushActionArgs
 	_args20.ID = p.id
 	_args20.Account = account
@@ -210,7 +211,21 @@ func (p *ChainTester) PushAction(account string, action string, arguments string
 		panic(_err)
 	}
 	p.IPCChainTesterClient.SetLastResponseMeta_(_meta21)
-	return _result22.GetSuccess()
+	ret := _result22.GetSuccess()
+
+	value := &JsonValue{}
+	// fmt.Printf("++++++push_action return: %v", string(ret))
+	err := json.Unmarshal(ret, value)
+	if err != nil {
+		return nil, err
+	}
+
+	_, err = value.Get("except")
+	if err == nil {
+		return nil, NewTransactionError(ret)
+	} else {
+		return value, nil
+	}
 }
 
 func (p *ChainTester) EnableDebugContract(contract string, enable bool) error {

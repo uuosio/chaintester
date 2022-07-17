@@ -203,7 +203,7 @@ func (p *SimpleIPCServer) AcceptOnce() (int32, error) {
 	if err != nil {
 		return 0, err
 	}
-	fmt.Println("+++++++++SimpleIPCServer: new client connected")
+	// fmt.Println("+++++++++SimpleIPCServer: new client connected")
 	p.client = client
 
 	p.inputTransport, err = p.inputTransportFactory.GetTransport(client)

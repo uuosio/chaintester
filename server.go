@@ -95,8 +95,13 @@ func (p *ApplyRequestHandler) ApplyRequest(ctx context.Context, receiver *interf
 	// fmt.Println("+++++++ApplyRequest called!")
 	defer func() {
 		if r := recover(); r != nil {
+			_r, ok := r.(*AssertError)
+			if ok {
+				fmt.Printf("recovered from assertion error: %v", _r)
+			} else {
+				fmt.Printf("recovered from unknown error: %v", r)
+			}
 			//TODO: handle different kinds of error
-			fmt.Printf("recovered from error: %v", r)
 		}
 	}()
 

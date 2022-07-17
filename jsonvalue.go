@@ -200,3 +200,8 @@ func (b *JsonValue) UnmarshalJSON(data []byte) error {
 	}
 	return nil
 }
+
+func (b *JsonValue) ToString() string {
+	value, _ := json.Marshal(b.value)
+	return string(value)
+}
