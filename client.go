@@ -312,11 +312,6 @@ func (p *ChainTester) DeployContract(account string, wasmFile string, abiFile st
 		return err
 	}
 
-	abi, err := os.ReadFile(abiFile)
-	if err != nil {
-		return err
-	}
-
 	hexWasm := make([]byte, len(wasm)*2)
 	hex.Encode(hexWasm, wasm)
 	setCodeArgs := fmt.Sprintf(
@@ -344,28 +339,37 @@ func (p *ChainTester) DeployContract(account string, wasmFile string, abiFile st
 		Arguments:   setCodeArgs,
 		Permissions: permissions,
 	}
+	actions := make([]*interfaces.Action, 0, 2)
+	actions = append(actions, setCodeAction)
 
-	rawAbi, _ := p.PackAbi(string(abi))
-	hexRawAbi := make([]byte, len(rawAbi)*2)
-	hex.Encode(hexRawAbi, rawAbi)
-	setAbiArgs := fmt.Sprintf(
-		`
-		{
-			"account": "%s",
-			"abi": "%s"
-		 }
-		`,
-		account,
-		string(hexRawAbi),
-	)
-	setAbiAction := &interfaces.Action{
-		Account:     "eosio",
-		Action:      "setabi",
-		Arguments:   setAbiArgs,
-		Permissions: permissions,
+	if abiFile != "" {
+		abi, err := os.ReadFile(abiFile)
+		if err != nil {
+			return err
+		}
+		rawAbi, _ := p.PackAbi(string(abi))
+		hexRawAbi := make([]byte, len(rawAbi)*2)
+		hex.Encode(hexRawAbi, rawAbi)
+		setAbiArgs := fmt.Sprintf(
+			`
+			{
+				"account": "%s",
+				"abi": "%s"
+			 }
+			`,
+			account,
+			string(hexRawAbi),
+		)
+		setAbiAction := &interfaces.Action{
+			Account:     "eosio",
+			Action:      "setabi",
+			Arguments:   setAbiArgs,
+			Permissions: permissions,
+		}
+		actions = append(actions, setAbiAction)
 	}
-	actions := [...]*interfaces.Action{setCodeAction, setAbiAction}
-	_, err = p.PushActions(actions[:])
+
+	_, err = p.PushActions(actions)
 	if err != nil {
 		return err
 	}
