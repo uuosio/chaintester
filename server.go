@@ -21,7 +21,8 @@ func GetVMAPI() *interfaces.ApplyClient {
 	}
 
 	var err error
-	g_VMAPI, err = NewVMAPIClient("127.0.0.1:9092")
+	address := fmt.Sprintf("%s:%s", GetDebuggerConfig().VMAPIServerAddress, GetDebuggerConfig().VMAPIServerPort)
+	g_VMAPI, err = NewVMAPIClient(address)
 	if err != nil {
 		panic(err)
 	}
@@ -95,11 +96,11 @@ func (p *ApplyRequestHandler) ApplyRequest(ctx context.Context, receiver *interf
 	// fmt.Println("+++++++ApplyRequest called!")
 	defer func() {
 		if r := recover(); r != nil {
-			_r, ok := r.(*AssertError)
+			_, ok := r.(*AssertError)
 			if ok {
-				fmt.Printf("recovered from assertion error: %v", _r)
+				// fmt.Printf("recovered from assertion error: %v", _r)
 			} else {
-				fmt.Printf("recovered from unknown error: %v", r)
+				panic(r)
 			}
 			//TODO: handle different kinds of error
 		}
@@ -129,7 +130,8 @@ type ApplyRequestServer struct {
 func NewApplyRequestServer() *ApplyRequestServer {
 	var transport thrift.TServerTransport
 	var err error
-	transport, err = thrift.NewTServerSocket("127.0.0.1:9091")
+	addr := fmt.Sprintf("%s:%s", g_DebuggerConfig.ApplyRequestServerAddress, g_DebuggerConfig.ApplyRequestServerPort)
+	transport, err = thrift.NewTServerSocket(addr)
 	if err != nil {
 		return nil
 	}

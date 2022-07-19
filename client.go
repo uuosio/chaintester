@@ -125,9 +125,56 @@ func GetApplyRequestServer() *ApplyRequestServer {
 
 var g_IPCClient *IPCClient = nil
 
+type DebuggerConfig struct {
+	DebuggerServerAddress     string
+	DebuggerServerPort        string
+	VMAPIServerAddress        string
+	VMAPIServerPort           string
+	ApplyRequestServerAddress string
+	ApplyRequestServerPort    string
+}
+
+var g_DebuggerConfig = DebuggerConfig{
+	DebuggerServerAddress:     "127.0.0.1",
+	DebuggerServerPort:        "9090",
+	VMAPIServerAddress:        "127.0.0.1",
+	VMAPIServerPort:           "9092",
+	ApplyRequestServerAddress: "127.0.0.1",
+	ApplyRequestServerPort:    "9091",
+}
+
+func GetDebuggerConfig() *DebuggerConfig {
+	return &g_DebuggerConfig
+}
+
+func SetDebuggerServerAddress(addr string) {
+	g_DebuggerConfig.DebuggerServerAddress = addr
+}
+
+func SetDebuggerServerPort(port string) {
+	g_DebuggerConfig.DebuggerServerPort = port
+}
+
+func SetApplyRequestServerAddress(addr string) {
+	g_DebuggerConfig.ApplyRequestServerAddress = addr
+}
+
+func SetApplyRequestServerPort(port string) {
+	g_DebuggerConfig.ApplyRequestServerPort = port
+}
+
+func SetVMAPIServerAddress(addr string) {
+	g_DebuggerConfig.VMAPIServerAddress = addr
+}
+
+func SetVMAPIServerPort(port string) {
+	g_DebuggerConfig.VMAPIServerPort = port
+}
+
 func GetIPCClient() *IPCClient {
 	if g_IPCClient == nil {
-		iprot, oprot, err := NewProtocol("127.0.0.1:9090")
+		addr := fmt.Sprintf("%s:%s", g_DebuggerConfig.DebuggerServerAddress, g_DebuggerConfig.DebuggerServerPort)
+		iprot, oprot, err := NewProtocol(addr)
 		if err != nil {
 			return nil
 		}
