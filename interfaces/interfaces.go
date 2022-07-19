@@ -1717,11 +1717,6 @@ func (p *IPCChainTesterClient) PushActions(ctx context.Context, id int32, action
   if _err != nil {
     return
   }
-  switch {
-  case _result31.Exc!= nil:
-    return _r, _result31.Exc
-  }
-
   return _result31.GetSuccess(), nil
 }
 
@@ -2579,10 +2574,6 @@ func (p *iPCChainTesterProcessorPushActions) Process(ctx context.Context, seqId 
   var retval []byte
   if retval, err2 = p.handler.PushActions(ctx, args.ID, args.Actions); err2 != nil {
     tickerCancel()
-  switch v := err2.(type) {
-    case *TransactionException:
-  result.Exc = v
-    default:
     if err2 == thrift.ErrAbandonRequest {
       return false, thrift.WrapTException(err2)
     }
@@ -2592,7 +2583,6 @@ func (p *iPCChainTesterProcessorPushActions) Process(ctx context.Context, seqId 
     oprot.WriteMessageEnd(ctx)
     oprot.Flush(ctx)
     return true, thrift.WrapTException(err2)
-  }
   } else {
     result.Success = retval
   }
@@ -4910,10 +4900,8 @@ func (p *IPCChainTesterPushActionsArgs) String() string {
 
 // Attributes:
 //  - Success
-//  - Exc
 type IPCChainTesterPushActionsResult struct {
   Success []byte `thrift:"success,0" db:"success" json:"success,omitempty"`
-  Exc *TransactionException `thrift:"exc,1" db:"exc" json:"exc,omitempty"`
 }
 
 func NewIPCChainTesterPushActionsResult() *IPCChainTesterPushActionsResult {
@@ -4925,19 +4913,8 @@ var IPCChainTesterPushActionsResult_Success_DEFAULT []byte
 func (p *IPCChainTesterPushActionsResult) GetSuccess() []byte {
   return p.Success
 }
-var IPCChainTesterPushActionsResult_Exc_DEFAULT *TransactionException
-func (p *IPCChainTesterPushActionsResult) GetExc() *TransactionException {
-  if !p.IsSetExc() {
-    return IPCChainTesterPushActionsResult_Exc_DEFAULT
-  }
-return p.Exc
-}
 func (p *IPCChainTesterPushActionsResult) IsSetSuccess() bool {
   return p.Success != nil
-}
-
-func (p *IPCChainTesterPushActionsResult) IsSetExc() bool {
-  return p.Exc != nil
 }
 
 func (p *IPCChainTesterPushActionsResult) Read(ctx context.Context, iprot thrift.TProtocol) error {
@@ -4956,16 +4933,6 @@ func (p *IPCChainTesterPushActionsResult) Read(ctx context.Context, iprot thrift
     case 0:
       if fieldTypeId == thrift.STRING {
         if err := p.ReadField0(ctx, iprot); err != nil {
-          return err
-        }
-      } else {
-        if err := iprot.Skip(ctx, fieldTypeId); err != nil {
-          return err
-        }
-      }
-    case 1:
-      if fieldTypeId == thrift.STRUCT {
-        if err := p.ReadField1(ctx, iprot); err != nil {
           return err
         }
       } else {
@@ -4997,20 +4964,11 @@ func (p *IPCChainTesterPushActionsResult)  ReadField0(ctx context.Context, iprot
   return nil
 }
 
-func (p *IPCChainTesterPushActionsResult)  ReadField1(ctx context.Context, iprot thrift.TProtocol) error {
-  p.Exc = &TransactionException{}
-  if err := p.Exc.Read(ctx, iprot); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Exc), err)
-  }
-  return nil
-}
-
 func (p *IPCChainTesterPushActionsResult) Write(ctx context.Context, oprot thrift.TProtocol) error {
   if err := oprot.WriteStructBegin(ctx, "push_actions_result"); err != nil {
     return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err) }
   if p != nil {
     if err := p.writeField0(ctx, oprot); err != nil { return err }
-    if err := p.writeField1(ctx, oprot); err != nil { return err }
   }
   if err := oprot.WriteFieldStop(ctx); err != nil {
     return thrift.PrependError("write field stop error: ", err) }
@@ -5027,19 +4985,6 @@ func (p *IPCChainTesterPushActionsResult) writeField0(ctx context.Context, oprot
     return thrift.PrependError(fmt.Sprintf("%T.success (0) field write error: ", p), err) }
     if err := oprot.WriteFieldEnd(ctx); err != nil {
       return thrift.PrependError(fmt.Sprintf("%T write field end error 0:success: ", p), err) }
-  }
-  return err
-}
-
-func (p *IPCChainTesterPushActionsResult) writeField1(ctx context.Context, oprot thrift.TProtocol) (err error) {
-  if p.IsSetExc() {
-    if err := oprot.WriteFieldBegin(ctx, "exc", thrift.STRUCT, 1); err != nil {
-      return thrift.PrependError(fmt.Sprintf("%T write field begin error 1:exc: ", p), err) }
-    if err := p.Exc.Write(ctx, oprot); err != nil {
-      return thrift.PrependError(fmt.Sprintf("%T error writing struct: ", p.Exc), err)
-    }
-    if err := oprot.WriteFieldEnd(ctx); err != nil {
-      return thrift.PrependError(fmt.Sprintf("%T write field end error 1:exc: ", p), err) }
   }
   return err
 }

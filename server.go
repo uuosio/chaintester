@@ -33,8 +33,6 @@ var g_VMAPITransport thrift.TTransport
 
 func CloseVMAPI() {
 	g_VMAPITransport.Close()
-	// g_VMAPI.Client_().(*IPCClient).iprot.Close()
-	// g_VMAPI.Client_().(*IPCClient).oprot.Close()
 }
 
 func NewProtocol(addr string) (thrift.TProtocol, thrift.TProtocol, error) {

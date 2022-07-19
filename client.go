@@ -2,8 +2,10 @@ package chaintester
 
 import (
 	"context"
+	"encoding/hex"
 	"encoding/json"
 	"fmt"
+	"os"
 	"reflect"
 
 	"github.com/learnforpractice/chaintester/interfaces"
@@ -227,7 +229,7 @@ func (p *ChainTester) Call(ctx context.Context, method string, args, result thri
 	//runApplyRequestServer
 
 	//start apply request server
-	if "push_action" == method {
+	if "push_action" == method || "push_actions" == method {
 		GetApplyRequestServer().Serve()
 	}
 
@@ -273,6 +275,101 @@ func (p *ChainTester) PushAction(account string, action string, arguments string
 	} else {
 		return value, nil
 	}
+}
+
+func (p *ChainTester) PushActions(actions []*interfaces.Action) (*JsonValue, error) {
+	var _args29 interfaces.IPCChainTesterPushActionsArgs
+	_args29.ID = p.id
+	_args29.Actions = actions
+	var _result31 interfaces.IPCChainTesterPushActionsResult
+	var _meta30 thrift.ResponseMeta
+
+	var _err error
+	_meta30, _err = p.Call(defaultCtx, "push_actions", &_args29, &_result31)
+	p.SetLastResponseMeta_(_meta30)
+	if _err != nil {
+		return nil, _err
+	}
+	ret := _result31.GetSuccess()
+	value := &JsonValue{}
+	// fmt.Printf("++++++push_action return: %v", string(ret))
+	err := json.Unmarshal(ret, value)
+	if err != nil {
+		return nil, err
+	}
+
+	_, err = value.Get("except")
+	if err == nil {
+		return nil, NewTransactionError(ret)
+	} else {
+		return value, nil
+	}
+}
+
+func (p *ChainTester) DeployContract(account string, wasmFile string, abiFile string) (err error) {
+	wasm, err := os.ReadFile(wasmFile)
+	if err != nil {
+		return err
+	}
+
+	abi, err := os.ReadFile(abiFile)
+	if err != nil {
+		return err
+	}
+
+	hexWasm := make([]byte, len(wasm)*2)
+	hex.Encode(hexWasm, wasm)
+	setCodeArgs := fmt.Sprintf(
+		`
+		{
+			"account": "%s",
+			"vmtype": 0,
+			"vmversion": 0,
+			"code": "%s"
+		 }
+		`,
+		account,
+		string(hexWasm),
+	)
+
+	permissions := fmt.Sprintf(`
+	{
+		"%s": "active"
+	}
+	`, account)
+
+	setCodeAction := &interfaces.Action{
+		Account:     "eosio",
+		Action:      "setcode",
+		Arguments:   setCodeArgs,
+		Permissions: permissions,
+	}
+
+	rawAbi, _ := p.PackAbi(string(abi))
+	hexRawAbi := make([]byte, len(rawAbi)*2)
+	hex.Encode(hexRawAbi, rawAbi)
+	setAbiArgs := fmt.Sprintf(
+		`
+		{
+			"account": "%s",
+			"abi": "%s"
+		 }
+		`,
+		account,
+		string(hexRawAbi),
+	)
+	setAbiAction := &interfaces.Action{
+		Account:     "eosio",
+		Action:      "setabi",
+		Arguments:   setAbiArgs,
+		Permissions: permissions,
+	}
+	actions := [...]*interfaces.Action{setCodeAction, setAbiAction}
+	_, err = p.PushActions(actions[:])
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func (p *ChainTester) EnableDebugContract(contract string, enable bool) error {
