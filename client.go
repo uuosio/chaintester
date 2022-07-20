@@ -8,7 +8,7 @@ import (
 	"os"
 	"reflect"
 
-	"github.com/learnforpractice/chaintester/interfaces"
+	"github.com/uuosio/chaintester/interfaces"
 
 	"github.com/apache/thrift/lib/go/thrift"
 )

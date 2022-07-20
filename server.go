@@ -6,7 +6,7 @@ import (
 	"encoding/binary"
 	"fmt"
 
-	"github.com/learnforpractice/chaintester/interfaces"
+	"github.com/uuosio/chaintester/interfaces"
 
 	_ "unsafe"
 
