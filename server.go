@@ -93,14 +93,16 @@ func SetApplyFunc(apply func(uint64, uint64, uint64)) {
 func (p *ApplyRequestHandler) ApplyRequest(ctx context.Context, receiver *interfaces.Uint64, firstReceiver *interfaces.Uint64, action *interfaces.Uint64) (_r int32, _err error) {
 	// fmt.Println("+++++++ApplyRequest called!")
 	defer func() {
-		if r := recover(); r != nil {
-			_, ok := r.(*AssertError)
+		if err := recover(); err != nil {
+			_, ok := err.(*AssertError)
 			if ok {
 				// fmt.Printf("recovered from assertion error: %v", _r)
 			} else {
-				panic(r)
+				// fmt.Printf("recovered error: %s", err)
+				GetVMAPI().EndApply(ctx)
+				_err = fmt.Errorf("%v", err)
+				_r = -1
 			}
-			//TODO: handle different kinds of error
 		}
 	}()
 
@@ -112,7 +114,10 @@ func (p *ApplyRequestHandler) ApplyRequest(ctx context.Context, receiver *interf
 	}
 	g_apply_func(_receiver, _firstReceiver, _action)
 	GetVMAPI().EndApply(ctx)
-	return 1, nil
+
+	_r = -1
+	_err = nil
+	return
 }
 
 func (p *ApplyRequestHandler) ApplyEnd(ctx context.Context) (_r int32, _err error) {
