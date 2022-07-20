@@ -1,4 +1,4 @@
-module github.com/learnforpractice/chaintester
+module github.com/uuosio/chaintester
 
 go 1.17
 
