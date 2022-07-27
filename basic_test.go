@@ -2,48 +2,53 @@ package chaintester
 
 import (
 	"context"
-	"crypto/tls"
 	"fmt"
 	"testing"
-
-	"github.com/apache/thrift/lib/go/thrift"
 )
 
+var ctx = context.Background()
+
 func TestPrints(t *testing.T) {
-
-	var protocolFactory thrift.TProtocolFactory
-	protocolFactory = thrift.NewTBinaryProtocolFactoryConf(nil)
-
-	var transportFactory thrift.TTransportFactory
-	cfg := &thrift.TConfiguration{
-		TLSConfig: &tls.Config{
-			InsecureSkipVerify: true,
-		},
+	tester := NewChainTester()
+	// tester.EnableDebugContract("hello", true)
+	err := tester.DeployContract("hello", "test/test.wasm", "test/test.abi")
+	if err != nil {
+		panic(err)
 	}
+	tester.ProduceBlock()
 
-	transportFactory = thrift.NewTBufferedTransportFactory(8192)
-
-	if err := runClient(transportFactory, protocolFactory, "127.0.0.1:9090", false, cfg); err != nil {
-		fmt.Println("error running client:", err)
+	permissions := `
+	{
+		"hello": "active"
 	}
+	`
+	args := `
+	{
+		"name": "go"
+	}
+	`
+	ret, err := tester.PushAction("hello", "inc", args, permissions)
+	if err != nil {
+		panic(err)
+	}
+	t.Logf("%v", ret.ToString())
+	ret, err = tester.GetTableRows(true, "hello", "", "counter", "", "", 10)
+	if err != nil {
+		panic(fmt.Errorf("++++++++error:%v", err))
+	}
+	t.Logf("%v", ret.ToString())
+}
+
+func OnApply(receiver, firstReceiver, action uint64) {
+	native_apply(receiver, firstReceiver, action)
+}
+
+func init() {
+	SetApplyFunc(OnApply)
 }
 
 func native_apply(receiver uint64, firstReceiver uint64, action uint64) {
-	apiClient, err := NewVMAPIClient("127.0.0.1:9092")
-	if err != nil {
-		panic(err)
+	for i := 0; i < 10; i++ {
+		GetVMAPI().Prints(ctx, "hello, world!\n")
 	}
-
-	var ctx = context.Background()
-
-	_, err = apiClient.Prints(ctx, "hello, world")
-	if err != nil {
-		panic(err)
-	}
-
-	_, err = apiClient.EndApply(ctx)
-	if err != nil {
-		panic(err)
-	}
-
 }

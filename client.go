@@ -376,6 +376,43 @@ func (p *ChainTester) DeployContract(account string, wasmFile string, abiFile st
 	return nil
 }
 
+func (p *ChainTester) GetTableRows(_json bool, code string, scope string, table string, lower_bound string, upper_bound string, limit int64) (*JsonValue, error) {
+	return p.GetTableRowsEx(
+		_json,
+		code,
+		scope,
+		table,
+		lower_bound,
+		upper_bound,
+		limit,
+		"",
+		"",
+		false,
+		false)
+}
+
+func (p *ChainTester) GetTableRowsEx(_json bool, code string, scope string, table string, lower_bound string, upper_bound string, limit int64, key_type string, index_position string, reverse bool, show_payer bool) (*JsonValue, error) {
+	ret, err := p.IPCChainTesterClient.GetTableRows(defaultCtx,
+		p.id,
+		_json,
+		code,
+		scope,
+		table,
+		lower_bound,
+		upper_bound,
+		limit,
+		key_type,
+		index_position,
+		reverse,
+		show_payer)
+	value := &JsonValue{}
+	err = json.Unmarshal([]byte(ret), value)
+	if err != nil {
+		return nil, fmt.Errorf("%v", string(ret))
+	}
+	return value, nil
+}
+
 func (p *ChainTester) EnableDebugContract(contract string, enable bool) error {
 	err := p.IPCChainTesterClient.EnableDebugContract(defaultCtx, p.id, contract, enable)
 	return err
