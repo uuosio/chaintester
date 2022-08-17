@@ -35,7 +35,7 @@ func Usage() {
   fmt.Fprintln(os.Stderr, "  string get_account(i32 id, string account)")
   fmt.Fprintln(os.Stderr, "  bool import_key(i32 id, string pub_key, string priv_key)")
   fmt.Fprintln(os.Stderr, "  string get_required_keys(i32 id, string transaction,  available_keys)")
-  fmt.Fprintln(os.Stderr, "  void produce_block(i32 id, i32 next_block_skip_seconds)")
+  fmt.Fprintln(os.Stderr, "  void produce_block(i32 id, i64 next_block_skip_seconds)")
   fmt.Fprintln(os.Stderr, "  string push_action(i32 id, string account, string action, string arguments, string permissions)")
   fmt.Fprintln(os.Stderr, "  string push_actions(i32 id,  actions)")
   fmt.Fprintln(os.Stderr, "  string get_table_rows(i32 id, bool json, string code, string scope, string table, string lower_bound, string upper_bound, i64 limit, string key_type, string index_position, bool reverse, bool show_payer)")
@@ -386,12 +386,11 @@ func main() {
     }
     argvalue0 := int32(tmp0)
     value0 := argvalue0
-    tmp1, err81 := (strconv.Atoi(flag.Arg(2)))
+    argvalue1, err81 := (strconv.ParseInt(flag.Arg(2), 10, 64))
     if err81 != nil {
       Usage()
       return
     }
-    argvalue1 := int32(tmp1)
     value1 := argvalue1
     fmt.Print(client.ProduceBlock(context.Background(), value0, value1))
     fmt.Print("\n")

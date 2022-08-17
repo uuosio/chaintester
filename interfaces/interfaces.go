@@ -1671,7 +1671,7 @@ type IPCChainTester interface {
   // Parameters:
   //  - ID
   //  - NextBlockSkipSeconds
-  ProduceBlock(ctx context.Context, id int32, next_block_skip_seconds int32) (_err error)
+  ProduceBlock(ctx context.Context, id int32, next_block_skip_seconds int64) (_err error)
   // Parameters:
   //  - ID
   //  - Account
@@ -1945,7 +1945,7 @@ func (p *IPCChainTesterClient) GetRequiredKeys(ctx context.Context, id int32, tr
 // Parameters:
 //  - ID
 //  - NextBlockSkipSeconds
-func (p *IPCChainTesterClient) ProduceBlock(ctx context.Context, id int32, next_block_skip_seconds int32) (_err error) {
+func (p *IPCChainTesterClient) ProduceBlock(ctx context.Context, id int32, next_block_skip_seconds int64) (_err error) {
   var _args35 IPCChainTesterProduceBlockArgs
   _args35.ID = id
   _args35.NextBlockSkipSeconds = next_block_skip_seconds
@@ -5962,7 +5962,7 @@ func (p *IPCChainTesterGetRequiredKeysResult) String() string {
 //  - NextBlockSkipSeconds
 type IPCChainTesterProduceBlockArgs struct {
   ID int32 `thrift:"id,1" db:"id" json:"id"`
-  NextBlockSkipSeconds int32 `thrift:"next_block_skip_seconds,2" db:"next_block_skip_seconds" json:"next_block_skip_seconds"`
+  NextBlockSkipSeconds int64 `thrift:"next_block_skip_seconds,2" db:"next_block_skip_seconds" json:"next_block_skip_seconds"`
 }
 
 func NewIPCChainTesterProduceBlockArgs() *IPCChainTesterProduceBlockArgs {
@@ -5974,7 +5974,7 @@ func (p *IPCChainTesterProduceBlockArgs) GetID() int32 {
   return p.ID
 }
 
-func (p *IPCChainTesterProduceBlockArgs) GetNextBlockSkipSeconds() int32 {
+func (p *IPCChainTesterProduceBlockArgs) GetNextBlockSkipSeconds() int64 {
   return p.NextBlockSkipSeconds
 }
 func (p *IPCChainTesterProduceBlockArgs) Read(ctx context.Context, iprot thrift.TProtocol) error {
@@ -6001,7 +6001,7 @@ func (p *IPCChainTesterProduceBlockArgs) Read(ctx context.Context, iprot thrift.
         }
       }
     case 2:
-      if fieldTypeId == thrift.I32 {
+      if fieldTypeId == thrift.I64 {
         if err := p.ReadField2(ctx, iprot); err != nil {
           return err
         }
@@ -6035,7 +6035,7 @@ func (p *IPCChainTesterProduceBlockArgs)  ReadField1(ctx context.Context, iprot 
 }
 
 func (p *IPCChainTesterProduceBlockArgs)  ReadField2(ctx context.Context, iprot thrift.TProtocol) error {
-  if v, err := iprot.ReadI32(ctx); err != nil {
+  if v, err := iprot.ReadI64(ctx); err != nil {
   return thrift.PrependError("error reading field 2: ", err)
 } else {
   p.NextBlockSkipSeconds = v
@@ -6068,9 +6068,9 @@ func (p *IPCChainTesterProduceBlockArgs) writeField1(ctx context.Context, oprot 
 }
 
 func (p *IPCChainTesterProduceBlockArgs) writeField2(ctx context.Context, oprot thrift.TProtocol) (err error) {
-  if err := oprot.WriteFieldBegin(ctx, "next_block_skip_seconds", thrift.I32, 2); err != nil {
+  if err := oprot.WriteFieldBegin(ctx, "next_block_skip_seconds", thrift.I64, 2); err != nil {
     return thrift.PrependError(fmt.Sprintf("%T write field begin error 2:next_block_skip_seconds: ", p), err) }
-  if err := oprot.WriteI32(ctx, int32(p.NextBlockSkipSeconds)); err != nil {
+  if err := oprot.WriteI64(ctx, int64(p.NextBlockSkipSeconds)); err != nil {
   return thrift.PrependError(fmt.Sprintf("%T.next_block_skip_seconds (2) field write error: ", p), err) }
   if err := oprot.WriteFieldEnd(ctx); err != nil {
     return thrift.PrependError(fmt.Sprintf("%T write field end error 2:next_block_skip_seconds: ", p), err) }

@@ -426,7 +426,7 @@ func (p *ChainTester) FreeChain() (int32, error) {
 	return p.IPCChainTesterClient.FreeChain(defaultCtx, p.id)
 }
 
-func (p *ChainTester) ProduceBlock(next_block_skip_time ...int32) error {
+func (p *ChainTester) ProduceBlock(next_block_skip_time ...int64) error {
 	if len(next_block_skip_time) == 0 {
 		return p.IPCChainTesterClient.ProduceBlock(defaultCtx, p.id, 0)
 	}
