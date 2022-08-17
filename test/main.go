@@ -38,3 +38,8 @@ func (c *Contract) Inc(name string) {
 		chain.Println("count: ", value.count)
 	}
 }
+
+//action test
+func (c *Contract) Test() {
+	chain.Println("+++++++current_time:", chain.CurrentTime().Elapsed)
+}

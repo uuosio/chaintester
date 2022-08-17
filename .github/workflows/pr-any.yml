@@ -43,4 +43,4 @@ jobs:
           pushd test
           ./build.sh
           popd
-          go test
+          go test -v

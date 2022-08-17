@@ -8,7 +8,7 @@ import (
 
 var ctx = context.Background()
 
-func TestPrints(t *testing.T) {
+func TestChainTester(t *testing.T) {
 	tester := NewChainTester()
 	// tester.EnableDebugContract("hello", true)
 	err := tester.DeployContract("hello", "test/test.wasm", "test/test.abi")
@@ -37,6 +37,18 @@ func TestPrints(t *testing.T) {
 		panic(fmt.Errorf("++++++++error:%v", err))
 	}
 	t.Logf("%v", ret.ToString())
+
+	ret, err = tester.PushAction("hello", "test", "", permissions)
+	if err != nil {
+		panic(err)
+	}
+	tester.ProduceBlock(10)
+
+	ret, err = tester.PushAction("hello", "test", "", permissions)
+	if err != nil {
+		panic(err)
+	}
+	tester.ProduceBlock()
 }
 
 func OnApply(receiver, firstReceiver, action uint64) {
