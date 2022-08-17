@@ -426,8 +426,15 @@ func (p *ChainTester) FreeChain() (int32, error) {
 	return p.IPCChainTesterClient.FreeChain(defaultCtx, p.id)
 }
 
-func (p *ChainTester) ProduceBlock() error {
-	return p.IPCChainTesterClient.ProduceBlock(defaultCtx, p.id)
+func (p *ChainTester) ProduceBlock(next_block_skip_time ...int32) error {
+	if len(next_block_skip_time) == 0 {
+		return p.IPCChainTesterClient.ProduceBlock(defaultCtx, p.id, 0)
+	}
+
+	if len(next_block_skip_time) != 1 {
+		panic("invalid arguments")
+	}
+	return p.IPCChainTesterClient.ProduceBlock(defaultCtx, p.id, next_block_skip_time[0])
 }
 
 func handleClient(client *ChainTester) (err error) {

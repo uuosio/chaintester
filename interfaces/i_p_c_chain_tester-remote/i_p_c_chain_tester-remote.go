@@ -31,7 +31,11 @@ func Usage() {
   fmt.Fprintln(os.Stderr, "  string unpack_action_args(i32 id, string contract, string action, string raw_args)")
   fmt.Fprintln(os.Stderr, "  i32 new_chain()")
   fmt.Fprintln(os.Stderr, "  i32 free_chain(i32 id)")
-  fmt.Fprintln(os.Stderr, "  void produce_block(i32 id)")
+  fmt.Fprintln(os.Stderr, "  string get_info(i32 id)")
+  fmt.Fprintln(os.Stderr, "  string get_account(i32 id, string account)")
+  fmt.Fprintln(os.Stderr, "  bool import_key(i32 id, string pub_key, string priv_key)")
+  fmt.Fprintln(os.Stderr, "  string get_required_keys(i32 id, string transaction,  available_keys)")
+  fmt.Fprintln(os.Stderr, "  void produce_block(i32 id, i32 next_block_skip_seconds)")
   fmt.Fprintln(os.Stderr, "  string push_action(i32 id, string account, string action, string arguments, string permissions)")
   fmt.Fprintln(os.Stderr, "  string push_actions(i32 id,  actions)")
   fmt.Fprintln(os.Stderr, "  string get_table_rows(i32 id, bool json, string code, string scope, string table, string lower_bound, string upper_bound, i64 limit, string key_type, string index_position, bool reverse, bool show_payer)")
@@ -178,8 +182,8 @@ func main() {
       fmt.Fprintln(os.Stderr, "EnableDebugContract requires 3 args")
       flag.Usage()
     }
-    tmp0, err38 := (strconv.Atoi(flag.Arg(1)))
-    if err38 != nil {
+    tmp0, err51 := (strconv.Atoi(flag.Arg(1)))
+    if err51 != nil {
       Usage()
       return
     }
@@ -197,8 +201,8 @@ func main() {
       fmt.Fprintln(os.Stderr, "IsDebugContractEnabled requires 2 args")
       flag.Usage()
     }
-    tmp0, err41 := (strconv.Atoi(flag.Arg(1)))
-    if err41 != nil {
+    tmp0, err54 := (strconv.Atoi(flag.Arg(1)))
+    if err54 != nil {
       Usage()
       return
     }
@@ -224,8 +228,8 @@ func main() {
       fmt.Fprintln(os.Stderr, "PackActionArgs_ requires 4 args")
       flag.Usage()
     }
-    tmp0, err44 := (strconv.Atoi(flag.Arg(1)))
-    if err44 != nil {
+    tmp0, err57 := (strconv.Atoi(flag.Arg(1)))
+    if err57 != nil {
       Usage()
       return
     }
@@ -245,8 +249,8 @@ func main() {
       fmt.Fprintln(os.Stderr, "UnpackActionArgs_ requires 4 args")
       flag.Usage()
     }
-    tmp0, err48 := (strconv.Atoi(flag.Arg(1)))
-    if err48 != nil {
+    tmp0, err61 := (strconv.Atoi(flag.Arg(1)))
+    if err61 != nil {
       Usage()
       return
     }
@@ -274,8 +278,8 @@ func main() {
       fmt.Fprintln(os.Stderr, "FreeChain requires 1 args")
       flag.Usage()
     }
-    tmp0, err52 := (strconv.Atoi(flag.Arg(1)))
-    if err52 != nil {
+    tmp0, err65 := (strconv.Atoi(flag.Arg(1)))
+    if err65 != nil {
       Usage()
       return
     }
@@ -284,19 +288,112 @@ func main() {
     fmt.Print(client.FreeChain(context.Background(), value0))
     fmt.Print("\n")
     break
-  case "produce_block":
+  case "get_info":
     if flag.NArg() - 1 != 1 {
-      fmt.Fprintln(os.Stderr, "ProduceBlock requires 1 args")
+      fmt.Fprintln(os.Stderr, "GetInfo requires 1 args")
       flag.Usage()
     }
-    tmp0, err53 := (strconv.Atoi(flag.Arg(1)))
-    if err53 != nil {
+    tmp0, err66 := (strconv.Atoi(flag.Arg(1)))
+    if err66 != nil {
       Usage()
       return
     }
     argvalue0 := int32(tmp0)
     value0 := argvalue0
-    fmt.Print(client.ProduceBlock(context.Background(), value0))
+    fmt.Print(client.GetInfo(context.Background(), value0))
+    fmt.Print("\n")
+    break
+  case "get_account":
+    if flag.NArg() - 1 != 2 {
+      fmt.Fprintln(os.Stderr, "GetAccount requires 2 args")
+      flag.Usage()
+    }
+    tmp0, err67 := (strconv.Atoi(flag.Arg(1)))
+    if err67 != nil {
+      Usage()
+      return
+    }
+    argvalue0 := int32(tmp0)
+    value0 := argvalue0
+    argvalue1 := flag.Arg(2)
+    value1 := argvalue1
+    fmt.Print(client.GetAccount(context.Background(), value0, value1))
+    fmt.Print("\n")
+    break
+  case "import_key":
+    if flag.NArg() - 1 != 3 {
+      fmt.Fprintln(os.Stderr, "ImportKey requires 3 args")
+      flag.Usage()
+    }
+    tmp0, err69 := (strconv.Atoi(flag.Arg(1)))
+    if err69 != nil {
+      Usage()
+      return
+    }
+    argvalue0 := int32(tmp0)
+    value0 := argvalue0
+    argvalue1 := flag.Arg(2)
+    value1 := argvalue1
+    argvalue2 := flag.Arg(3)
+    value2 := argvalue2
+    fmt.Print(client.ImportKey(context.Background(), value0, value1, value2))
+    fmt.Print("\n")
+    break
+  case "get_required_keys":
+    if flag.NArg() - 1 != 3 {
+      fmt.Fprintln(os.Stderr, "GetRequiredKeys requires 3 args")
+      flag.Usage()
+    }
+    tmp0, err72 := (strconv.Atoi(flag.Arg(1)))
+    if err72 != nil {
+      Usage()
+      return
+    }
+    argvalue0 := int32(tmp0)
+    value0 := argvalue0
+    argvalue1 := flag.Arg(2)
+    value1 := argvalue1
+    arg74 := flag.Arg(3)
+    mbTrans75 := thrift.NewTMemoryBufferLen(len(arg74))
+    defer mbTrans75.Close()
+    _, err76 := mbTrans75.WriteString(arg74)
+    if err76 != nil { 
+      Usage()
+      return
+    }
+    factory77 := thrift.NewTJSONProtocolFactory()
+    jsProt78 := factory77.GetProtocol(mbTrans75)
+    containerStruct2 := interfaces.NewIPCChainTesterGetRequiredKeysArgs()
+    err79 := containerStruct2.ReadField3(context.Background(), jsProt78)
+    if err79 != nil {
+      Usage()
+      return
+    }
+    argvalue2 := containerStruct2.AvailableKeys
+    value2 := argvalue2
+    fmt.Print(client.GetRequiredKeys(context.Background(), value0, value1, value2))
+    fmt.Print("\n")
+    break
+  case "produce_block":
+    if flag.NArg() - 1 != 2 {
+      fmt.Fprintln(os.Stderr, "ProduceBlock requires 2 args")
+      flag.Usage()
+    }
+    tmp0, err80 := (strconv.Atoi(flag.Arg(1)))
+    if err80 != nil {
+      Usage()
+      return
+    }
+    argvalue0 := int32(tmp0)
+    value0 := argvalue0
+    tmp1, err81 := (strconv.Atoi(flag.Arg(2)))
+    if err81 != nil {
+      Usage()
+      return
+    }
+    argvalue1 := int32(tmp1)
+    value1 := argvalue1
+    fmt.Print(client.ProduceBlock(context.Background(), value0, value1))
     fmt.Print("\n")
     break
   case "push_action":
@@ -304,8 +401,8 @@ func main() {
       fmt.Fprintln(os.Stderr, "PushAction requires 5 args")
       flag.Usage()
     }
-    tmp0, err54 := (strconv.Atoi(flag.Arg(1)))
-    if err54 != nil {
+    tmp0, err82 := (strconv.Atoi(flag.Arg(1)))
+    if err82 != nil {
       Usage()
       return
     }
@@ -327,26 +424,26 @@ func main() {
       fmt.Fprintln(os.Stderr, "PushActions requires 2 args")
       flag.Usage()
     }
-    tmp0, err59 := (strconv.Atoi(flag.Arg(1)))
-    if err59 != nil {
+    tmp0, err87 := (strconv.Atoi(flag.Arg(1)))
+    if err87 != nil {
       Usage()
       return
     }
     argvalue0 := int32(tmp0)
     value0 := argvalue0
-    arg60 := flag.Arg(2)
-    mbTrans61 := thrift.NewTMemoryBufferLen(len(arg60))
-    defer mbTrans61.Close()
-    _, err62 := mbTrans61.WriteString(arg60)
-    if err62 != nil { 
+    arg88 := flag.Arg(2)
+    mbTrans89 := thrift.NewTMemoryBufferLen(len(arg88))
+    defer mbTrans89.Close()
+    _, err90 := mbTrans89.WriteString(arg88)
+    if err90 != nil { 
       Usage()
       return
     }
-    factory63 := thrift.NewTJSONProtocolFactory()
-    jsProt64 := factory63.GetProtocol(mbTrans61)
+    factory91 := thrift.NewTJSONProtocolFactory()
+    jsProt92 := factory91.GetProtocol(mbTrans89)
     containerStruct1 := interfaces.NewIPCChainTesterPushActionsArgs()
-    err65 := containerStruct1.ReadField2(context.Background(), jsProt64)
-    if err65 != nil {
+    err93 := containerStruct1.ReadField2(context.Background(), jsProt92)
+    if err93 != nil {
       Usage()
       return
     }
@@ -360,8 +457,8 @@ func main() {
       fmt.Fprintln(os.Stderr, "GetTableRows requires 12 args")
       flag.Usage()
     }
-    tmp0, err66 := (strconv.Atoi(flag.Arg(1)))
-    if err66 != nil {
+    tmp0, err94 := (strconv.Atoi(flag.Arg(1)))
+    if err94 != nil {
       Usage()
       return
     }
@@ -379,8 +476,8 @@ func main() {
     value5 := argvalue5
     argvalue6 := flag.Arg(7)
     value6 := argvalue6
-    argvalue7, err73 := (strconv.ParseInt(flag.Arg(8), 10, 64))
-    if err73 != nil {
+    argvalue7, err101 := (strconv.ParseInt(flag.Arg(8), 10, 64))
+    if err101 != nil {
       Usage()
       return
     }

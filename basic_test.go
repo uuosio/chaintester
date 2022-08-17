@@ -31,7 +31,7 @@ func TestPrints(t *testing.T) {
 	if err != nil {
 		panic(err)
 	}
-	t.Logf("%v", ret.ToString())
+	// t.Logf("%v", ret.ToString())
 	ret, err = tester.GetTableRows(true, "hello", "", "counter", "", "", 10)
 	if err != nil {
 		panic(fmt.Errorf("++++++++error:%v", err))
