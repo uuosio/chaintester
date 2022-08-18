@@ -376,6 +376,69 @@ func (p *ChainTester) DeployContract(account string, wasmFile string, abiFile st
 	return nil
 }
 
+func (p *ChainTester) GetInfo() (*JsonValue, error) {
+	ret, err := p.IPCChainTesterClient.GetInfo(defaultCtx, p.id)
+	value := &JsonValue{}
+	err = json.Unmarshal([]byte(ret), value)
+	if err != nil {
+		return nil, fmt.Errorf("%v", string(ret))
+	}
+	return value, nil
+}
+
+func (p *ChainTester) CreateKey(keyType ...string) (*JsonValue, error) {
+	value := &JsonValue{}
+	if len(keyType) == 0 {
+		ret, err := p.IPCChainTesterClient.CreateKey(defaultCtx, "K1")
+		err = json.Unmarshal([]byte(ret), value)
+		if err != nil {
+			return nil, fmt.Errorf("%v", string(ret))
+		}
+	} else {
+		if len(keyType) != 1 {
+			panic("Invalid keyType")
+		}
+		ret, err := p.IPCChainTesterClient.CreateKey(defaultCtx, keyType[0])
+		err = json.Unmarshal([]byte(ret), value)
+		if err != nil {
+			return nil, fmt.Errorf("%v", string(ret))
+		}
+	}
+
+	return value, nil
+}
+
+func (p *ChainTester) GetAccount(account string) (*JsonValue, error) {
+	ret, err := p.IPCChainTesterClient.GetAccount(defaultCtx, p.id, account)
+	value := &JsonValue{}
+	err = json.Unmarshal([]byte(ret), value)
+	if err != nil {
+		return nil, fmt.Errorf("%v", string(ret))
+	}
+	return value, nil
+}
+
+func (p *ChainTester) CreateAccount(creator string, account string, owner_key string, active_key string, ram_bytes int64, res ...int64) (*JsonValue, error) {
+	stake_net := int64(0)
+	stake_cpu := int64(0)
+
+	if len(res) != 0 {
+		if len(res) != 2 {
+			panic("invalid argugments")
+		}
+		stake_net = res[0]
+		stake_cpu = res[1]
+	}
+
+	ret, err := p.IPCChainTesterClient.CreateAccount(defaultCtx, p.id, creator, account, owner_key, active_key, ram_bytes, stake_net, stake_cpu)
+	value := &JsonValue{}
+	err = json.Unmarshal([]byte(ret), value)
+	if err != nil {
+		return nil, fmt.Errorf("%v", string(ret))
+	}
+	return value, nil
+}
+
 func (p *ChainTester) GetTableRows(_json bool, code string, scope string, table string, lower_bound string, upper_bound string, limit int64) (*JsonValue, error) {
 	return p.GetTableRowsEx(
 		_json,

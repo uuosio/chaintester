@@ -10,8 +10,28 @@ var ctx = context.Background()
 
 func TestChainTester(t *testing.T) {
 	tester := NewChainTester()
+	info, _ := tester.GetInfo()
+	t.Logf("+++++++++info: %v", info)
+
+	key, _ := tester.CreateKey()
+	t.Logf("+++++++++key: %v", key)
+
+	privKey, _ := key.GetString("private")
+	t.Logf("+++++++++private key: %v", privKey)
+
+	pubKey, _ := key.GetString("public")
+	t.Logf("+++++++++public key: %v", pubKey)
+
+	_, err := tester.CreateAccount("hello", "helloworld33", pubKey, pubKey, 10*1024*1024, 10*10000, 10*10000)
+	if err != nil {
+		panic(err)
+	}
+
+	ret, _ := tester.GetAccount("helloworld33")
+	t.Logf("+++++++++account info: %v", ret)
+
 	// tester.EnableDebugContract("hello", true)
-	err := tester.DeployContract("hello", "test/test.wasm", "test/test.abi")
+	err = tester.DeployContract("hello", "test/test.wasm", "test/test.abi")
 	if err != nil {
 		panic(err)
 	}
@@ -27,7 +47,7 @@ func TestChainTester(t *testing.T) {
 		"name": "go"
 	}
 	`
-	ret, err := tester.PushAction("hello", "inc", args, permissions)
+	ret, err = tester.PushAction("hello", "inc", args, permissions)
 	if err != nil {
 		panic(err)
 	}
