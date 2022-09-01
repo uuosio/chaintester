@@ -43,3 +43,9 @@ func (c *Contract) Inc(name string) {
 func (c *Contract) Test() {
 	chain.Println("+++++++current_time:", chain.CurrentTime().Elapsed)
 }
+
+//action assert
+func (c *Contract) Assert() {
+	chain.Println("should panic!")
+	chain.Check(false, "oops!")
+}

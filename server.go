@@ -99,10 +99,10 @@ func (p *ApplyRequestHandler) ApplyRequest(ctx context.Context, receiver *interf
 				// fmt.Printf("recovered from assertion error: %v", _r)
 			} else {
 				// fmt.Printf("recovered error: %s", err)
-				GetVMAPI().EndApply(ctx)
 				_err = fmt.Errorf("%v", err)
 				_r = -1
 			}
+			GetVMAPI().EndApply(ctx)
 		}
 	}()
 
