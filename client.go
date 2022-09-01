@@ -206,7 +206,7 @@ func NewChainTester() *ChainTester {
 	}
 
 	var err error
-	tester.id, err = tester.NewChain_(defaultCtx)
+	tester.id, err = tester.NewChain_(defaultCtx, true)
 	if err != nil {
 		panic(err)
 	}
