@@ -178,7 +178,7 @@ func GetIPCClient() *IPCClient {
 		addr := fmt.Sprintf("%s:%s", g_DebuggerConfig.DebuggerServerAddress, g_DebuggerConfig.DebuggerServerPort)
 		iprot, oprot, err := NewProtocol(addr)
 		if err != nil {
-			return nil
+			panic(err)
 		}
 		g_IPCClient = NewIPCClient(iprot, oprot)
 		tester := interfaces.NewIPCChainTesterClient(g_IPCClient)
