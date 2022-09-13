@@ -11,14 +11,14 @@ var ctx = context.Background()
 func TestChainTester(t *testing.T) {
 	tester := NewChainTester()
 	info, _ := tester.GetInfo()
-	t.Logf("+++++++++info: %v", info)
+	t.Logf("+++++++++info: %v", info.ToString())
 
 	key, err := tester.CreateKey()
 	if err != nil {
 		panic(err)
 	}
 
-	t.Logf("+++++++++key: %v", key)
+	t.Logf("+++++++++key: %v", key.ToString())
 
 	privKey, _ := key.GetString("private")
 	t.Logf("+++++++++private key: %v", privKey)
@@ -32,7 +32,7 @@ func TestChainTester(t *testing.T) {
 	}
 
 	ret, _ := tester.GetAccount("helloworld33")
-	t.Logf("+++++++++account info: %v", ret)
+	t.Logf("+++++++++account info: %v", ret.ToString())
 
 	// tester.EnableDebugContract("hello", true)
 	err = tester.DeployContract("hello", "test/test.wasm", "test/test.abi")
@@ -62,7 +62,7 @@ func TestChainTester(t *testing.T) {
 	}
 	t.Logf("%v", ret.ToString())
 
-	ret, err = tester.GetTableRows(false, "eosio.token", "hello", "accounts", "EOS", "", 1)
+	ret, err = tester.GetTableRows(true, "eosio.token", "hello", "accounts", "EOS", "", 1)
 	if err != nil {
 		panic(fmt.Errorf("++++++++error:%v", err))
 	}
@@ -71,7 +71,7 @@ func TestChainTester(t *testing.T) {
 	if err != nil {
 		panic(err)
 	}
-	t.Logf("++++++++++=raw balance: %s", balance)
+	t.Logf("++++++++++= balance: %s", balance)
 
 	ret, err = tester.PushAction("hello", "test", "", permissions)
 	if err != nil {
@@ -84,6 +84,7 @@ func TestChainTester(t *testing.T) {
 		panic(err)
 	}
 	tester.ProduceBlock()
+	t.Logf("+++++++balance of hello: %d", tester.GetBalance("hello"))
 }
 
 func OnApply(receiver, firstReceiver, action uint64) {

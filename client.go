@@ -2,6 +2,7 @@ package chaintester
 
 import (
 	"context"
+	"encoding/binary"
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
@@ -474,6 +475,33 @@ func (p *ChainTester) GetTableRowsEx(_json bool, code string, scope string, tabl
 		return nil, fmt.Errorf("%v", string(ret))
 	}
 	return value, nil
+}
+
+func (tester *ChainTester) GetBalance(account string, extras ...string) uint64 {
+	tokenAccount := "eosio.token"
+	symbol := "EOS"
+
+	if len(extras) == 1 {
+		tokenAccount = extras[0]
+	}
+	if len(extras) == 2 {
+		symbol = extras[1]
+	}
+
+	rows, err := tester.GetTableRows(false, tokenAccount, account, "accounts", symbol, "", 1)
+	if err != nil {
+		panic(err)
+	}
+	hexString, err := rows.GetString("rows", 0)
+	if err != nil {
+		panic(err)
+	}
+
+	rawBalance, err := hex.DecodeString(hexString)
+	if err != nil {
+		panic(err)
+	}
+	return binary.LittleEndian.Uint64(rawBalance[:8])
 }
 
 func (p *ChainTester) EnableDebugContract(contract string, enable bool) error {
