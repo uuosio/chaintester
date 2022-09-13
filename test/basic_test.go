@@ -12,7 +12,7 @@ var ctx = context.Background()
 func OnApply(receiver, firstReceiver, action uint64) {
 	n := chain.Name{action}
 	println("+++++++++OnApply", n.String())
-	contract_apply(receiver, firstReceiver, action)
+	ContractApply(receiver, firstReceiver, action)
 }
 
 func init() {
@@ -86,11 +86,27 @@ func TestAssert(t *testing.T) {
 	if err == nil {
 		panic("should return error")
 	} else {
+		// t.Logf("++++++error: %v", err)
 		_err, ok := err.(*chaintester.TransactionError)
 		if !ok {
 			panic("bad error")
 		}
-		t.Logf("++++++error: %v", _err)
+		// t.Logf("++++++error: %v", _err)
+		js, err := _err.Json()
+		if err != nil {
+			panic(err)
+		}
+		except, err := js.GetString("except")
+		if err != nil {
+			panic(err)
+		}
+		t.Logf("+++++++=%s", except)
+
+		stack, err := js.GetString("except", "stack")
+		if err != nil {
+			panic(err)
+		}
+		t.Logf("+++++++=%s", stack)
 	}
 	// r.GetString("except")
 	// panic(ret.ToString())

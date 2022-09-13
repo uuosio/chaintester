@@ -37,10 +37,13 @@ type JsonValue struct {
 	value interface{}
 }
 
-func NewJsonValue(value interface{}) JsonValue {
-	retValue := JsonValue{}
-	retValue.SetValue(value)
-	return retValue
+func NewJsonValue(value []byte) *JsonValue {
+	ret := &JsonValue{}
+	err := json.Unmarshal(value, ret)
+	if err == nil {
+		return ret
+	}
+	return nil
 }
 
 func (b *JsonValue) GetValue() interface{} {
@@ -138,11 +141,25 @@ func (b *JsonValue) GetString(keys ...interface{}) (string, error) {
 		return "", err
 	}
 
-	_v, ok := v.(string)
-	if !ok {
-		return "", newErrorf("value is not a string")
+	switch _v := v.(type) {
+	case string:
+		return _v, nil
+	case map[string]JsonValue:
+		__v, err := json.Marshal(_v)
+		if err != nil {
+			return "", err
+		}
+		return string(__v), nil
+	case []JsonValue:
+		__v, err := json.Marshal(_v)
+		if err != nil {
+			return "", err
+		}
+		return string(__v), nil
+	default:
+		return "", newErrorf("invalid json value")
 	}
-	return strings.Trim(_v, "\""), nil
+	return "", newErrorf("invalid json value!")
 }
 
 func (b *JsonValue) GetTime(keys ...interface{}) (*time.Time, error) {
@@ -164,7 +181,7 @@ func (b JsonValue) MarshalJSON() ([]byte, error) {
 		if _, err := strconv.ParseInt(v, 10, 64); err == nil {
 			return []byte(v), nil
 		} else {
-			return []byte(strconv.Quote(v)), nil
+			return []byte(v), nil //[]byte(strconv.Quote(v)), nil
 		}
 	case JsonValue:
 		if s, ok := v.value.(string); ok {
