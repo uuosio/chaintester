@@ -62,6 +62,17 @@ func TestChainTester(t *testing.T) {
 	}
 	t.Logf("%v", ret.ToString())
 
+	ret, err = tester.GetTableRows(false, "eosio.token", "hello", "accounts", "EOS", "", 1)
+	if err != nil {
+		panic(fmt.Errorf("++++++++error:%v", err))
+	}
+
+	balance, err := ret.GetString("rows", 0)
+	if err != nil {
+		panic(err)
+	}
+	t.Logf("++++++++++=raw balance: %s", balance)
+
 	ret, err = tester.PushAction("hello", "test", "", permissions)
 	if err != nil {
 		panic(err)

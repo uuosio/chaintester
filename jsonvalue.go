@@ -63,7 +63,7 @@ func (b *JsonValue) SetValue(value interface{}) error {
 	return nil
 }
 
-func parseSubValue(subValue JsonValue) interface{} {
+func parseSubValue(subValue *JsonValue) interface{} {
 	switch v := subValue.value.(type) {
 	case string:
 		return strings.Trim(v, "\"")
@@ -98,7 +98,7 @@ func (b *JsonValue) Get(keys ...interface{}) (interface{}, error) {
 				if !ok {
 					return nil, newErrorf("key not found")
 				}
-				value = parseSubValue(subValue)
+				value = parseSubValue(&subValue)
 			case JsonValue:
 				v3, ok := v2.value.(map[string]JsonValue)
 				if !ok {
@@ -108,18 +108,18 @@ func (b *JsonValue) Get(keys ...interface{}) (interface{}, error) {
 				if !ok {
 					return nil, newErrorf("key not found")
 				}
-				value = parseSubValue(subValue)
+				value = parseSubValue(&subValue)
 			default:
 				return JsonValue{}, newErrorf("2:JsonValue is not a map")
 			}
 		case int:
 			var arr []JsonValue
 			var ok bool
-			switch v := value.(type) {
+			switch _v := value.(type) {
 			case []JsonValue:
-				arr = v
+				arr = _v
 			case JsonValue:
-				arr, ok = v.value.([]JsonValue)
+				arr, ok = _v.value.([]JsonValue)
 				if !ok {
 					return JsonValue{}, newErrorf("JsonValue is not an array")
 				}
@@ -129,7 +129,7 @@ func (b *JsonValue) Get(keys ...interface{}) (interface{}, error) {
 			if v < 0 || v >= len(arr) {
 				return JsonValue{}, newErrorf("index out of range")
 			}
-			value = arr[v]
+			value = parseSubValue(&arr[v])
 		default:
 			return JsonValue{}, newErrorf("invalid key type")
 		}
