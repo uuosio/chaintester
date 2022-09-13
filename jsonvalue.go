@@ -34,11 +34,13 @@ func newErrorf(format string, args ...interface{}) error {
 }
 
 type JsonValue struct {
+	raw   []byte
 	value interface{}
 }
 
 func NewJsonValue(value []byte) *JsonValue {
 	ret := &JsonValue{}
+	ret.raw = value
 	err := json.Unmarshal(value, ret)
 	if err == nil {
 		return ret
@@ -204,6 +206,7 @@ func (b *JsonValue) UnmarshalJSON(data []byte) error {
 		if err != nil {
 			return newError(err)
 		}
+		b.raw = data
 		b.value = m
 	} else if data[0] == '[' {
 		m := make([]JsonValue, 0, 1)
@@ -211,14 +214,17 @@ func (b *JsonValue) UnmarshalJSON(data []byte) error {
 		if err != nil {
 			return newError(err)
 		}
+		b.raw = data
 		b.value = m
 	} else {
+		b.raw = data
 		b.value = string(data)
 	}
 	return nil
 }
 
 func (b *JsonValue) ToString() string {
-	value, _ := json.Marshal(b.value)
-	return string(value)
+	return string(b.raw)
+	// value, _ := json.Marshal(b.value)
+	// return string(value)
 }
