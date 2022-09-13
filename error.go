@@ -22,14 +22,14 @@ func (t *TransactionError) Error() string {
 	return string(t.Err)
 }
 
-func (t *TransactionError) Json() (*JsonValue, error) {
+func (t *TransactionError) Json() *JsonValue {
 	value := &JsonValue{}
 	// fmt.Printf("++++++push_action return: %v", string(ret))
 	err := json.Unmarshal(t.Err, value)
 	if err != nil {
-		return nil, err
+		return nil
 	}
-	return value, nil
+	return value
 }
 
 func NewTransactionError(value []byte) *TransactionError {

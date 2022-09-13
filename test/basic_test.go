@@ -92,9 +92,9 @@ func TestAssert(t *testing.T) {
 			panic("bad error")
 		}
 		// t.Logf("++++++error: %v", _err)
-		js, err := _err.Json()
-		if err != nil {
-			panic(err)
+		js := _err.Json()
+		if js == nil {
+			panic("invalid json")
 		}
 		except, err := js.GetString("except")
 		if err != nil {
