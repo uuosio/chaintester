@@ -14,9 +14,34 @@ import (
 )
 
 var g_VMAPI *interfaces.ApplyClient
+var g_InApply = false
+
+func SetInApply(inApply bool) {
+	g_InApply = inApply
+}
+
+func IsInApply() bool {
+	return g_InApply
+}
+
+func InitVMAPI() {
+	if g_VMAPI != nil {
+		return
+	}
+
+	var err error
+	address := fmt.Sprintf("%s:%s", GetDebuggerConfig().VMAPIServerAddress, GetDebuggerConfig().VMAPIServerPort)
+	g_VMAPI, err = NewVMAPIClient(address)
+	if err != nil {
+		panic(err)
+	}
+}
 
 func GetVMAPI() *interfaces.ApplyClient {
 	if g_VMAPI != nil {
+		if !IsInApply() {
+			panic("error: call vm api function out of apply context!")
+		}
 		return g_VMAPI
 	}
 
@@ -103,6 +128,7 @@ func (p *ApplyRequestHandler) ApplyRequest(ctx context.Context, receiver *interf
 				_r = -1
 			}
 			GetVMAPI().EndApply(ctx)
+			SetInApply(false)
 		}
 	}()
 
@@ -112,8 +138,11 @@ func (p *ApplyRequestHandler) ApplyRequest(ctx context.Context, receiver *interf
 	if g_apply_func == nil {
 		panic("apply function not set!")
 	}
+
+	SetInApply(true)
 	g_apply_func(_receiver, _firstReceiver, _action)
 	GetVMAPI().EndApply(ctx)
+	SetInApply(false)
 
 	_r = -1
 	_err = nil

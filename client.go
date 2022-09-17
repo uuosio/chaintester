@@ -185,7 +185,7 @@ func GetIPCClient() *IPCClient {
 		tester := interfaces.NewIPCChainTesterClient(g_IPCClient)
 
 		tester.InitVMAPI(defaultCtx)
-		GetVMAPI() //init vm api client
+		InitVMAPI() //init vm api client
 
 		tester.InitApplyRequest(defaultCtx)
 		GetApplyRequestServer() // init apply request server
