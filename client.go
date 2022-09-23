@@ -230,7 +230,7 @@ func (p *ChainTester) Call(ctx context.Context, method string, args, result thri
 	//runApplyRequestServer
 
 	//start apply request server
-	if "push_action" == method || "push_actions" == method {
+	if "push_action" == method || "push_actions" == method || "produce_block" == method {
 		GetApplyRequestServer().Serve()
 	}
 
@@ -377,6 +377,33 @@ func (p *ChainTester) DeployContract(account string, wasmFile string, abiFile st
 	return nil
 }
 
+func (p *ChainTester) produceBlock(next_block_skip_seconds int64) error {
+	var _args41 interfaces.IPCChainTesterProduceBlockArgs
+	_args41.ID = p.id
+	_args41.NextBlockSkipSeconds = next_block_skip_seconds
+	var _result43 interfaces.IPCChainTesterProduceBlockResult
+	var _meta42 thrift.ResponseMeta
+
+	var _err error
+	_meta42, _err = p.Call(defaultCtx, "produce_block", &_args41, &_result43)
+	p.IPCChainTesterClient.SetLastResponseMeta_(_meta42)
+	if _err != nil {
+		return _err
+	}
+	return nil
+}
+
+func (p *ChainTester) ProduceBlock(next_block_skip_time ...int64) error {
+	if len(next_block_skip_time) == 0 {
+		return p.produceBlock(0)
+	}
+
+	if len(next_block_skip_time) != 1 {
+		panic("invalid arguments")
+	}
+	return p.produceBlock(next_block_skip_time[0])
+}
+
 func (p *ChainTester) GetInfo() (*JsonValue, error) {
 	ret, err := p.IPCChainTesterClient.GetInfo(defaultCtx, p.id)
 	value := &JsonValue{}
@@ -515,17 +542,6 @@ func (p *ChainTester) PackAbi(abi string) ([]byte, error) {
 
 func (p *ChainTester) FreeChain() (int32, error) {
 	return p.IPCChainTesterClient.FreeChain(defaultCtx, p.id)
-}
-
-func (p *ChainTester) ProduceBlock(next_block_skip_time ...int64) error {
-	if len(next_block_skip_time) == 0 {
-		return p.IPCChainTesterClient.ProduceBlock(defaultCtx, p.id, 0)
-	}
-
-	if len(next_block_skip_time) != 1 {
-		panic("invalid arguments")
-	}
-	return p.IPCChainTesterClient.ProduceBlock(defaultCtx, p.id, next_block_skip_time[0])
 }
 
 func handleClient(client *ChainTester) (err error) {
