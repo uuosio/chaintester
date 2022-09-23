@@ -16,7 +16,7 @@ jobs:
         step: ['test']
         # step: ['lint', 'test:chain']
     name: test chaintester
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     steps:
       - name: Install Go
         uses: actions/setup-go@v2
