@@ -34,7 +34,7 @@ func TestChainTester(t *testing.T) {
 	ret, _ := tester.GetAccount("helloworld33")
 	t.Logf("+++++++++account info: %v", ret.ToString())
 
-	tester.EnableDebugContract("hello", true)
+	tester.EnableDebugContract("hello", false)
 	err = tester.DeployContract("hello", "test/test.wasm", "test/test.abi")
 	if err != nil {
 		panic(err)
@@ -52,6 +52,13 @@ func TestChainTester(t *testing.T) {
 	}
 	`
 	ret, err = tester.PushAction("hello", "inc", args, permissions)
+	if err != nil {
+		panic(err)
+	}
+	tester.ProduceBlock()
+	sender := NewActionSender(tester)
+	sender.AddActionWithSigner("hello", "inc", args, "hello")
+	ret, err = sender.Send()
 	if err != nil {
 		panic(err)
 	}
@@ -85,6 +92,13 @@ func TestChainTester(t *testing.T) {
 	}
 	tester.ProduceBlock()
 	t.Logf("+++++++balance of hello: %d", tester.GetBalance("hello"))
+
+	tester.EnableDebugContract("hello", true)
+	ret, err = tester.PushAction("hello", "test", "", permissions)
+	if err != nil {
+		panic(err)
+	}
+	tester.ProduceBlock()
 }
 
 func TestApplyCtx(t *testing.T) {
