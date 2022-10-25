@@ -14,6 +14,8 @@ import (
 	"github.com/apache/thrift/lib/go/thrift"
 )
 
+type ActionArguments interfaces.ActionArguments
+
 type IPCClient struct {
 	seqId        int32
 	iprot, oprot thrift.TProtocol
@@ -246,7 +248,7 @@ func (p *ChainTester) Call(ctx context.Context, method string, args, result thri
 	}, err
 }
 
-func (p *ChainTester) PushAction(account string, action string, arguments string, permissions string) (*JsonValue, error) {
+func (p *ChainTester) pushAction(account string, action string, arguments *interfaces.ActionArguments, permissions string) (*JsonValue, error) {
 	var _args20 interfaces.IPCChainTesterPushActionArgs
 	_args20.ID = p.id
 	_args20.Account = account
@@ -276,6 +278,18 @@ func (p *ChainTester) PushAction(account string, action string, arguments string
 	} else {
 		return value, nil
 	}
+}
+
+func (p *ChainTester) PushAction(account string, action string, arguments string, permissions string) (*JsonValue, error) {
+	_arguments := interfaces.NewActionArguments()
+	_arguments.JSONArgs_ = &arguments
+	return p.pushAction(account, action, _arguments, permissions)
+}
+
+func (p *ChainTester) PushActionEx(account string, action string, arguments []byte, permissions string) (*JsonValue, error) {
+	_arguments := interfaces.NewActionArguments()
+	_arguments.RawArgs_ = arguments
+	return p.pushAction(account, action, _arguments, permissions)
 }
 
 func (p *ChainTester) PushActions(actions []*interfaces.Action) (*JsonValue, error) {
@@ -315,18 +329,17 @@ func (p *ChainTester) DeployContract(account string, wasmFile string, abiFile st
 
 	hexWasm := make([]byte, len(wasm)*2)
 	hex.Encode(hexWasm, wasm)
-	setCodeArgs := fmt.Sprintf(
-		`
+
+	jsonArgs := fmt.Sprintf(`
 		{
 			"account": "%s",
 			"vmtype": 0,
 			"vmversion": 0,
 			"code": "%s"
-		 }
+		}
 		`,
 		account,
-		string(hexWasm),
-	)
+		string(hexWasm))
 
 	permissions := fmt.Sprintf(`
 	{
@@ -334,6 +347,8 @@ func (p *ChainTester) DeployContract(account string, wasmFile string, abiFile st
 	}
 	`, account)
 
+	setCodeArgs := interfaces.NewActionArguments()
+	setCodeArgs.JSONArgs_ = &jsonArgs
 	setCodeAction := &interfaces.Action{
 		Account:     "eosio",
 		Action:      "setcode",
@@ -351,7 +366,7 @@ func (p *ChainTester) DeployContract(account string, wasmFile string, abiFile st
 		rawAbi, _ := p.PackAbi(string(abi))
 		hexRawAbi := make([]byte, len(rawAbi)*2)
 		hex.Encode(hexRawAbi, rawAbi)
-		setAbiArgs := fmt.Sprintf(
+		jsonArgs := fmt.Sprintf(
 			`
 			{
 				"account": "%s",
@@ -361,6 +376,8 @@ func (p *ChainTester) DeployContract(account string, wasmFile string, abiFile st
 			account,
 			string(hexRawAbi),
 		)
+		setAbiArgs := interfaces.NewActionArguments()
+		setAbiArgs.JSONArgs_ = &jsonArgs
 		setAbiAction := &interfaces.Action{
 			Account:     "eosio",
 			Action:      "setabi",

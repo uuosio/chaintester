@@ -38,7 +38,7 @@ func Usage() {
   fmt.Fprintln(os.Stderr, "  bool import_key(i32 id, string pub_key, string priv_key)")
   fmt.Fprintln(os.Stderr, "  string get_required_keys(i32 id, string transaction,  available_keys)")
   fmt.Fprintln(os.Stderr, "  void produce_block(i32 id, i64 next_block_skip_seconds)")
-  fmt.Fprintln(os.Stderr, "  string push_action(i32 id, string account, string action, string arguments, string permissions)")
+  fmt.Fprintln(os.Stderr, "  string push_action(i32 id, string account, string action, ActionArguments arguments, string permissions)")
   fmt.Fprintln(os.Stderr, "  string push_actions(i32 id,  actions)")
   fmt.Fprintln(os.Stderr, "  string deploy_contract(i32 id, string account, string wasm, string abi)")
   fmt.Fprintln(os.Stderr, "  string get_table_rows(i32 id, bool json, string code, string scope, string table, string lower_bound, string upper_bound, i64 limit, string key_type, string index_position, bool reverse, bool show_payer)")
@@ -467,7 +467,22 @@ func main() {
     value1 := argvalue1
     argvalue2 := flag.Arg(3)
     value2 := argvalue2
-    argvalue3 := flag.Arg(4)
+    arg104 := flag.Arg(4)
+    mbTrans105 := thrift.NewTMemoryBufferLen(len(arg104))
+    defer mbTrans105.Close()
+    _, err106 := mbTrans105.WriteString(arg104)
+    if err106 != nil {
+      Usage()
+      return
+    }
+    factory107 := thrift.NewTJSONProtocolFactory()
+    jsProt108 := factory107.GetProtocol(mbTrans105)
+    argvalue3 := interfaces.NewActionArguments()
+    err109 := argvalue3.Read(context.Background(), jsProt108)
+    if err109 != nil {
+      Usage()
+      return
+    }
     value3 := argvalue3
     argvalue4 := flag.Arg(5)
     value4 := argvalue4
@@ -479,26 +494,26 @@ func main() {
       fmt.Fprintln(os.Stderr, "PushActions requires 2 args")
       flag.Usage()
     }
-    tmp0, err106 := (strconv.Atoi(flag.Arg(1)))
-    if err106 != nil {
+    tmp0, err111 := (strconv.Atoi(flag.Arg(1)))
+    if err111 != nil {
       Usage()
       return
     }
     argvalue0 := int32(tmp0)
     value0 := argvalue0
-    arg107 := flag.Arg(2)
-    mbTrans108 := thrift.NewTMemoryBufferLen(len(arg107))
-    defer mbTrans108.Close()
-    _, err109 := mbTrans108.WriteString(arg107)
-    if err109 != nil { 
+    arg112 := flag.Arg(2)
+    mbTrans113 := thrift.NewTMemoryBufferLen(len(arg112))
+    defer mbTrans113.Close()
+    _, err114 := mbTrans113.WriteString(arg112)
+    if err114 != nil { 
       Usage()
       return
     }
-    factory110 := thrift.NewTJSONProtocolFactory()
-    jsProt111 := factory110.GetProtocol(mbTrans108)
+    factory115 := thrift.NewTJSONProtocolFactory()
+    jsProt116 := factory115.GetProtocol(mbTrans113)
     containerStruct1 := interfaces.NewIPCChainTesterPushActionsArgs()
-    err112 := containerStruct1.ReadField2(context.Background(), jsProt111)
-    if err112 != nil {
+    err117 := containerStruct1.ReadField2(context.Background(), jsProt116)
+    if err117 != nil {
       Usage()
       return
     }
@@ -512,8 +527,8 @@ func main() {
       fmt.Fprintln(os.Stderr, "DeployContract requires 4 args")
       flag.Usage()
     }
-    tmp0, err113 := (strconv.Atoi(flag.Arg(1)))
-    if err113 != nil {
+    tmp0, err118 := (strconv.Atoi(flag.Arg(1)))
+    if err118 != nil {
       Usage()
       return
     }
@@ -533,8 +548,8 @@ func main() {
       fmt.Fprintln(os.Stderr, "GetTableRows requires 12 args")
       flag.Usage()
     }
-    tmp0, err117 := (strconv.Atoi(flag.Arg(1)))
-    if err117 != nil {
+    tmp0, err122 := (strconv.Atoi(flag.Arg(1)))
+    if err122 != nil {
       Usage()
       return
     }
@@ -552,8 +567,8 @@ func main() {
     value5 := argvalue5
     argvalue6 := flag.Arg(7)
     value6 := argvalue6
-    argvalue7, err124 := (strconv.ParseInt(flag.Arg(8), 10, 64))
-    if err124 != nil {
+    argvalue7, err129 := (strconv.ParseInt(flag.Arg(8), 10, 64))
+    if err129 != nil {
       Usage()
       return
     }

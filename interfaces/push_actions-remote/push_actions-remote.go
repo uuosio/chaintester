@@ -150,19 +150,19 @@ func main() {
       fmt.Fprintln(os.Stderr, "PushActions requires 1 args")
       flag.Usage()
     }
-    arg135 := flag.Arg(1)
-    mbTrans136 := thrift.NewTMemoryBufferLen(len(arg135))
-    defer mbTrans136.Close()
-    _, err137 := mbTrans136.WriteString(arg135)
-    if err137 != nil { 
+    arg140 := flag.Arg(1)
+    mbTrans141 := thrift.NewTMemoryBufferLen(len(arg140))
+    defer mbTrans141.Close()
+    _, err142 := mbTrans141.WriteString(arg140)
+    if err142 != nil { 
       Usage()
       return
     }
-    factory138 := thrift.NewTJSONProtocolFactory()
-    jsProt139 := factory138.GetProtocol(mbTrans136)
+    factory143 := thrift.NewTJSONProtocolFactory()
+    jsProt144 := factory143.GetProtocol(mbTrans141)
     containerStruct0 := interfaces.NewPushActionsPushActionsArgs()
-    err140 := containerStruct0.ReadField1(context.Background(), jsProt139)
-    if err140 != nil {
+    err145 := containerStruct0.ReadField1(context.Background(), jsProt144)
+    if err145 != nil {
       Usage()
       return
     }
