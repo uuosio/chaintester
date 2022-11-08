@@ -37,7 +37,7 @@ jobs:
           python3 -m pip install ipyeos
       - name: Run eos-debugger
         run: |
-          PYTHON_SHARED_LIB_PATH=${{ env.pythonLocation }}/lib/libpython3.9.so eos-debugger &
+          PYTHON_SHARED_LIB_PATH=${{ env.pythonLocation }}/lib/libpython3.9.so eosdebugger &
       - name: test
         run: |
           pushd test
