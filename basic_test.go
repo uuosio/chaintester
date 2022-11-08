@@ -34,7 +34,7 @@ func TestChainTester(t *testing.T) {
 	ret, _ := tester.GetAccount("helloworld33")
 	t.Logf("+++++++++account info: %v", ret.ToString())
 
-	tester.EnableDebugContract("hello", false)
+	tester.SetNativeApply("hello", nil)
 	err = tester.DeployContract("hello", "test/test.wasm", "test/test.abi")
 	if err != nil {
 		panic(err)
@@ -93,7 +93,7 @@ func TestChainTester(t *testing.T) {
 	tester.ProduceBlock()
 	t.Logf("+++++++balance of hello: %d", tester.GetBalance("hello"))
 
-	tester.EnableDebugContract("hello", true)
+	tester.SetNativeApply("hello", native_apply)
 	ret, err = tester.PushAction("hello", "test", "", permissions)
 	if err != nil {
 		panic(err)
@@ -112,16 +112,12 @@ func TestApplyCtx(t *testing.T) {
 		defer func() {
 			err := recover()
 			if err == nil {
-				panic(err)
+				panic(fmt.Errorf("err should not be nil"))
 			}
 			t.Logf("++++%v", err)
 		}()
 		GetVMAPI().Prints(ctx, "hello, world!\n")
 	}
-}
-
-func OnApply(receiver, firstReceiver, action uint64) {
-	native_apply(receiver, firstReceiver, action)
 }
 
 func native_apply(receiver uint64, firstReceiver uint64, action uint64) {
