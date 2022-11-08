@@ -109,7 +109,7 @@ func getUint64(value *interfaces.Uint64) uint64 {
 	return binary.LittleEndian.Uint64(value.RawValue)
 }
 
-var g_ChainTesterApplyMap = make(map[int32]func(uint64, uint64, uint64))
+var g_ChainTesterApplyMap = make(map[int32]map[string]func(uint64, uint64, uint64))
 
 func (p *ApplyRequestHandler) ApplyRequest(ctx context.Context, receiver *interfaces.Uint64, firstReceiver *interfaces.Uint64, action *interfaces.Uint64, chainTesterId int32) (_r int32, _err error) {
 	// fmt.Println("+++++++ApplyRequest called!")
@@ -133,8 +133,10 @@ func (p *ApplyRequestHandler) ApplyRequest(ctx context.Context, receiver *interf
 	_action := getUint64(action)
 
 	SetInApply(true)
-	if apply, ok := g_ChainTesterApplyMap[chainTesterId]; ok {
-		apply(_receiver, _firstReceiver, _action)
+	if applyMap, ok := g_ChainTesterApplyMap[chainTesterId]; ok {
+		if apply, ok := applyMap[N2S(_receiver)]; ok {
+			apply(_receiver, _firstReceiver, _action)
+		}
 	}
 	GetVMAPI().EndApply(ctx)
 	SetInApply(false)

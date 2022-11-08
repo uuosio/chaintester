@@ -216,8 +216,11 @@ func NewChainTester() *ChainTester {
 	return tester
 }
 
-func (p *ChainTester) SetNativeApply(apply func(uint64, uint64, uint64)) {
-	g_ChainTesterApplyMap[p.id] = apply
+func (p *ChainTester) SetNativeApply(contract string, apply func(uint64, uint64, uint64)) {
+	if _, ok := g_ChainTesterApplyMap[p.id]; !ok {
+		g_ChainTesterApplyMap[p.id] = make(map[string]func(uint64, uint64, uint64))
+	}
+	g_ChainTesterApplyMap[p.id][contract] = apply
 }
 
 func (p *ChainTester) Call(ctx context.Context, method string, args, result thrift.TStruct) (thrift.ResponseMeta, error) {
