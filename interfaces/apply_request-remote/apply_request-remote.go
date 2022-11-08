@@ -22,8 +22,8 @@ func Usage() {
   fmt.Fprintln(os.Stderr, "Usage of ", os.Args[0], " [-h host:port] [-u url] [-f[ramed]] function [arg1 [arg2...]]:")
   flag.PrintDefaults()
   fmt.Fprintln(os.Stderr, "\nFunctions:")
-  fmt.Fprintln(os.Stderr, "  i32 apply_request(Uint64 receiver, Uint64 firstReceiver, Uint64 action)")
-  fmt.Fprintln(os.Stderr, "  i32 apply_end()")
+  fmt.Fprintln(os.Stderr, "  i32 apply_request(Uint64 receiver, Uint64 firstReceiver, Uint64 action, i32 chainTesterId)")
+  fmt.Fprintln(os.Stderr, "  i32 apply_end(i32 chainTesterId)")
   fmt.Fprintln(os.Stderr)
   os.Exit(0)
 }
@@ -147,70 +147,84 @@ func main() {
   
   switch cmd {
   case "apply_request":
-    if flag.NArg() - 1 != 3 {
-      fmt.Fprintln(os.Stderr, "ApplyRequest requires 3 args")
+    if flag.NArg() - 1 != 4 {
+      fmt.Fprintln(os.Stderr, "ApplyRequest requires 4 args")
       flag.Usage()
     }
-    arg154 := flag.Arg(1)
-    mbTrans155 := thrift.NewTMemoryBufferLen(len(arg154))
-    defer mbTrans155.Close()
-    _, err156 := mbTrans155.WriteString(arg154)
-    if err156 != nil {
+    arg164 := flag.Arg(1)
+    mbTrans165 := thrift.NewTMemoryBufferLen(len(arg164))
+    defer mbTrans165.Close()
+    _, err166 := mbTrans165.WriteString(arg164)
+    if err166 != nil {
       Usage()
       return
     }
-    factory157 := thrift.NewTJSONProtocolFactory()
-    jsProt158 := factory157.GetProtocol(mbTrans155)
+    factory167 := thrift.NewTJSONProtocolFactory()
+    jsProt168 := factory167.GetProtocol(mbTrans165)
     argvalue0 := interfaces.NewUint64()
-    err159 := argvalue0.Read(context.Background(), jsProt158)
-    if err159 != nil {
+    err169 := argvalue0.Read(context.Background(), jsProt168)
+    if err169 != nil {
       Usage()
       return
     }
     value0 := argvalue0
-    arg160 := flag.Arg(2)
-    mbTrans161 := thrift.NewTMemoryBufferLen(len(arg160))
-    defer mbTrans161.Close()
-    _, err162 := mbTrans161.WriteString(arg160)
-    if err162 != nil {
+    arg170 := flag.Arg(2)
+    mbTrans171 := thrift.NewTMemoryBufferLen(len(arg170))
+    defer mbTrans171.Close()
+    _, err172 := mbTrans171.WriteString(arg170)
+    if err172 != nil {
       Usage()
       return
     }
-    factory163 := thrift.NewTJSONProtocolFactory()
-    jsProt164 := factory163.GetProtocol(mbTrans161)
+    factory173 := thrift.NewTJSONProtocolFactory()
+    jsProt174 := factory173.GetProtocol(mbTrans171)
     argvalue1 := interfaces.NewUint64()
-    err165 := argvalue1.Read(context.Background(), jsProt164)
-    if err165 != nil {
+    err175 := argvalue1.Read(context.Background(), jsProt174)
+    if err175 != nil {
       Usage()
       return
     }
     value1 := argvalue1
-    arg166 := flag.Arg(3)
-    mbTrans167 := thrift.NewTMemoryBufferLen(len(arg166))
-    defer mbTrans167.Close()
-    _, err168 := mbTrans167.WriteString(arg166)
-    if err168 != nil {
+    arg176 := flag.Arg(3)
+    mbTrans177 := thrift.NewTMemoryBufferLen(len(arg176))
+    defer mbTrans177.Close()
+    _, err178 := mbTrans177.WriteString(arg176)
+    if err178 != nil {
       Usage()
       return
     }
-    factory169 := thrift.NewTJSONProtocolFactory()
-    jsProt170 := factory169.GetProtocol(mbTrans167)
+    factory179 := thrift.NewTJSONProtocolFactory()
+    jsProt180 := factory179.GetProtocol(mbTrans177)
     argvalue2 := interfaces.NewUint64()
-    err171 := argvalue2.Read(context.Background(), jsProt170)
-    if err171 != nil {
+    err181 := argvalue2.Read(context.Background(), jsProt180)
+    if err181 != nil {
       Usage()
       return
     }
     value2 := argvalue2
-    fmt.Print(client.ApplyRequest(context.Background(), value0, value1, value2))
+    tmp3, err182 := (strconv.Atoi(flag.Arg(4)))
+    if err182 != nil {
+      Usage()
+      return
+    }
+    argvalue3 := int32(tmp3)
+    value3 := argvalue3
+    fmt.Print(client.ApplyRequest(context.Background(), value0, value1, value2, value3))
     fmt.Print("\n")
     break
   case "apply_end":
-    if flag.NArg() - 1 != 0 {
-      fmt.Fprintln(os.Stderr, "ApplyEnd requires 0 args")
+    if flag.NArg() - 1 != 1 {
+      fmt.Fprintln(os.Stderr, "ApplyEnd requires 1 args")
       flag.Usage()
     }
-    fmt.Print(client.ApplyEnd(context.Background()))
+    tmp0, err183 := (strconv.Atoi(flag.Arg(1)))
+    if err183 != nil {
+      Usage()
+      return
+    }
+    argvalue0 := int32(tmp0)
+    value0 := argvalue0
+    fmt.Print(client.ApplyEnd(context.Background(), value0))
     fmt.Print("\n")
     break
   case "":

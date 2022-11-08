@@ -216,6 +216,10 @@ func NewChainTester() *ChainTester {
 	return tester
 }
 
+func (p *ChainTester) SetNativeApply(apply func(uint64, uint64, uint64)) {
+	g_ChainTesterApplyMap[p.id] = apply
+}
+
 func (p *ChainTester) Call(ctx context.Context, method string, args, result thrift.TStruct) (thrift.ResponseMeta, error) {
 	p.client.seqId++
 	seqId := p.client.seqId
@@ -558,6 +562,7 @@ func (p *ChainTester) PackAbi(abi string) ([]byte, error) {
 }
 
 func (p *ChainTester) FreeChain() (int32, error) {
+	delete(g_ChainTesterApplyMap, p.id)
 	return p.IPCChainTesterClient.FreeChain(defaultCtx, p.id)
 }
 

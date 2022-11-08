@@ -298,19 +298,19 @@ func main() {
       fmt.Fprintln(os.Stderr, "GetResourceLimits requires 1 args")
       flag.Usage()
     }
-    arg610 := flag.Arg(1)
-    mbTrans611 := thrift.NewTMemoryBufferLen(len(arg610))
-    defer mbTrans611.Close()
-    _, err612 := mbTrans611.WriteString(arg610)
-    if err612 != nil {
+    arg622 := flag.Arg(1)
+    mbTrans623 := thrift.NewTMemoryBufferLen(len(arg622))
+    defer mbTrans623.Close()
+    _, err624 := mbTrans623.WriteString(arg622)
+    if err624 != nil {
       Usage()
       return
     }
-    factory613 := thrift.NewTJSONProtocolFactory()
-    jsProt614 := factory613.GetProtocol(mbTrans611)
+    factory625 := thrift.NewTJSONProtocolFactory()
+    jsProt626 := factory625.GetProtocol(mbTrans623)
     argvalue0 := interfaces.NewUint64()
-    err615 := argvalue0.Read(context.Background(), jsProt614)
-    if err615 != nil {
+    err627 := argvalue0.Read(context.Background(), jsProt626)
+    if err627 != nil {
       Usage()
       return
     }
@@ -323,37 +323,37 @@ func main() {
       fmt.Fprintln(os.Stderr, "SetResourceLimits requires 4 args")
       flag.Usage()
     }
-    arg616 := flag.Arg(1)
-    mbTrans617 := thrift.NewTMemoryBufferLen(len(arg616))
-    defer mbTrans617.Close()
-    _, err618 := mbTrans617.WriteString(arg616)
-    if err618 != nil {
+    arg628 := flag.Arg(1)
+    mbTrans629 := thrift.NewTMemoryBufferLen(len(arg628))
+    defer mbTrans629.Close()
+    _, err630 := mbTrans629.WriteString(arg628)
+    if err630 != nil {
       Usage()
       return
     }
-    factory619 := thrift.NewTJSONProtocolFactory()
-    jsProt620 := factory619.GetProtocol(mbTrans617)
+    factory631 := thrift.NewTJSONProtocolFactory()
+    jsProt632 := factory631.GetProtocol(mbTrans629)
     argvalue0 := interfaces.NewUint64()
-    err621 := argvalue0.Read(context.Background(), jsProt620)
-    if err621 != nil {
+    err633 := argvalue0.Read(context.Background(), jsProt632)
+    if err633 != nil {
       Usage()
       return
     }
     value0 := argvalue0
-    argvalue1, err622 := (strconv.ParseInt(flag.Arg(2), 10, 64))
-    if err622 != nil {
+    argvalue1, err634 := (strconv.ParseInt(flag.Arg(2), 10, 64))
+    if err634 != nil {
       Usage()
       return
     }
     value1 := argvalue1
-    argvalue2, err623 := (strconv.ParseInt(flag.Arg(3), 10, 64))
-    if err623 != nil {
+    argvalue2, err635 := (strconv.ParseInt(flag.Arg(3), 10, 64))
+    if err635 != nil {
       Usage()
       return
     }
     value2 := argvalue2
-    argvalue3, err624 := (strconv.ParseInt(flag.Arg(4), 10, 64))
-    if err624 != nil {
+    argvalue3, err636 := (strconv.ParseInt(flag.Arg(4), 10, 64))
+    if err636 != nil {
       Usage()
       return
     }
@@ -376,19 +376,19 @@ func main() {
       fmt.Fprintln(os.Stderr, "SetProposedProducersEx requires 2 args")
       flag.Usage()
     }
-    arg626 := flag.Arg(1)
-    mbTrans627 := thrift.NewTMemoryBufferLen(len(arg626))
-    defer mbTrans627.Close()
-    _, err628 := mbTrans627.WriteString(arg626)
-    if err628 != nil {
+    arg638 := flag.Arg(1)
+    mbTrans639 := thrift.NewTMemoryBufferLen(len(arg638))
+    defer mbTrans639.Close()
+    _, err640 := mbTrans639.WriteString(arg638)
+    if err640 != nil {
       Usage()
       return
     }
-    factory629 := thrift.NewTJSONProtocolFactory()
-    jsProt630 := factory629.GetProtocol(mbTrans627)
+    factory641 := thrift.NewTJSONProtocolFactory()
+    jsProt642 := factory641.GetProtocol(mbTrans639)
     argvalue0 := interfaces.NewUint64()
-    err631 := argvalue0.Read(context.Background(), jsProt630)
-    if err631 != nil {
+    err643 := argvalue0.Read(context.Background(), jsProt642)
+    if err643 != nil {
       Usage()
       return
     }
@@ -403,19 +403,19 @@ func main() {
       fmt.Fprintln(os.Stderr, "IsPrivileged requires 1 args")
       flag.Usage()
     }
-    arg633 := flag.Arg(1)
-    mbTrans634 := thrift.NewTMemoryBufferLen(len(arg633))
-    defer mbTrans634.Close()
-    _, err635 := mbTrans634.WriteString(arg633)
-    if err635 != nil {
+    arg645 := flag.Arg(1)
+    mbTrans646 := thrift.NewTMemoryBufferLen(len(arg645))
+    defer mbTrans646.Close()
+    _, err647 := mbTrans646.WriteString(arg645)
+    if err647 != nil {
       Usage()
       return
     }
-    factory636 := thrift.NewTJSONProtocolFactory()
-    jsProt637 := factory636.GetProtocol(mbTrans634)
+    factory648 := thrift.NewTJSONProtocolFactory()
+    jsProt649 := factory648.GetProtocol(mbTrans646)
     argvalue0 := interfaces.NewUint64()
-    err638 := argvalue0.Read(context.Background(), jsProt637)
-    if err638 != nil {
+    err650 := argvalue0.Read(context.Background(), jsProt649)
+    if err650 != nil {
       Usage()
       return
     }
@@ -428,19 +428,19 @@ func main() {
       fmt.Fprintln(os.Stderr, "SetPrivileged requires 2 args")
       flag.Usage()
     }
-    arg639 := flag.Arg(1)
-    mbTrans640 := thrift.NewTMemoryBufferLen(len(arg639))
-    defer mbTrans640.Close()
-    _, err641 := mbTrans640.WriteString(arg639)
-    if err641 != nil {
+    arg651 := flag.Arg(1)
+    mbTrans652 := thrift.NewTMemoryBufferLen(len(arg651))
+    defer mbTrans652.Close()
+    _, err653 := mbTrans652.WriteString(arg651)
+    if err653 != nil {
       Usage()
       return
     }
-    factory642 := thrift.NewTJSONProtocolFactory()
-    jsProt643 := factory642.GetProtocol(mbTrans640)
+    factory654 := thrift.NewTJSONProtocolFactory()
+    jsProt655 := factory654.GetProtocol(mbTrans652)
     argvalue0 := interfaces.NewUint64()
-    err644 := argvalue0.Read(context.Background(), jsProt643)
-    if err644 != nil {
+    err656 := argvalue0.Read(context.Background(), jsProt655)
+    if err656 != nil {
       Usage()
       return
     }
@@ -497,36 +497,36 @@ func main() {
       fmt.Fprintln(os.Stderr, "CheckPermissionAuthorization requires 5 args")
       flag.Usage()
     }
-    arg651 := flag.Arg(1)
-    mbTrans652 := thrift.NewTMemoryBufferLen(len(arg651))
-    defer mbTrans652.Close()
-    _, err653 := mbTrans652.WriteString(arg651)
-    if err653 != nil {
+    arg663 := flag.Arg(1)
+    mbTrans664 := thrift.NewTMemoryBufferLen(len(arg663))
+    defer mbTrans664.Close()
+    _, err665 := mbTrans664.WriteString(arg663)
+    if err665 != nil {
       Usage()
       return
     }
-    factory654 := thrift.NewTJSONProtocolFactory()
-    jsProt655 := factory654.GetProtocol(mbTrans652)
+    factory666 := thrift.NewTJSONProtocolFactory()
+    jsProt667 := factory666.GetProtocol(mbTrans664)
     argvalue0 := interfaces.NewUint64()
-    err656 := argvalue0.Read(context.Background(), jsProt655)
-    if err656 != nil {
+    err668 := argvalue0.Read(context.Background(), jsProt667)
+    if err668 != nil {
       Usage()
       return
     }
     value0 := argvalue0
-    arg657 := flag.Arg(2)
-    mbTrans658 := thrift.NewTMemoryBufferLen(len(arg657))
-    defer mbTrans658.Close()
-    _, err659 := mbTrans658.WriteString(arg657)
-    if err659 != nil {
+    arg669 := flag.Arg(2)
+    mbTrans670 := thrift.NewTMemoryBufferLen(len(arg669))
+    defer mbTrans670.Close()
+    _, err671 := mbTrans670.WriteString(arg669)
+    if err671 != nil {
       Usage()
       return
     }
-    factory660 := thrift.NewTJSONProtocolFactory()
-    jsProt661 := factory660.GetProtocol(mbTrans658)
+    factory672 := thrift.NewTJSONProtocolFactory()
+    jsProt673 := factory672.GetProtocol(mbTrans670)
     argvalue1 := interfaces.NewUint64()
-    err662 := argvalue1.Read(context.Background(), jsProt661)
-    if err662 != nil {
+    err674 := argvalue1.Read(context.Background(), jsProt673)
+    if err674 != nil {
       Usage()
       return
     }
@@ -535,19 +535,19 @@ func main() {
     value2 := argvalue2
     argvalue3 := []byte(flag.Arg(4))
     value3 := argvalue3
-    arg665 := flag.Arg(5)
-    mbTrans666 := thrift.NewTMemoryBufferLen(len(arg665))
-    defer mbTrans666.Close()
-    _, err667 := mbTrans666.WriteString(arg665)
-    if err667 != nil {
+    arg677 := flag.Arg(5)
+    mbTrans678 := thrift.NewTMemoryBufferLen(len(arg677))
+    defer mbTrans678.Close()
+    _, err679 := mbTrans678.WriteString(arg677)
+    if err679 != nil {
       Usage()
       return
     }
-    factory668 := thrift.NewTJSONProtocolFactory()
-    jsProt669 := factory668.GetProtocol(mbTrans666)
+    factory680 := thrift.NewTJSONProtocolFactory()
+    jsProt681 := factory680.GetProtocol(mbTrans678)
     argvalue4 := interfaces.NewUint64()
-    err670 := argvalue4.Read(context.Background(), jsProt669)
-    if err670 != nil {
+    err682 := argvalue4.Read(context.Background(), jsProt681)
+    if err682 != nil {
       Usage()
       return
     }
@@ -558,48 +558,6 @@ func main() {
   case "get_permission_last_used":
     if flag.NArg() - 1 != 2 {
       fmt.Fprintln(os.Stderr, "GetPermissionLastUsed requires 2 args")
-      flag.Usage()
-    }
-    arg671 := flag.Arg(1)
-    mbTrans672 := thrift.NewTMemoryBufferLen(len(arg671))
-    defer mbTrans672.Close()
-    _, err673 := mbTrans672.WriteString(arg671)
-    if err673 != nil {
-      Usage()
-      return
-    }
-    factory674 := thrift.NewTJSONProtocolFactory()
-    jsProt675 := factory674.GetProtocol(mbTrans672)
-    argvalue0 := interfaces.NewUint64()
-    err676 := argvalue0.Read(context.Background(), jsProt675)
-    if err676 != nil {
-      Usage()
-      return
-    }
-    value0 := argvalue0
-    arg677 := flag.Arg(2)
-    mbTrans678 := thrift.NewTMemoryBufferLen(len(arg677))
-    defer mbTrans678.Close()
-    _, err679 := mbTrans678.WriteString(arg677)
-    if err679 != nil {
-      Usage()
-      return
-    }
-    factory680 := thrift.NewTJSONProtocolFactory()
-    jsProt681 := factory680.GetProtocol(mbTrans678)
-    argvalue1 := interfaces.NewUint64()
-    err682 := argvalue1.Read(context.Background(), jsProt681)
-    if err682 != nil {
-      Usage()
-      return
-    }
-    value1 := argvalue1
-    fmt.Print(client.GetPermissionLastUsed(context.Background(), value0, value1))
-    fmt.Print("\n")
-    break
-  case "get_account_creation_time":
-    if flag.NArg() - 1 != 1 {
-      fmt.Fprintln(os.Stderr, "GetAccountCreationTime requires 1 args")
       flag.Usage()
     }
     arg683 := flag.Arg(1)
@@ -615,6 +573,48 @@ func main() {
     argvalue0 := interfaces.NewUint64()
     err688 := argvalue0.Read(context.Background(), jsProt687)
     if err688 != nil {
+      Usage()
+      return
+    }
+    value0 := argvalue0
+    arg689 := flag.Arg(2)
+    mbTrans690 := thrift.NewTMemoryBufferLen(len(arg689))
+    defer mbTrans690.Close()
+    _, err691 := mbTrans690.WriteString(arg689)
+    if err691 != nil {
+      Usage()
+      return
+    }
+    factory692 := thrift.NewTJSONProtocolFactory()
+    jsProt693 := factory692.GetProtocol(mbTrans690)
+    argvalue1 := interfaces.NewUint64()
+    err694 := argvalue1.Read(context.Background(), jsProt693)
+    if err694 != nil {
+      Usage()
+      return
+    }
+    value1 := argvalue1
+    fmt.Print(client.GetPermissionLastUsed(context.Background(), value0, value1))
+    fmt.Print("\n")
+    break
+  case "get_account_creation_time":
+    if flag.NArg() - 1 != 1 {
+      fmt.Fprintln(os.Stderr, "GetAccountCreationTime requires 1 args")
+      flag.Usage()
+    }
+    arg695 := flag.Arg(1)
+    mbTrans696 := thrift.NewTMemoryBufferLen(len(arg695))
+    defer mbTrans696.Close()
+    _, err697 := mbTrans696.WriteString(arg695)
+    if err697 != nil {
+      Usage()
+      return
+    }
+    factory698 := thrift.NewTJSONProtocolFactory()
+    jsProt699 := factory698.GetProtocol(mbTrans696)
+    argvalue0 := interfaces.NewUint64()
+    err700 := argvalue0.Read(context.Background(), jsProt699)
+    if err700 != nil {
       Usage()
       return
     }
@@ -647,8 +647,8 @@ func main() {
       fmt.Fprintln(os.Stderr, "Printi requires 1 args")
       flag.Usage()
     }
-    argvalue0, err691 := (strconv.ParseInt(flag.Arg(1), 10, 64))
-    if err691 != nil {
+    argvalue0, err703 := (strconv.ParseInt(flag.Arg(1), 10, 64))
+    if err703 != nil {
       Usage()
       return
     }
@@ -661,19 +661,19 @@ func main() {
       fmt.Fprintln(os.Stderr, "Printui requires 1 args")
       flag.Usage()
     }
-    arg692 := flag.Arg(1)
-    mbTrans693 := thrift.NewTMemoryBufferLen(len(arg692))
-    defer mbTrans693.Close()
-    _, err694 := mbTrans693.WriteString(arg692)
-    if err694 != nil {
+    arg704 := flag.Arg(1)
+    mbTrans705 := thrift.NewTMemoryBufferLen(len(arg704))
+    defer mbTrans705.Close()
+    _, err706 := mbTrans705.WriteString(arg704)
+    if err706 != nil {
       Usage()
       return
     }
-    factory695 := thrift.NewTJSONProtocolFactory()
-    jsProt696 := factory695.GetProtocol(mbTrans693)
+    factory707 := thrift.NewTJSONProtocolFactory()
+    jsProt708 := factory707.GetProtocol(mbTrans705)
     argvalue0 := interfaces.NewUint64()
-    err697 := argvalue0.Read(context.Background(), jsProt696)
-    if err697 != nil {
+    err709 := argvalue0.Read(context.Background(), jsProt708)
+    if err709 != nil {
       Usage()
       return
     }
@@ -736,19 +736,19 @@ func main() {
       fmt.Fprintln(os.Stderr, "Printn requires 1 args")
       flag.Usage()
     }
-    arg703 := flag.Arg(1)
-    mbTrans704 := thrift.NewTMemoryBufferLen(len(arg703))
-    defer mbTrans704.Close()
-    _, err705 := mbTrans704.WriteString(arg703)
-    if err705 != nil {
+    arg715 := flag.Arg(1)
+    mbTrans716 := thrift.NewTMemoryBufferLen(len(arg715))
+    defer mbTrans716.Close()
+    _, err717 := mbTrans716.WriteString(arg715)
+    if err717 != nil {
       Usage()
       return
     }
-    factory706 := thrift.NewTJSONProtocolFactory()
-    jsProt707 := factory706.GetProtocol(mbTrans704)
+    factory718 := thrift.NewTJSONProtocolFactory()
+    jsProt719 := factory718.GetProtocol(mbTrans716)
     argvalue0 := interfaces.NewUint64()
-    err708 := argvalue0.Read(context.Background(), jsProt707)
-    if err708 != nil {
+    err720 := argvalue0.Read(context.Background(), jsProt719)
+    if err720 != nil {
       Usage()
       return
     }
@@ -787,56 +787,6 @@ func main() {
       fmt.Fprintln(os.Stderr, "RequireRecipient requires 1 args")
       flag.Usage()
     }
-    arg710 := flag.Arg(1)
-    mbTrans711 := thrift.NewTMemoryBufferLen(len(arg710))
-    defer mbTrans711.Close()
-    _, err712 := mbTrans711.WriteString(arg710)
-    if err712 != nil {
-      Usage()
-      return
-    }
-    factory713 := thrift.NewTJSONProtocolFactory()
-    jsProt714 := factory713.GetProtocol(mbTrans711)
-    argvalue0 := interfaces.NewUint64()
-    err715 := argvalue0.Read(context.Background(), jsProt714)
-    if err715 != nil {
-      Usage()
-      return
-    }
-    value0 := argvalue0
-    fmt.Print(client.RequireRecipient(context.Background(), value0))
-    fmt.Print("\n")
-    break
-  case "require_auth":
-    if flag.NArg() - 1 != 1 {
-      fmt.Fprintln(os.Stderr, "RequireAuth requires 1 args")
-      flag.Usage()
-    }
-    arg716 := flag.Arg(1)
-    mbTrans717 := thrift.NewTMemoryBufferLen(len(arg716))
-    defer mbTrans717.Close()
-    _, err718 := mbTrans717.WriteString(arg716)
-    if err718 != nil {
-      Usage()
-      return
-    }
-    factory719 := thrift.NewTJSONProtocolFactory()
-    jsProt720 := factory719.GetProtocol(mbTrans717)
-    argvalue0 := interfaces.NewUint64()
-    err721 := argvalue0.Read(context.Background(), jsProt720)
-    if err721 != nil {
-      Usage()
-      return
-    }
-    value0 := argvalue0
-    fmt.Print(client.RequireAuth(context.Background(), value0))
-    fmt.Print("\n")
-    break
-  case "has_auth":
-    if flag.NArg() - 1 != 1 {
-      fmt.Fprintln(os.Stderr, "HasAuth requires 1 args")
-      flag.Usage()
-    }
     arg722 := flag.Arg(1)
     mbTrans723 := thrift.NewTMemoryBufferLen(len(arg722))
     defer mbTrans723.Close()
@@ -854,12 +804,12 @@ func main() {
       return
     }
     value0 := argvalue0
-    fmt.Print(client.HasAuth(context.Background(), value0))
+    fmt.Print(client.RequireRecipient(context.Background(), value0))
     fmt.Print("\n")
     break
-  case "require_auth2":
-    if flag.NArg() - 1 != 2 {
-      fmt.Fprintln(os.Stderr, "RequireAuth2 requires 2 args")
+  case "require_auth":
+    if flag.NArg() - 1 != 1 {
+      fmt.Fprintln(os.Stderr, "RequireAuth requires 1 args")
       flag.Usage()
     }
     arg728 := flag.Arg(1)
@@ -879,7 +829,15 @@ func main() {
       return
     }
     value0 := argvalue0
-    arg734 := flag.Arg(2)
+    fmt.Print(client.RequireAuth(context.Background(), value0))
+    fmt.Print("\n")
+    break
+  case "has_auth":
+    if flag.NArg() - 1 != 1 {
+      fmt.Fprintln(os.Stderr, "HasAuth requires 1 args")
+      flag.Usage()
+    }
+    arg734 := flag.Arg(1)
     mbTrans735 := thrift.NewTMemoryBufferLen(len(arg734))
     defer mbTrans735.Close()
     _, err736 := mbTrans735.WriteString(arg734)
@@ -889,19 +847,19 @@ func main() {
     }
     factory737 := thrift.NewTJSONProtocolFactory()
     jsProt738 := factory737.GetProtocol(mbTrans735)
-    argvalue1 := interfaces.NewUint64()
-    err739 := argvalue1.Read(context.Background(), jsProt738)
+    argvalue0 := interfaces.NewUint64()
+    err739 := argvalue0.Read(context.Background(), jsProt738)
     if err739 != nil {
       Usage()
       return
     }
-    value1 := argvalue1
-    fmt.Print(client.RequireAuth2(context.Background(), value0, value1))
+    value0 := argvalue0
+    fmt.Print(client.HasAuth(context.Background(), value0))
     fmt.Print("\n")
     break
-  case "is_account":
-    if flag.NArg() - 1 != 1 {
-      fmt.Fprintln(os.Stderr, "IsAccount requires 1 args")
+  case "require_auth2":
+    if flag.NArg() - 1 != 2 {
+      fmt.Fprintln(os.Stderr, "RequireAuth2 requires 2 args")
       flag.Usage()
     }
     arg740 := flag.Arg(1)
@@ -917,6 +875,48 @@ func main() {
     argvalue0 := interfaces.NewUint64()
     err745 := argvalue0.Read(context.Background(), jsProt744)
     if err745 != nil {
+      Usage()
+      return
+    }
+    value0 := argvalue0
+    arg746 := flag.Arg(2)
+    mbTrans747 := thrift.NewTMemoryBufferLen(len(arg746))
+    defer mbTrans747.Close()
+    _, err748 := mbTrans747.WriteString(arg746)
+    if err748 != nil {
+      Usage()
+      return
+    }
+    factory749 := thrift.NewTJSONProtocolFactory()
+    jsProt750 := factory749.GetProtocol(mbTrans747)
+    argvalue1 := interfaces.NewUint64()
+    err751 := argvalue1.Read(context.Background(), jsProt750)
+    if err751 != nil {
+      Usage()
+      return
+    }
+    value1 := argvalue1
+    fmt.Print(client.RequireAuth2(context.Background(), value0, value1))
+    fmt.Print("\n")
+    break
+  case "is_account":
+    if flag.NArg() - 1 != 1 {
+      fmt.Fprintln(os.Stderr, "IsAccount requires 1 args")
+      flag.Usage()
+    }
+    arg752 := flag.Arg(1)
+    mbTrans753 := thrift.NewTMemoryBufferLen(len(arg752))
+    defer mbTrans753.Close()
+    _, err754 := mbTrans753.WriteString(arg752)
+    if err754 != nil {
+      Usage()
+      return
+    }
+    factory755 := thrift.NewTJSONProtocolFactory()
+    jsProt756 := factory755.GetProtocol(mbTrans753)
+    argvalue0 := interfaces.NewUint64()
+    err757 := argvalue0.Read(context.Background(), jsProt756)
+    if err757 != nil {
       Usage()
       return
     }
@@ -991,19 +991,19 @@ func main() {
     }
     argvalue0 := flag.Arg(1) == "true"
     value0 := argvalue0
-    arg753 := flag.Arg(2)
-    mbTrans754 := thrift.NewTMemoryBufferLen(len(arg753))
-    defer mbTrans754.Close()
-    _, err755 := mbTrans754.WriteString(arg753)
-    if err755 != nil {
+    arg765 := flag.Arg(2)
+    mbTrans766 := thrift.NewTMemoryBufferLen(len(arg765))
+    defer mbTrans766.Close()
+    _, err767 := mbTrans766.WriteString(arg765)
+    if err767 != nil {
       Usage()
       return
     }
-    factory756 := thrift.NewTJSONProtocolFactory()
-    jsProt757 := factory756.GetProtocol(mbTrans754)
+    factory768 := thrift.NewTJSONProtocolFactory()
+    jsProt769 := factory768.GetProtocol(mbTrans766)
     argvalue1 := interfaces.NewUint64()
-    err758 := argvalue1.Read(context.Background(), jsProt757)
-    if err758 != nil {
+    err770 := argvalue1.Read(context.Background(), jsProt769)
+    if err770 != nil {
       Usage()
       return
     }
@@ -1016,8 +1016,8 @@ func main() {
       fmt.Fprintln(os.Stderr, "EosioExit requires 1 args")
       flag.Usage()
     }
-    tmp0, err759 := (strconv.Atoi(flag.Arg(1)))
-    if err759 != nil {
+    tmp0, err771 := (strconv.Atoi(flag.Arg(1)))
+    if err771 != nil {
       Usage()
       return
     }
@@ -1173,27 +1173,27 @@ func main() {
     }
     argvalue0 := []byte(flag.Arg(1))
     value0 := argvalue0
-    arg779 := flag.Arg(2)
-    mbTrans780 := thrift.NewTMemoryBufferLen(len(arg779))
-    defer mbTrans780.Close()
-    _, err781 := mbTrans780.WriteString(arg779)
-    if err781 != nil {
+    arg791 := flag.Arg(2)
+    mbTrans792 := thrift.NewTMemoryBufferLen(len(arg791))
+    defer mbTrans792.Close()
+    _, err793 := mbTrans792.WriteString(arg791)
+    if err793 != nil {
       Usage()
       return
     }
-    factory782 := thrift.NewTJSONProtocolFactory()
-    jsProt783 := factory782.GetProtocol(mbTrans780)
+    factory794 := thrift.NewTJSONProtocolFactory()
+    jsProt795 := factory794.GetProtocol(mbTrans792)
     argvalue1 := interfaces.NewUint64()
-    err784 := argvalue1.Read(context.Background(), jsProt783)
-    if err784 != nil {
+    err796 := argvalue1.Read(context.Background(), jsProt795)
+    if err796 != nil {
       Usage()
       return
     }
     value1 := argvalue1
     argvalue2 := []byte(flag.Arg(3))
     value2 := argvalue2
-    tmp3, err786 := (strconv.Atoi(flag.Arg(4)))
-    if err786 != nil {
+    tmp3, err798 := (strconv.Atoi(flag.Arg(4)))
+    if err798 != nil {
       Usage()
       return
     }
@@ -1257,15 +1257,15 @@ func main() {
       fmt.Fprintln(os.Stderr, "GetAction requires 2 args")
       flag.Usage()
     }
-    tmp0, err788 := (strconv.Atoi(flag.Arg(1)))
-    if err788 != nil {
+    tmp0, err800 := (strconv.Atoi(flag.Arg(1)))
+    if err800 != nil {
       Usage()
       return
     }
     argvalue0 := int32(tmp0)
     value0 := argvalue0
-    tmp1, err789 := (strconv.Atoi(flag.Arg(2)))
-    if err789 != nil {
+    tmp1, err801 := (strconv.Atoi(flag.Arg(2)))
+    if err801 != nil {
       Usage()
       return
     }
@@ -1279,8 +1279,8 @@ func main() {
       fmt.Fprintln(os.Stderr, "GetContextFreeData requires 1 args")
       flag.Usage()
     }
-    tmp0, err790 := (strconv.Atoi(flag.Arg(1)))
-    if err790 != nil {
+    tmp0, err802 := (strconv.Atoi(flag.Arg(1)))
+    if err802 != nil {
       Usage()
       return
     }
@@ -1294,41 +1294,7 @@ func main() {
       fmt.Fprintln(os.Stderr, "DbStoreI64 requires 5 args")
       flag.Usage()
     }
-    arg791 := flag.Arg(1)
-    mbTrans792 := thrift.NewTMemoryBufferLen(len(arg791))
-    defer mbTrans792.Close()
-    _, err793 := mbTrans792.WriteString(arg791)
-    if err793 != nil {
-      Usage()
-      return
-    }
-    factory794 := thrift.NewTJSONProtocolFactory()
-    jsProt795 := factory794.GetProtocol(mbTrans792)
-    argvalue0 := interfaces.NewUint64()
-    err796 := argvalue0.Read(context.Background(), jsProt795)
-    if err796 != nil {
-      Usage()
-      return
-    }
-    value0 := argvalue0
-    arg797 := flag.Arg(2)
-    mbTrans798 := thrift.NewTMemoryBufferLen(len(arg797))
-    defer mbTrans798.Close()
-    _, err799 := mbTrans798.WriteString(arg797)
-    if err799 != nil {
-      Usage()
-      return
-    }
-    factory800 := thrift.NewTJSONProtocolFactory()
-    jsProt801 := factory800.GetProtocol(mbTrans798)
-    argvalue1 := interfaces.NewUint64()
-    err802 := argvalue1.Read(context.Background(), jsProt801)
-    if err802 != nil {
-      Usage()
-      return
-    }
-    value1 := argvalue1
-    arg803 := flag.Arg(3)
+    arg803 := flag.Arg(1)
     mbTrans804 := thrift.NewTMemoryBufferLen(len(arg803))
     defer mbTrans804.Close()
     _, err805 := mbTrans804.WriteString(arg803)
@@ -1338,14 +1304,14 @@ func main() {
     }
     factory806 := thrift.NewTJSONProtocolFactory()
     jsProt807 := factory806.GetProtocol(mbTrans804)
-    argvalue2 := interfaces.NewUint64()
-    err808 := argvalue2.Read(context.Background(), jsProt807)
+    argvalue0 := interfaces.NewUint64()
+    err808 := argvalue0.Read(context.Background(), jsProt807)
     if err808 != nil {
       Usage()
       return
     }
-    value2 := argvalue2
-    arg809 := flag.Arg(4)
+    value0 := argvalue0
+    arg809 := flag.Arg(2)
     mbTrans810 := thrift.NewTMemoryBufferLen(len(arg809))
     defer mbTrans810.Close()
     _, err811 := mbTrans810.WriteString(arg809)
@@ -1355,9 +1321,43 @@ func main() {
     }
     factory812 := thrift.NewTJSONProtocolFactory()
     jsProt813 := factory812.GetProtocol(mbTrans810)
-    argvalue3 := interfaces.NewUint64()
-    err814 := argvalue3.Read(context.Background(), jsProt813)
+    argvalue1 := interfaces.NewUint64()
+    err814 := argvalue1.Read(context.Background(), jsProt813)
     if err814 != nil {
+      Usage()
+      return
+    }
+    value1 := argvalue1
+    arg815 := flag.Arg(3)
+    mbTrans816 := thrift.NewTMemoryBufferLen(len(arg815))
+    defer mbTrans816.Close()
+    _, err817 := mbTrans816.WriteString(arg815)
+    if err817 != nil {
+      Usage()
+      return
+    }
+    factory818 := thrift.NewTJSONProtocolFactory()
+    jsProt819 := factory818.GetProtocol(mbTrans816)
+    argvalue2 := interfaces.NewUint64()
+    err820 := argvalue2.Read(context.Background(), jsProt819)
+    if err820 != nil {
+      Usage()
+      return
+    }
+    value2 := argvalue2
+    arg821 := flag.Arg(4)
+    mbTrans822 := thrift.NewTMemoryBufferLen(len(arg821))
+    defer mbTrans822.Close()
+    _, err823 := mbTrans822.WriteString(arg821)
+    if err823 != nil {
+      Usage()
+      return
+    }
+    factory824 := thrift.NewTJSONProtocolFactory()
+    jsProt825 := factory824.GetProtocol(mbTrans822)
+    argvalue3 := interfaces.NewUint64()
+    err826 := argvalue3.Read(context.Background(), jsProt825)
+    if err826 != nil {
       Usage()
       return
     }
@@ -1372,26 +1372,26 @@ func main() {
       fmt.Fprintln(os.Stderr, "DbUpdateI64 requires 3 args")
       flag.Usage()
     }
-    tmp0, err816 := (strconv.Atoi(flag.Arg(1)))
-    if err816 != nil {
+    tmp0, err828 := (strconv.Atoi(flag.Arg(1)))
+    if err828 != nil {
       Usage()
       return
     }
     argvalue0 := int32(tmp0)
     value0 := argvalue0
-    arg817 := flag.Arg(2)
-    mbTrans818 := thrift.NewTMemoryBufferLen(len(arg817))
-    defer mbTrans818.Close()
-    _, err819 := mbTrans818.WriteString(arg817)
-    if err819 != nil {
+    arg829 := flag.Arg(2)
+    mbTrans830 := thrift.NewTMemoryBufferLen(len(arg829))
+    defer mbTrans830.Close()
+    _, err831 := mbTrans830.WriteString(arg829)
+    if err831 != nil {
       Usage()
       return
     }
-    factory820 := thrift.NewTJSONProtocolFactory()
-    jsProt821 := factory820.GetProtocol(mbTrans818)
+    factory832 := thrift.NewTJSONProtocolFactory()
+    jsProt833 := factory832.GetProtocol(mbTrans830)
     argvalue1 := interfaces.NewUint64()
-    err822 := argvalue1.Read(context.Background(), jsProt821)
-    if err822 != nil {
+    err834 := argvalue1.Read(context.Background(), jsProt833)
+    if err834 != nil {
       Usage()
       return
     }
@@ -1406,8 +1406,8 @@ func main() {
       fmt.Fprintln(os.Stderr, "DbRemoveI64 requires 1 args")
       flag.Usage()
     }
-    tmp0, err824 := (strconv.Atoi(flag.Arg(1)))
-    if err824 != nil {
+    tmp0, err836 := (strconv.Atoi(flag.Arg(1)))
+    if err836 != nil {
       Usage()
       return
     }
@@ -1421,8 +1421,8 @@ func main() {
       fmt.Fprintln(os.Stderr, "DbGetI64 requires 1 args")
       flag.Usage()
     }
-    tmp0, err825 := (strconv.Atoi(flag.Arg(1)))
-    if err825 != nil {
+    tmp0, err837 := (strconv.Atoi(flag.Arg(1)))
+    if err837 != nil {
       Usage()
       return
     }
@@ -1436,8 +1436,8 @@ func main() {
       fmt.Fprintln(os.Stderr, "DbNextI64 requires 1 args")
       flag.Usage()
     }
-    tmp0, err826 := (strconv.Atoi(flag.Arg(1)))
-    if err826 != nil {
+    tmp0, err838 := (strconv.Atoi(flag.Arg(1)))
+    if err838 != nil {
       Usage()
       return
     }
@@ -1451,8 +1451,8 @@ func main() {
       fmt.Fprintln(os.Stderr, "DbPreviousI64 requires 1 args")
       flag.Usage()
     }
-    tmp0, err827 := (strconv.Atoi(flag.Arg(1)))
-    if err827 != nil {
+    tmp0, err839 := (strconv.Atoi(flag.Arg(1)))
+    if err839 != nil {
       Usage()
       return
     }
@@ -1466,41 +1466,7 @@ func main() {
       fmt.Fprintln(os.Stderr, "DbFindI64 requires 4 args")
       flag.Usage()
     }
-    arg828 := flag.Arg(1)
-    mbTrans829 := thrift.NewTMemoryBufferLen(len(arg828))
-    defer mbTrans829.Close()
-    _, err830 := mbTrans829.WriteString(arg828)
-    if err830 != nil {
-      Usage()
-      return
-    }
-    factory831 := thrift.NewTJSONProtocolFactory()
-    jsProt832 := factory831.GetProtocol(mbTrans829)
-    argvalue0 := interfaces.NewUint64()
-    err833 := argvalue0.Read(context.Background(), jsProt832)
-    if err833 != nil {
-      Usage()
-      return
-    }
-    value0 := argvalue0
-    arg834 := flag.Arg(2)
-    mbTrans835 := thrift.NewTMemoryBufferLen(len(arg834))
-    defer mbTrans835.Close()
-    _, err836 := mbTrans835.WriteString(arg834)
-    if err836 != nil {
-      Usage()
-      return
-    }
-    factory837 := thrift.NewTJSONProtocolFactory()
-    jsProt838 := factory837.GetProtocol(mbTrans835)
-    argvalue1 := interfaces.NewUint64()
-    err839 := argvalue1.Read(context.Background(), jsProt838)
-    if err839 != nil {
-      Usage()
-      return
-    }
-    value1 := argvalue1
-    arg840 := flag.Arg(3)
+    arg840 := flag.Arg(1)
     mbTrans841 := thrift.NewTMemoryBufferLen(len(arg840))
     defer mbTrans841.Close()
     _, err842 := mbTrans841.WriteString(arg840)
@@ -1510,14 +1476,14 @@ func main() {
     }
     factory843 := thrift.NewTJSONProtocolFactory()
     jsProt844 := factory843.GetProtocol(mbTrans841)
-    argvalue2 := interfaces.NewUint64()
-    err845 := argvalue2.Read(context.Background(), jsProt844)
+    argvalue0 := interfaces.NewUint64()
+    err845 := argvalue0.Read(context.Background(), jsProt844)
     if err845 != nil {
       Usage()
       return
     }
-    value2 := argvalue2
-    arg846 := flag.Arg(4)
+    value0 := argvalue0
+    arg846 := flag.Arg(2)
     mbTrans847 := thrift.NewTMemoryBufferLen(len(arg846))
     defer mbTrans847.Close()
     _, err848 := mbTrans847.WriteString(arg846)
@@ -1527,9 +1493,43 @@ func main() {
     }
     factory849 := thrift.NewTJSONProtocolFactory()
     jsProt850 := factory849.GetProtocol(mbTrans847)
-    argvalue3 := interfaces.NewUint64()
-    err851 := argvalue3.Read(context.Background(), jsProt850)
+    argvalue1 := interfaces.NewUint64()
+    err851 := argvalue1.Read(context.Background(), jsProt850)
     if err851 != nil {
+      Usage()
+      return
+    }
+    value1 := argvalue1
+    arg852 := flag.Arg(3)
+    mbTrans853 := thrift.NewTMemoryBufferLen(len(arg852))
+    defer mbTrans853.Close()
+    _, err854 := mbTrans853.WriteString(arg852)
+    if err854 != nil {
+      Usage()
+      return
+    }
+    factory855 := thrift.NewTJSONProtocolFactory()
+    jsProt856 := factory855.GetProtocol(mbTrans853)
+    argvalue2 := interfaces.NewUint64()
+    err857 := argvalue2.Read(context.Background(), jsProt856)
+    if err857 != nil {
+      Usage()
+      return
+    }
+    value2 := argvalue2
+    arg858 := flag.Arg(4)
+    mbTrans859 := thrift.NewTMemoryBufferLen(len(arg858))
+    defer mbTrans859.Close()
+    _, err860 := mbTrans859.WriteString(arg858)
+    if err860 != nil {
+      Usage()
+      return
+    }
+    factory861 := thrift.NewTJSONProtocolFactory()
+    jsProt862 := factory861.GetProtocol(mbTrans859)
+    argvalue3 := interfaces.NewUint64()
+    err863 := argvalue3.Read(context.Background(), jsProt862)
+    if err863 != nil {
       Usage()
       return
     }
@@ -1542,41 +1542,7 @@ func main() {
       fmt.Fprintln(os.Stderr, "DbLowerboundI64 requires 4 args")
       flag.Usage()
     }
-    arg852 := flag.Arg(1)
-    mbTrans853 := thrift.NewTMemoryBufferLen(len(arg852))
-    defer mbTrans853.Close()
-    _, err854 := mbTrans853.WriteString(arg852)
-    if err854 != nil {
-      Usage()
-      return
-    }
-    factory855 := thrift.NewTJSONProtocolFactory()
-    jsProt856 := factory855.GetProtocol(mbTrans853)
-    argvalue0 := interfaces.NewUint64()
-    err857 := argvalue0.Read(context.Background(), jsProt856)
-    if err857 != nil {
-      Usage()
-      return
-    }
-    value0 := argvalue0
-    arg858 := flag.Arg(2)
-    mbTrans859 := thrift.NewTMemoryBufferLen(len(arg858))
-    defer mbTrans859.Close()
-    _, err860 := mbTrans859.WriteString(arg858)
-    if err860 != nil {
-      Usage()
-      return
-    }
-    factory861 := thrift.NewTJSONProtocolFactory()
-    jsProt862 := factory861.GetProtocol(mbTrans859)
-    argvalue1 := interfaces.NewUint64()
-    err863 := argvalue1.Read(context.Background(), jsProt862)
-    if err863 != nil {
-      Usage()
-      return
-    }
-    value1 := argvalue1
-    arg864 := flag.Arg(3)
+    arg864 := flag.Arg(1)
     mbTrans865 := thrift.NewTMemoryBufferLen(len(arg864))
     defer mbTrans865.Close()
     _, err866 := mbTrans865.WriteString(arg864)
@@ -1586,14 +1552,14 @@ func main() {
     }
     factory867 := thrift.NewTJSONProtocolFactory()
     jsProt868 := factory867.GetProtocol(mbTrans865)
-    argvalue2 := interfaces.NewUint64()
-    err869 := argvalue2.Read(context.Background(), jsProt868)
+    argvalue0 := interfaces.NewUint64()
+    err869 := argvalue0.Read(context.Background(), jsProt868)
     if err869 != nil {
       Usage()
       return
     }
-    value2 := argvalue2
-    arg870 := flag.Arg(4)
+    value0 := argvalue0
+    arg870 := flag.Arg(2)
     mbTrans871 := thrift.NewTMemoryBufferLen(len(arg870))
     defer mbTrans871.Close()
     _, err872 := mbTrans871.WriteString(arg870)
@@ -1603,9 +1569,43 @@ func main() {
     }
     factory873 := thrift.NewTJSONProtocolFactory()
     jsProt874 := factory873.GetProtocol(mbTrans871)
-    argvalue3 := interfaces.NewUint64()
-    err875 := argvalue3.Read(context.Background(), jsProt874)
+    argvalue1 := interfaces.NewUint64()
+    err875 := argvalue1.Read(context.Background(), jsProt874)
     if err875 != nil {
+      Usage()
+      return
+    }
+    value1 := argvalue1
+    arg876 := flag.Arg(3)
+    mbTrans877 := thrift.NewTMemoryBufferLen(len(arg876))
+    defer mbTrans877.Close()
+    _, err878 := mbTrans877.WriteString(arg876)
+    if err878 != nil {
+      Usage()
+      return
+    }
+    factory879 := thrift.NewTJSONProtocolFactory()
+    jsProt880 := factory879.GetProtocol(mbTrans877)
+    argvalue2 := interfaces.NewUint64()
+    err881 := argvalue2.Read(context.Background(), jsProt880)
+    if err881 != nil {
+      Usage()
+      return
+    }
+    value2 := argvalue2
+    arg882 := flag.Arg(4)
+    mbTrans883 := thrift.NewTMemoryBufferLen(len(arg882))
+    defer mbTrans883.Close()
+    _, err884 := mbTrans883.WriteString(arg882)
+    if err884 != nil {
+      Usage()
+      return
+    }
+    factory885 := thrift.NewTJSONProtocolFactory()
+    jsProt886 := factory885.GetProtocol(mbTrans883)
+    argvalue3 := interfaces.NewUint64()
+    err887 := argvalue3.Read(context.Background(), jsProt886)
+    if err887 != nil {
       Usage()
       return
     }
@@ -1618,41 +1618,7 @@ func main() {
       fmt.Fprintln(os.Stderr, "DbUpperboundI64 requires 4 args")
       flag.Usage()
     }
-    arg876 := flag.Arg(1)
-    mbTrans877 := thrift.NewTMemoryBufferLen(len(arg876))
-    defer mbTrans877.Close()
-    _, err878 := mbTrans877.WriteString(arg876)
-    if err878 != nil {
-      Usage()
-      return
-    }
-    factory879 := thrift.NewTJSONProtocolFactory()
-    jsProt880 := factory879.GetProtocol(mbTrans877)
-    argvalue0 := interfaces.NewUint64()
-    err881 := argvalue0.Read(context.Background(), jsProt880)
-    if err881 != nil {
-      Usage()
-      return
-    }
-    value0 := argvalue0
-    arg882 := flag.Arg(2)
-    mbTrans883 := thrift.NewTMemoryBufferLen(len(arg882))
-    defer mbTrans883.Close()
-    _, err884 := mbTrans883.WriteString(arg882)
-    if err884 != nil {
-      Usage()
-      return
-    }
-    factory885 := thrift.NewTJSONProtocolFactory()
-    jsProt886 := factory885.GetProtocol(mbTrans883)
-    argvalue1 := interfaces.NewUint64()
-    err887 := argvalue1.Read(context.Background(), jsProt886)
-    if err887 != nil {
-      Usage()
-      return
-    }
-    value1 := argvalue1
-    arg888 := flag.Arg(3)
+    arg888 := flag.Arg(1)
     mbTrans889 := thrift.NewTMemoryBufferLen(len(arg888))
     defer mbTrans889.Close()
     _, err890 := mbTrans889.WriteString(arg888)
@@ -1662,14 +1628,14 @@ func main() {
     }
     factory891 := thrift.NewTJSONProtocolFactory()
     jsProt892 := factory891.GetProtocol(mbTrans889)
-    argvalue2 := interfaces.NewUint64()
-    err893 := argvalue2.Read(context.Background(), jsProt892)
+    argvalue0 := interfaces.NewUint64()
+    err893 := argvalue0.Read(context.Background(), jsProt892)
     if err893 != nil {
       Usage()
       return
     }
-    value2 := argvalue2
-    arg894 := flag.Arg(4)
+    value0 := argvalue0
+    arg894 := flag.Arg(2)
     mbTrans895 := thrift.NewTMemoryBufferLen(len(arg894))
     defer mbTrans895.Close()
     _, err896 := mbTrans895.WriteString(arg894)
@@ -1679,9 +1645,43 @@ func main() {
     }
     factory897 := thrift.NewTJSONProtocolFactory()
     jsProt898 := factory897.GetProtocol(mbTrans895)
-    argvalue3 := interfaces.NewUint64()
-    err899 := argvalue3.Read(context.Background(), jsProt898)
+    argvalue1 := interfaces.NewUint64()
+    err899 := argvalue1.Read(context.Background(), jsProt898)
     if err899 != nil {
+      Usage()
+      return
+    }
+    value1 := argvalue1
+    arg900 := flag.Arg(3)
+    mbTrans901 := thrift.NewTMemoryBufferLen(len(arg900))
+    defer mbTrans901.Close()
+    _, err902 := mbTrans901.WriteString(arg900)
+    if err902 != nil {
+      Usage()
+      return
+    }
+    factory903 := thrift.NewTJSONProtocolFactory()
+    jsProt904 := factory903.GetProtocol(mbTrans901)
+    argvalue2 := interfaces.NewUint64()
+    err905 := argvalue2.Read(context.Background(), jsProt904)
+    if err905 != nil {
+      Usage()
+      return
+    }
+    value2 := argvalue2
+    arg906 := flag.Arg(4)
+    mbTrans907 := thrift.NewTMemoryBufferLen(len(arg906))
+    defer mbTrans907.Close()
+    _, err908 := mbTrans907.WriteString(arg906)
+    if err908 != nil {
+      Usage()
+      return
+    }
+    factory909 := thrift.NewTJSONProtocolFactory()
+    jsProt910 := factory909.GetProtocol(mbTrans907)
+    argvalue3 := interfaces.NewUint64()
+    err911 := argvalue3.Read(context.Background(), jsProt910)
+    if err911 != nil {
       Usage()
       return
     }
@@ -1694,41 +1694,7 @@ func main() {
       fmt.Fprintln(os.Stderr, "DbEndI64 requires 3 args")
       flag.Usage()
     }
-    arg900 := flag.Arg(1)
-    mbTrans901 := thrift.NewTMemoryBufferLen(len(arg900))
-    defer mbTrans901.Close()
-    _, err902 := mbTrans901.WriteString(arg900)
-    if err902 != nil {
-      Usage()
-      return
-    }
-    factory903 := thrift.NewTJSONProtocolFactory()
-    jsProt904 := factory903.GetProtocol(mbTrans901)
-    argvalue0 := interfaces.NewUint64()
-    err905 := argvalue0.Read(context.Background(), jsProt904)
-    if err905 != nil {
-      Usage()
-      return
-    }
-    value0 := argvalue0
-    arg906 := flag.Arg(2)
-    mbTrans907 := thrift.NewTMemoryBufferLen(len(arg906))
-    defer mbTrans907.Close()
-    _, err908 := mbTrans907.WriteString(arg906)
-    if err908 != nil {
-      Usage()
-      return
-    }
-    factory909 := thrift.NewTJSONProtocolFactory()
-    jsProt910 := factory909.GetProtocol(mbTrans907)
-    argvalue1 := interfaces.NewUint64()
-    err911 := argvalue1.Read(context.Background(), jsProt910)
-    if err911 != nil {
-      Usage()
-      return
-    }
-    value1 := argvalue1
-    arg912 := flag.Arg(3)
+    arg912 := flag.Arg(1)
     mbTrans913 := thrift.NewTMemoryBufferLen(len(arg912))
     defer mbTrans913.Close()
     _, err914 := mbTrans913.WriteString(arg912)
@@ -1738,9 +1704,43 @@ func main() {
     }
     factory915 := thrift.NewTJSONProtocolFactory()
     jsProt916 := factory915.GetProtocol(mbTrans913)
-    argvalue2 := interfaces.NewUint64()
-    err917 := argvalue2.Read(context.Background(), jsProt916)
+    argvalue0 := interfaces.NewUint64()
+    err917 := argvalue0.Read(context.Background(), jsProt916)
     if err917 != nil {
+      Usage()
+      return
+    }
+    value0 := argvalue0
+    arg918 := flag.Arg(2)
+    mbTrans919 := thrift.NewTMemoryBufferLen(len(arg918))
+    defer mbTrans919.Close()
+    _, err920 := mbTrans919.WriteString(arg918)
+    if err920 != nil {
+      Usage()
+      return
+    }
+    factory921 := thrift.NewTJSONProtocolFactory()
+    jsProt922 := factory921.GetProtocol(mbTrans919)
+    argvalue1 := interfaces.NewUint64()
+    err923 := argvalue1.Read(context.Background(), jsProt922)
+    if err923 != nil {
+      Usage()
+      return
+    }
+    value1 := argvalue1
+    arg924 := flag.Arg(3)
+    mbTrans925 := thrift.NewTMemoryBufferLen(len(arg924))
+    defer mbTrans925.Close()
+    _, err926 := mbTrans925.WriteString(arg924)
+    if err926 != nil {
+      Usage()
+      return
+    }
+    factory927 := thrift.NewTJSONProtocolFactory()
+    jsProt928 := factory927.GetProtocol(mbTrans925)
+    argvalue2 := interfaces.NewUint64()
+    err929 := argvalue2.Read(context.Background(), jsProt928)
+    if err929 != nil {
       Usage()
       return
     }
@@ -1753,41 +1753,7 @@ func main() {
       fmt.Fprintln(os.Stderr, "DbIdx64Store requires 5 args")
       flag.Usage()
     }
-    arg918 := flag.Arg(1)
-    mbTrans919 := thrift.NewTMemoryBufferLen(len(arg918))
-    defer mbTrans919.Close()
-    _, err920 := mbTrans919.WriteString(arg918)
-    if err920 != nil {
-      Usage()
-      return
-    }
-    factory921 := thrift.NewTJSONProtocolFactory()
-    jsProt922 := factory921.GetProtocol(mbTrans919)
-    argvalue0 := interfaces.NewUint64()
-    err923 := argvalue0.Read(context.Background(), jsProt922)
-    if err923 != nil {
-      Usage()
-      return
-    }
-    value0 := argvalue0
-    arg924 := flag.Arg(2)
-    mbTrans925 := thrift.NewTMemoryBufferLen(len(arg924))
-    defer mbTrans925.Close()
-    _, err926 := mbTrans925.WriteString(arg924)
-    if err926 != nil {
-      Usage()
-      return
-    }
-    factory927 := thrift.NewTJSONProtocolFactory()
-    jsProt928 := factory927.GetProtocol(mbTrans925)
-    argvalue1 := interfaces.NewUint64()
-    err929 := argvalue1.Read(context.Background(), jsProt928)
-    if err929 != nil {
-      Usage()
-      return
-    }
-    value1 := argvalue1
-    arg930 := flag.Arg(3)
+    arg930 := flag.Arg(1)
     mbTrans931 := thrift.NewTMemoryBufferLen(len(arg930))
     defer mbTrans931.Close()
     _, err932 := mbTrans931.WriteString(arg930)
@@ -1797,14 +1763,14 @@ func main() {
     }
     factory933 := thrift.NewTJSONProtocolFactory()
     jsProt934 := factory933.GetProtocol(mbTrans931)
-    argvalue2 := interfaces.NewUint64()
-    err935 := argvalue2.Read(context.Background(), jsProt934)
+    argvalue0 := interfaces.NewUint64()
+    err935 := argvalue0.Read(context.Background(), jsProt934)
     if err935 != nil {
       Usage()
       return
     }
-    value2 := argvalue2
-    arg936 := flag.Arg(4)
+    value0 := argvalue0
+    arg936 := flag.Arg(2)
     mbTrans937 := thrift.NewTMemoryBufferLen(len(arg936))
     defer mbTrans937.Close()
     _, err938 := mbTrans937.WriteString(arg936)
@@ -1814,14 +1780,14 @@ func main() {
     }
     factory939 := thrift.NewTJSONProtocolFactory()
     jsProt940 := factory939.GetProtocol(mbTrans937)
-    argvalue3 := interfaces.NewUint64()
-    err941 := argvalue3.Read(context.Background(), jsProt940)
+    argvalue1 := interfaces.NewUint64()
+    err941 := argvalue1.Read(context.Background(), jsProt940)
     if err941 != nil {
       Usage()
       return
     }
-    value3 := argvalue3
-    arg942 := flag.Arg(5)
+    value1 := argvalue1
+    arg942 := flag.Arg(3)
     mbTrans943 := thrift.NewTMemoryBufferLen(len(arg942))
     defer mbTrans943.Close()
     _, err944 := mbTrans943.WriteString(arg942)
@@ -1831,9 +1797,43 @@ func main() {
     }
     factory945 := thrift.NewTJSONProtocolFactory()
     jsProt946 := factory945.GetProtocol(mbTrans943)
-    argvalue4 := interfaces.NewUint64()
-    err947 := argvalue4.Read(context.Background(), jsProt946)
+    argvalue2 := interfaces.NewUint64()
+    err947 := argvalue2.Read(context.Background(), jsProt946)
     if err947 != nil {
+      Usage()
+      return
+    }
+    value2 := argvalue2
+    arg948 := flag.Arg(4)
+    mbTrans949 := thrift.NewTMemoryBufferLen(len(arg948))
+    defer mbTrans949.Close()
+    _, err950 := mbTrans949.WriteString(arg948)
+    if err950 != nil {
+      Usage()
+      return
+    }
+    factory951 := thrift.NewTJSONProtocolFactory()
+    jsProt952 := factory951.GetProtocol(mbTrans949)
+    argvalue3 := interfaces.NewUint64()
+    err953 := argvalue3.Read(context.Background(), jsProt952)
+    if err953 != nil {
+      Usage()
+      return
+    }
+    value3 := argvalue3
+    arg954 := flag.Arg(5)
+    mbTrans955 := thrift.NewTMemoryBufferLen(len(arg954))
+    defer mbTrans955.Close()
+    _, err956 := mbTrans955.WriteString(arg954)
+    if err956 != nil {
+      Usage()
+      return
+    }
+    factory957 := thrift.NewTJSONProtocolFactory()
+    jsProt958 := factory957.GetProtocol(mbTrans955)
+    argvalue4 := interfaces.NewUint64()
+    err959 := argvalue4.Read(context.Background(), jsProt958)
+    if err959 != nil {
       Usage()
       return
     }
@@ -1846,43 +1846,43 @@ func main() {
       fmt.Fprintln(os.Stderr, "DbIdx64Update requires 3 args")
       flag.Usage()
     }
-    tmp0, err948 := (strconv.Atoi(flag.Arg(1)))
-    if err948 != nil {
+    tmp0, err960 := (strconv.Atoi(flag.Arg(1)))
+    if err960 != nil {
       Usage()
       return
     }
     argvalue0 := int32(tmp0)
     value0 := argvalue0
-    arg949 := flag.Arg(2)
-    mbTrans950 := thrift.NewTMemoryBufferLen(len(arg949))
-    defer mbTrans950.Close()
-    _, err951 := mbTrans950.WriteString(arg949)
-    if err951 != nil {
+    arg961 := flag.Arg(2)
+    mbTrans962 := thrift.NewTMemoryBufferLen(len(arg961))
+    defer mbTrans962.Close()
+    _, err963 := mbTrans962.WriteString(arg961)
+    if err963 != nil {
       Usage()
       return
     }
-    factory952 := thrift.NewTJSONProtocolFactory()
-    jsProt953 := factory952.GetProtocol(mbTrans950)
+    factory964 := thrift.NewTJSONProtocolFactory()
+    jsProt965 := factory964.GetProtocol(mbTrans962)
     argvalue1 := interfaces.NewUint64()
-    err954 := argvalue1.Read(context.Background(), jsProt953)
-    if err954 != nil {
+    err966 := argvalue1.Read(context.Background(), jsProt965)
+    if err966 != nil {
       Usage()
       return
     }
     value1 := argvalue1
-    arg955 := flag.Arg(3)
-    mbTrans956 := thrift.NewTMemoryBufferLen(len(arg955))
-    defer mbTrans956.Close()
-    _, err957 := mbTrans956.WriteString(arg955)
-    if err957 != nil {
+    arg967 := flag.Arg(3)
+    mbTrans968 := thrift.NewTMemoryBufferLen(len(arg967))
+    defer mbTrans968.Close()
+    _, err969 := mbTrans968.WriteString(arg967)
+    if err969 != nil {
       Usage()
       return
     }
-    factory958 := thrift.NewTJSONProtocolFactory()
-    jsProt959 := factory958.GetProtocol(mbTrans956)
+    factory970 := thrift.NewTJSONProtocolFactory()
+    jsProt971 := factory970.GetProtocol(mbTrans968)
     argvalue2 := interfaces.NewUint64()
-    err960 := argvalue2.Read(context.Background(), jsProt959)
-    if err960 != nil {
+    err972 := argvalue2.Read(context.Background(), jsProt971)
+    if err972 != nil {
       Usage()
       return
     }
@@ -1895,8 +1895,8 @@ func main() {
       fmt.Fprintln(os.Stderr, "DbIdx64Remove requires 1 args")
       flag.Usage()
     }
-    tmp0, err961 := (strconv.Atoi(flag.Arg(1)))
-    if err961 != nil {
+    tmp0, err973 := (strconv.Atoi(flag.Arg(1)))
+    if err973 != nil {
       Usage()
       return
     }
@@ -1910,8 +1910,8 @@ func main() {
       fmt.Fprintln(os.Stderr, "DbIdx64Next requires 1 args")
       flag.Usage()
     }
-    tmp0, err962 := (strconv.Atoi(flag.Arg(1)))
-    if err962 != nil {
+    tmp0, err974 := (strconv.Atoi(flag.Arg(1)))
+    if err974 != nil {
       Usage()
       return
     }
@@ -1925,8 +1925,8 @@ func main() {
       fmt.Fprintln(os.Stderr, "DbIdx64Previous requires 1 args")
       flag.Usage()
     }
-    tmp0, err963 := (strconv.Atoi(flag.Arg(1)))
-    if err963 != nil {
+    tmp0, err975 := (strconv.Atoi(flag.Arg(1)))
+    if err975 != nil {
       Usage()
       return
     }
@@ -1940,41 +1940,7 @@ func main() {
       fmt.Fprintln(os.Stderr, "DbIdx64FindPrimary requires 4 args")
       flag.Usage()
     }
-    arg964 := flag.Arg(1)
-    mbTrans965 := thrift.NewTMemoryBufferLen(len(arg964))
-    defer mbTrans965.Close()
-    _, err966 := mbTrans965.WriteString(arg964)
-    if err966 != nil {
-      Usage()
-      return
-    }
-    factory967 := thrift.NewTJSONProtocolFactory()
-    jsProt968 := factory967.GetProtocol(mbTrans965)
-    argvalue0 := interfaces.NewUint64()
-    err969 := argvalue0.Read(context.Background(), jsProt968)
-    if err969 != nil {
-      Usage()
-      return
-    }
-    value0 := argvalue0
-    arg970 := flag.Arg(2)
-    mbTrans971 := thrift.NewTMemoryBufferLen(len(arg970))
-    defer mbTrans971.Close()
-    _, err972 := mbTrans971.WriteString(arg970)
-    if err972 != nil {
-      Usage()
-      return
-    }
-    factory973 := thrift.NewTJSONProtocolFactory()
-    jsProt974 := factory973.GetProtocol(mbTrans971)
-    argvalue1 := interfaces.NewUint64()
-    err975 := argvalue1.Read(context.Background(), jsProt974)
-    if err975 != nil {
-      Usage()
-      return
-    }
-    value1 := argvalue1
-    arg976 := flag.Arg(3)
+    arg976 := flag.Arg(1)
     mbTrans977 := thrift.NewTMemoryBufferLen(len(arg976))
     defer mbTrans977.Close()
     _, err978 := mbTrans977.WriteString(arg976)
@@ -1984,14 +1950,14 @@ func main() {
     }
     factory979 := thrift.NewTJSONProtocolFactory()
     jsProt980 := factory979.GetProtocol(mbTrans977)
-    argvalue2 := interfaces.NewUint64()
-    err981 := argvalue2.Read(context.Background(), jsProt980)
+    argvalue0 := interfaces.NewUint64()
+    err981 := argvalue0.Read(context.Background(), jsProt980)
     if err981 != nil {
       Usage()
       return
     }
-    value2 := argvalue2
-    arg982 := flag.Arg(4)
+    value0 := argvalue0
+    arg982 := flag.Arg(2)
     mbTrans983 := thrift.NewTMemoryBufferLen(len(arg982))
     defer mbTrans983.Close()
     _, err984 := mbTrans983.WriteString(arg982)
@@ -2001,9 +1967,43 @@ func main() {
     }
     factory985 := thrift.NewTJSONProtocolFactory()
     jsProt986 := factory985.GetProtocol(mbTrans983)
-    argvalue3 := interfaces.NewUint64()
-    err987 := argvalue3.Read(context.Background(), jsProt986)
+    argvalue1 := interfaces.NewUint64()
+    err987 := argvalue1.Read(context.Background(), jsProt986)
     if err987 != nil {
+      Usage()
+      return
+    }
+    value1 := argvalue1
+    arg988 := flag.Arg(3)
+    mbTrans989 := thrift.NewTMemoryBufferLen(len(arg988))
+    defer mbTrans989.Close()
+    _, err990 := mbTrans989.WriteString(arg988)
+    if err990 != nil {
+      Usage()
+      return
+    }
+    factory991 := thrift.NewTJSONProtocolFactory()
+    jsProt992 := factory991.GetProtocol(mbTrans989)
+    argvalue2 := interfaces.NewUint64()
+    err993 := argvalue2.Read(context.Background(), jsProt992)
+    if err993 != nil {
+      Usage()
+      return
+    }
+    value2 := argvalue2
+    arg994 := flag.Arg(4)
+    mbTrans995 := thrift.NewTMemoryBufferLen(len(arg994))
+    defer mbTrans995.Close()
+    _, err996 := mbTrans995.WriteString(arg994)
+    if err996 != nil {
+      Usage()
+      return
+    }
+    factory997 := thrift.NewTJSONProtocolFactory()
+    jsProt998 := factory997.GetProtocol(mbTrans995)
+    argvalue3 := interfaces.NewUint64()
+    err999 := argvalue3.Read(context.Background(), jsProt998)
+    if err999 != nil {
       Usage()
       return
     }
@@ -2016,41 +2016,7 @@ func main() {
       fmt.Fprintln(os.Stderr, "DbIdx64FindSecondary requires 4 args")
       flag.Usage()
     }
-    arg988 := flag.Arg(1)
-    mbTrans989 := thrift.NewTMemoryBufferLen(len(arg988))
-    defer mbTrans989.Close()
-    _, err990 := mbTrans989.WriteString(arg988)
-    if err990 != nil {
-      Usage()
-      return
-    }
-    factory991 := thrift.NewTJSONProtocolFactory()
-    jsProt992 := factory991.GetProtocol(mbTrans989)
-    argvalue0 := interfaces.NewUint64()
-    err993 := argvalue0.Read(context.Background(), jsProt992)
-    if err993 != nil {
-      Usage()
-      return
-    }
-    value0 := argvalue0
-    arg994 := flag.Arg(2)
-    mbTrans995 := thrift.NewTMemoryBufferLen(len(arg994))
-    defer mbTrans995.Close()
-    _, err996 := mbTrans995.WriteString(arg994)
-    if err996 != nil {
-      Usage()
-      return
-    }
-    factory997 := thrift.NewTJSONProtocolFactory()
-    jsProt998 := factory997.GetProtocol(mbTrans995)
-    argvalue1 := interfaces.NewUint64()
-    err999 := argvalue1.Read(context.Background(), jsProt998)
-    if err999 != nil {
-      Usage()
-      return
-    }
-    value1 := argvalue1
-    arg1000 := flag.Arg(3)
+    arg1000 := flag.Arg(1)
     mbTrans1001 := thrift.NewTMemoryBufferLen(len(arg1000))
     defer mbTrans1001.Close()
     _, err1002 := mbTrans1001.WriteString(arg1000)
@@ -2060,14 +2026,14 @@ func main() {
     }
     factory1003 := thrift.NewTJSONProtocolFactory()
     jsProt1004 := factory1003.GetProtocol(mbTrans1001)
-    argvalue2 := interfaces.NewUint64()
-    err1005 := argvalue2.Read(context.Background(), jsProt1004)
+    argvalue0 := interfaces.NewUint64()
+    err1005 := argvalue0.Read(context.Background(), jsProt1004)
     if err1005 != nil {
       Usage()
       return
     }
-    value2 := argvalue2
-    arg1006 := flag.Arg(4)
+    value0 := argvalue0
+    arg1006 := flag.Arg(2)
     mbTrans1007 := thrift.NewTMemoryBufferLen(len(arg1006))
     defer mbTrans1007.Close()
     _, err1008 := mbTrans1007.WriteString(arg1006)
@@ -2077,9 +2043,43 @@ func main() {
     }
     factory1009 := thrift.NewTJSONProtocolFactory()
     jsProt1010 := factory1009.GetProtocol(mbTrans1007)
-    argvalue3 := interfaces.NewUint64()
-    err1011 := argvalue3.Read(context.Background(), jsProt1010)
+    argvalue1 := interfaces.NewUint64()
+    err1011 := argvalue1.Read(context.Background(), jsProt1010)
     if err1011 != nil {
+      Usage()
+      return
+    }
+    value1 := argvalue1
+    arg1012 := flag.Arg(3)
+    mbTrans1013 := thrift.NewTMemoryBufferLen(len(arg1012))
+    defer mbTrans1013.Close()
+    _, err1014 := mbTrans1013.WriteString(arg1012)
+    if err1014 != nil {
+      Usage()
+      return
+    }
+    factory1015 := thrift.NewTJSONProtocolFactory()
+    jsProt1016 := factory1015.GetProtocol(mbTrans1013)
+    argvalue2 := interfaces.NewUint64()
+    err1017 := argvalue2.Read(context.Background(), jsProt1016)
+    if err1017 != nil {
+      Usage()
+      return
+    }
+    value2 := argvalue2
+    arg1018 := flag.Arg(4)
+    mbTrans1019 := thrift.NewTMemoryBufferLen(len(arg1018))
+    defer mbTrans1019.Close()
+    _, err1020 := mbTrans1019.WriteString(arg1018)
+    if err1020 != nil {
+      Usage()
+      return
+    }
+    factory1021 := thrift.NewTJSONProtocolFactory()
+    jsProt1022 := factory1021.GetProtocol(mbTrans1019)
+    argvalue3 := interfaces.NewUint64()
+    err1023 := argvalue3.Read(context.Background(), jsProt1022)
+    if err1023 != nil {
       Usage()
       return
     }
@@ -2092,41 +2092,7 @@ func main() {
       fmt.Fprintln(os.Stderr, "DbIdx64Lowerbound requires 5 args")
       flag.Usage()
     }
-    arg1012 := flag.Arg(1)
-    mbTrans1013 := thrift.NewTMemoryBufferLen(len(arg1012))
-    defer mbTrans1013.Close()
-    _, err1014 := mbTrans1013.WriteString(arg1012)
-    if err1014 != nil {
-      Usage()
-      return
-    }
-    factory1015 := thrift.NewTJSONProtocolFactory()
-    jsProt1016 := factory1015.GetProtocol(mbTrans1013)
-    argvalue0 := interfaces.NewUint64()
-    err1017 := argvalue0.Read(context.Background(), jsProt1016)
-    if err1017 != nil {
-      Usage()
-      return
-    }
-    value0 := argvalue0
-    arg1018 := flag.Arg(2)
-    mbTrans1019 := thrift.NewTMemoryBufferLen(len(arg1018))
-    defer mbTrans1019.Close()
-    _, err1020 := mbTrans1019.WriteString(arg1018)
-    if err1020 != nil {
-      Usage()
-      return
-    }
-    factory1021 := thrift.NewTJSONProtocolFactory()
-    jsProt1022 := factory1021.GetProtocol(mbTrans1019)
-    argvalue1 := interfaces.NewUint64()
-    err1023 := argvalue1.Read(context.Background(), jsProt1022)
-    if err1023 != nil {
-      Usage()
-      return
-    }
-    value1 := argvalue1
-    arg1024 := flag.Arg(3)
+    arg1024 := flag.Arg(1)
     mbTrans1025 := thrift.NewTMemoryBufferLen(len(arg1024))
     defer mbTrans1025.Close()
     _, err1026 := mbTrans1025.WriteString(arg1024)
@@ -2136,14 +2102,14 @@ func main() {
     }
     factory1027 := thrift.NewTJSONProtocolFactory()
     jsProt1028 := factory1027.GetProtocol(mbTrans1025)
-    argvalue2 := interfaces.NewUint64()
-    err1029 := argvalue2.Read(context.Background(), jsProt1028)
+    argvalue0 := interfaces.NewUint64()
+    err1029 := argvalue0.Read(context.Background(), jsProt1028)
     if err1029 != nil {
       Usage()
       return
     }
-    value2 := argvalue2
-    arg1030 := flag.Arg(4)
+    value0 := argvalue0
+    arg1030 := flag.Arg(2)
     mbTrans1031 := thrift.NewTMemoryBufferLen(len(arg1030))
     defer mbTrans1031.Close()
     _, err1032 := mbTrans1031.WriteString(arg1030)
@@ -2153,14 +2119,14 @@ func main() {
     }
     factory1033 := thrift.NewTJSONProtocolFactory()
     jsProt1034 := factory1033.GetProtocol(mbTrans1031)
-    argvalue3 := interfaces.NewUint64()
-    err1035 := argvalue3.Read(context.Background(), jsProt1034)
+    argvalue1 := interfaces.NewUint64()
+    err1035 := argvalue1.Read(context.Background(), jsProt1034)
     if err1035 != nil {
       Usage()
       return
     }
-    value3 := argvalue3
-    arg1036 := flag.Arg(5)
+    value1 := argvalue1
+    arg1036 := flag.Arg(3)
     mbTrans1037 := thrift.NewTMemoryBufferLen(len(arg1036))
     defer mbTrans1037.Close()
     _, err1038 := mbTrans1037.WriteString(arg1036)
@@ -2170,9 +2136,43 @@ func main() {
     }
     factory1039 := thrift.NewTJSONProtocolFactory()
     jsProt1040 := factory1039.GetProtocol(mbTrans1037)
-    argvalue4 := interfaces.NewUint64()
-    err1041 := argvalue4.Read(context.Background(), jsProt1040)
+    argvalue2 := interfaces.NewUint64()
+    err1041 := argvalue2.Read(context.Background(), jsProt1040)
     if err1041 != nil {
+      Usage()
+      return
+    }
+    value2 := argvalue2
+    arg1042 := flag.Arg(4)
+    mbTrans1043 := thrift.NewTMemoryBufferLen(len(arg1042))
+    defer mbTrans1043.Close()
+    _, err1044 := mbTrans1043.WriteString(arg1042)
+    if err1044 != nil {
+      Usage()
+      return
+    }
+    factory1045 := thrift.NewTJSONProtocolFactory()
+    jsProt1046 := factory1045.GetProtocol(mbTrans1043)
+    argvalue3 := interfaces.NewUint64()
+    err1047 := argvalue3.Read(context.Background(), jsProt1046)
+    if err1047 != nil {
+      Usage()
+      return
+    }
+    value3 := argvalue3
+    arg1048 := flag.Arg(5)
+    mbTrans1049 := thrift.NewTMemoryBufferLen(len(arg1048))
+    defer mbTrans1049.Close()
+    _, err1050 := mbTrans1049.WriteString(arg1048)
+    if err1050 != nil {
+      Usage()
+      return
+    }
+    factory1051 := thrift.NewTJSONProtocolFactory()
+    jsProt1052 := factory1051.GetProtocol(mbTrans1049)
+    argvalue4 := interfaces.NewUint64()
+    err1053 := argvalue4.Read(context.Background(), jsProt1052)
+    if err1053 != nil {
       Usage()
       return
     }
@@ -2185,41 +2185,7 @@ func main() {
       fmt.Fprintln(os.Stderr, "DbIdx64Upperbound requires 5 args")
       flag.Usage()
     }
-    arg1042 := flag.Arg(1)
-    mbTrans1043 := thrift.NewTMemoryBufferLen(len(arg1042))
-    defer mbTrans1043.Close()
-    _, err1044 := mbTrans1043.WriteString(arg1042)
-    if err1044 != nil {
-      Usage()
-      return
-    }
-    factory1045 := thrift.NewTJSONProtocolFactory()
-    jsProt1046 := factory1045.GetProtocol(mbTrans1043)
-    argvalue0 := interfaces.NewUint64()
-    err1047 := argvalue0.Read(context.Background(), jsProt1046)
-    if err1047 != nil {
-      Usage()
-      return
-    }
-    value0 := argvalue0
-    arg1048 := flag.Arg(2)
-    mbTrans1049 := thrift.NewTMemoryBufferLen(len(arg1048))
-    defer mbTrans1049.Close()
-    _, err1050 := mbTrans1049.WriteString(arg1048)
-    if err1050 != nil {
-      Usage()
-      return
-    }
-    factory1051 := thrift.NewTJSONProtocolFactory()
-    jsProt1052 := factory1051.GetProtocol(mbTrans1049)
-    argvalue1 := interfaces.NewUint64()
-    err1053 := argvalue1.Read(context.Background(), jsProt1052)
-    if err1053 != nil {
-      Usage()
-      return
-    }
-    value1 := argvalue1
-    arg1054 := flag.Arg(3)
+    arg1054 := flag.Arg(1)
     mbTrans1055 := thrift.NewTMemoryBufferLen(len(arg1054))
     defer mbTrans1055.Close()
     _, err1056 := mbTrans1055.WriteString(arg1054)
@@ -2229,14 +2195,14 @@ func main() {
     }
     factory1057 := thrift.NewTJSONProtocolFactory()
     jsProt1058 := factory1057.GetProtocol(mbTrans1055)
-    argvalue2 := interfaces.NewUint64()
-    err1059 := argvalue2.Read(context.Background(), jsProt1058)
+    argvalue0 := interfaces.NewUint64()
+    err1059 := argvalue0.Read(context.Background(), jsProt1058)
     if err1059 != nil {
       Usage()
       return
     }
-    value2 := argvalue2
-    arg1060 := flag.Arg(4)
+    value0 := argvalue0
+    arg1060 := flag.Arg(2)
     mbTrans1061 := thrift.NewTMemoryBufferLen(len(arg1060))
     defer mbTrans1061.Close()
     _, err1062 := mbTrans1061.WriteString(arg1060)
@@ -2246,14 +2212,14 @@ func main() {
     }
     factory1063 := thrift.NewTJSONProtocolFactory()
     jsProt1064 := factory1063.GetProtocol(mbTrans1061)
-    argvalue3 := interfaces.NewUint64()
-    err1065 := argvalue3.Read(context.Background(), jsProt1064)
+    argvalue1 := interfaces.NewUint64()
+    err1065 := argvalue1.Read(context.Background(), jsProt1064)
     if err1065 != nil {
       Usage()
       return
     }
-    value3 := argvalue3
-    arg1066 := flag.Arg(5)
+    value1 := argvalue1
+    arg1066 := flag.Arg(3)
     mbTrans1067 := thrift.NewTMemoryBufferLen(len(arg1066))
     defer mbTrans1067.Close()
     _, err1068 := mbTrans1067.WriteString(arg1066)
@@ -2263,9 +2229,43 @@ func main() {
     }
     factory1069 := thrift.NewTJSONProtocolFactory()
     jsProt1070 := factory1069.GetProtocol(mbTrans1067)
-    argvalue4 := interfaces.NewUint64()
-    err1071 := argvalue4.Read(context.Background(), jsProt1070)
+    argvalue2 := interfaces.NewUint64()
+    err1071 := argvalue2.Read(context.Background(), jsProt1070)
     if err1071 != nil {
+      Usage()
+      return
+    }
+    value2 := argvalue2
+    arg1072 := flag.Arg(4)
+    mbTrans1073 := thrift.NewTMemoryBufferLen(len(arg1072))
+    defer mbTrans1073.Close()
+    _, err1074 := mbTrans1073.WriteString(arg1072)
+    if err1074 != nil {
+      Usage()
+      return
+    }
+    factory1075 := thrift.NewTJSONProtocolFactory()
+    jsProt1076 := factory1075.GetProtocol(mbTrans1073)
+    argvalue3 := interfaces.NewUint64()
+    err1077 := argvalue3.Read(context.Background(), jsProt1076)
+    if err1077 != nil {
+      Usage()
+      return
+    }
+    value3 := argvalue3
+    arg1078 := flag.Arg(5)
+    mbTrans1079 := thrift.NewTMemoryBufferLen(len(arg1078))
+    defer mbTrans1079.Close()
+    _, err1080 := mbTrans1079.WriteString(arg1078)
+    if err1080 != nil {
+      Usage()
+      return
+    }
+    factory1081 := thrift.NewTJSONProtocolFactory()
+    jsProt1082 := factory1081.GetProtocol(mbTrans1079)
+    argvalue4 := interfaces.NewUint64()
+    err1083 := argvalue4.Read(context.Background(), jsProt1082)
+    if err1083 != nil {
       Usage()
       return
     }
@@ -2278,41 +2278,7 @@ func main() {
       fmt.Fprintln(os.Stderr, "DbIdx64End requires 3 args")
       flag.Usage()
     }
-    arg1072 := flag.Arg(1)
-    mbTrans1073 := thrift.NewTMemoryBufferLen(len(arg1072))
-    defer mbTrans1073.Close()
-    _, err1074 := mbTrans1073.WriteString(arg1072)
-    if err1074 != nil {
-      Usage()
-      return
-    }
-    factory1075 := thrift.NewTJSONProtocolFactory()
-    jsProt1076 := factory1075.GetProtocol(mbTrans1073)
-    argvalue0 := interfaces.NewUint64()
-    err1077 := argvalue0.Read(context.Background(), jsProt1076)
-    if err1077 != nil {
-      Usage()
-      return
-    }
-    value0 := argvalue0
-    arg1078 := flag.Arg(2)
-    mbTrans1079 := thrift.NewTMemoryBufferLen(len(arg1078))
-    defer mbTrans1079.Close()
-    _, err1080 := mbTrans1079.WriteString(arg1078)
-    if err1080 != nil {
-      Usage()
-      return
-    }
-    factory1081 := thrift.NewTJSONProtocolFactory()
-    jsProt1082 := factory1081.GetProtocol(mbTrans1079)
-    argvalue1 := interfaces.NewUint64()
-    err1083 := argvalue1.Read(context.Background(), jsProt1082)
-    if err1083 != nil {
-      Usage()
-      return
-    }
-    value1 := argvalue1
-    arg1084 := flag.Arg(3)
+    arg1084 := flag.Arg(1)
     mbTrans1085 := thrift.NewTMemoryBufferLen(len(arg1084))
     defer mbTrans1085.Close()
     _, err1086 := mbTrans1085.WriteString(arg1084)
@@ -2322,9 +2288,43 @@ func main() {
     }
     factory1087 := thrift.NewTJSONProtocolFactory()
     jsProt1088 := factory1087.GetProtocol(mbTrans1085)
-    argvalue2 := interfaces.NewUint64()
-    err1089 := argvalue2.Read(context.Background(), jsProt1088)
+    argvalue0 := interfaces.NewUint64()
+    err1089 := argvalue0.Read(context.Background(), jsProt1088)
     if err1089 != nil {
+      Usage()
+      return
+    }
+    value0 := argvalue0
+    arg1090 := flag.Arg(2)
+    mbTrans1091 := thrift.NewTMemoryBufferLen(len(arg1090))
+    defer mbTrans1091.Close()
+    _, err1092 := mbTrans1091.WriteString(arg1090)
+    if err1092 != nil {
+      Usage()
+      return
+    }
+    factory1093 := thrift.NewTJSONProtocolFactory()
+    jsProt1094 := factory1093.GetProtocol(mbTrans1091)
+    argvalue1 := interfaces.NewUint64()
+    err1095 := argvalue1.Read(context.Background(), jsProt1094)
+    if err1095 != nil {
+      Usage()
+      return
+    }
+    value1 := argvalue1
+    arg1096 := flag.Arg(3)
+    mbTrans1097 := thrift.NewTMemoryBufferLen(len(arg1096))
+    defer mbTrans1097.Close()
+    _, err1098 := mbTrans1097.WriteString(arg1096)
+    if err1098 != nil {
+      Usage()
+      return
+    }
+    factory1099 := thrift.NewTJSONProtocolFactory()
+    jsProt1100 := factory1099.GetProtocol(mbTrans1097)
+    argvalue2 := interfaces.NewUint64()
+    err1101 := argvalue2.Read(context.Background(), jsProt1100)
+    if err1101 != nil {
       Usage()
       return
     }
@@ -2337,41 +2337,7 @@ func main() {
       fmt.Fprintln(os.Stderr, "DbIdx128Store requires 5 args")
       flag.Usage()
     }
-    arg1090 := flag.Arg(1)
-    mbTrans1091 := thrift.NewTMemoryBufferLen(len(arg1090))
-    defer mbTrans1091.Close()
-    _, err1092 := mbTrans1091.WriteString(arg1090)
-    if err1092 != nil {
-      Usage()
-      return
-    }
-    factory1093 := thrift.NewTJSONProtocolFactory()
-    jsProt1094 := factory1093.GetProtocol(mbTrans1091)
-    argvalue0 := interfaces.NewUint64()
-    err1095 := argvalue0.Read(context.Background(), jsProt1094)
-    if err1095 != nil {
-      Usage()
-      return
-    }
-    value0 := argvalue0
-    arg1096 := flag.Arg(2)
-    mbTrans1097 := thrift.NewTMemoryBufferLen(len(arg1096))
-    defer mbTrans1097.Close()
-    _, err1098 := mbTrans1097.WriteString(arg1096)
-    if err1098 != nil {
-      Usage()
-      return
-    }
-    factory1099 := thrift.NewTJSONProtocolFactory()
-    jsProt1100 := factory1099.GetProtocol(mbTrans1097)
-    argvalue1 := interfaces.NewUint64()
-    err1101 := argvalue1.Read(context.Background(), jsProt1100)
-    if err1101 != nil {
-      Usage()
-      return
-    }
-    value1 := argvalue1
-    arg1102 := flag.Arg(3)
+    arg1102 := flag.Arg(1)
     mbTrans1103 := thrift.NewTMemoryBufferLen(len(arg1102))
     defer mbTrans1103.Close()
     _, err1104 := mbTrans1103.WriteString(arg1102)
@@ -2381,14 +2347,14 @@ func main() {
     }
     factory1105 := thrift.NewTJSONProtocolFactory()
     jsProt1106 := factory1105.GetProtocol(mbTrans1103)
-    argvalue2 := interfaces.NewUint64()
-    err1107 := argvalue2.Read(context.Background(), jsProt1106)
+    argvalue0 := interfaces.NewUint64()
+    err1107 := argvalue0.Read(context.Background(), jsProt1106)
     if err1107 != nil {
       Usage()
       return
     }
-    value2 := argvalue2
-    arg1108 := flag.Arg(4)
+    value0 := argvalue0
+    arg1108 := flag.Arg(2)
     mbTrans1109 := thrift.NewTMemoryBufferLen(len(arg1108))
     defer mbTrans1109.Close()
     _, err1110 := mbTrans1109.WriteString(arg1108)
@@ -2398,9 +2364,43 @@ func main() {
     }
     factory1111 := thrift.NewTJSONProtocolFactory()
     jsProt1112 := factory1111.GetProtocol(mbTrans1109)
-    argvalue3 := interfaces.NewUint64()
-    err1113 := argvalue3.Read(context.Background(), jsProt1112)
+    argvalue1 := interfaces.NewUint64()
+    err1113 := argvalue1.Read(context.Background(), jsProt1112)
     if err1113 != nil {
+      Usage()
+      return
+    }
+    value1 := argvalue1
+    arg1114 := flag.Arg(3)
+    mbTrans1115 := thrift.NewTMemoryBufferLen(len(arg1114))
+    defer mbTrans1115.Close()
+    _, err1116 := mbTrans1115.WriteString(arg1114)
+    if err1116 != nil {
+      Usage()
+      return
+    }
+    factory1117 := thrift.NewTJSONProtocolFactory()
+    jsProt1118 := factory1117.GetProtocol(mbTrans1115)
+    argvalue2 := interfaces.NewUint64()
+    err1119 := argvalue2.Read(context.Background(), jsProt1118)
+    if err1119 != nil {
+      Usage()
+      return
+    }
+    value2 := argvalue2
+    arg1120 := flag.Arg(4)
+    mbTrans1121 := thrift.NewTMemoryBufferLen(len(arg1120))
+    defer mbTrans1121.Close()
+    _, err1122 := mbTrans1121.WriteString(arg1120)
+    if err1122 != nil {
+      Usage()
+      return
+    }
+    factory1123 := thrift.NewTJSONProtocolFactory()
+    jsProt1124 := factory1123.GetProtocol(mbTrans1121)
+    argvalue3 := interfaces.NewUint64()
+    err1125 := argvalue3.Read(context.Background(), jsProt1124)
+    if err1125 != nil {
       Usage()
       return
     }
@@ -2415,26 +2415,26 @@ func main() {
       fmt.Fprintln(os.Stderr, "DbIdx128Update requires 3 args")
       flag.Usage()
     }
-    tmp0, err1115 := (strconv.Atoi(flag.Arg(1)))
-    if err1115 != nil {
+    tmp0, err1127 := (strconv.Atoi(flag.Arg(1)))
+    if err1127 != nil {
       Usage()
       return
     }
     argvalue0 := int32(tmp0)
     value0 := argvalue0
-    arg1116 := flag.Arg(2)
-    mbTrans1117 := thrift.NewTMemoryBufferLen(len(arg1116))
-    defer mbTrans1117.Close()
-    _, err1118 := mbTrans1117.WriteString(arg1116)
-    if err1118 != nil {
+    arg1128 := flag.Arg(2)
+    mbTrans1129 := thrift.NewTMemoryBufferLen(len(arg1128))
+    defer mbTrans1129.Close()
+    _, err1130 := mbTrans1129.WriteString(arg1128)
+    if err1130 != nil {
       Usage()
       return
     }
-    factory1119 := thrift.NewTJSONProtocolFactory()
-    jsProt1120 := factory1119.GetProtocol(mbTrans1117)
+    factory1131 := thrift.NewTJSONProtocolFactory()
+    jsProt1132 := factory1131.GetProtocol(mbTrans1129)
     argvalue1 := interfaces.NewUint64()
-    err1121 := argvalue1.Read(context.Background(), jsProt1120)
-    if err1121 != nil {
+    err1133 := argvalue1.Read(context.Background(), jsProt1132)
+    if err1133 != nil {
       Usage()
       return
     }
@@ -2449,8 +2449,8 @@ func main() {
       fmt.Fprintln(os.Stderr, "DbIdx128Remove requires 1 args")
       flag.Usage()
     }
-    tmp0, err1123 := (strconv.Atoi(flag.Arg(1)))
-    if err1123 != nil {
+    tmp0, err1135 := (strconv.Atoi(flag.Arg(1)))
+    if err1135 != nil {
       Usage()
       return
     }
@@ -2464,8 +2464,8 @@ func main() {
       fmt.Fprintln(os.Stderr, "DbIdx128Next requires 1 args")
       flag.Usage()
     }
-    tmp0, err1124 := (strconv.Atoi(flag.Arg(1)))
-    if err1124 != nil {
+    tmp0, err1136 := (strconv.Atoi(flag.Arg(1)))
+    if err1136 != nil {
       Usage()
       return
     }
@@ -2479,8 +2479,8 @@ func main() {
       fmt.Fprintln(os.Stderr, "DbIdx128Previous requires 1 args")
       flag.Usage()
     }
-    tmp0, err1125 := (strconv.Atoi(flag.Arg(1)))
-    if err1125 != nil {
+    tmp0, err1137 := (strconv.Atoi(flag.Arg(1)))
+    if err1137 != nil {
       Usage()
       return
     }
@@ -2494,41 +2494,7 @@ func main() {
       fmt.Fprintln(os.Stderr, "DbIdx128FindPrimary requires 4 args")
       flag.Usage()
     }
-    arg1126 := flag.Arg(1)
-    mbTrans1127 := thrift.NewTMemoryBufferLen(len(arg1126))
-    defer mbTrans1127.Close()
-    _, err1128 := mbTrans1127.WriteString(arg1126)
-    if err1128 != nil {
-      Usage()
-      return
-    }
-    factory1129 := thrift.NewTJSONProtocolFactory()
-    jsProt1130 := factory1129.GetProtocol(mbTrans1127)
-    argvalue0 := interfaces.NewUint64()
-    err1131 := argvalue0.Read(context.Background(), jsProt1130)
-    if err1131 != nil {
-      Usage()
-      return
-    }
-    value0 := argvalue0
-    arg1132 := flag.Arg(2)
-    mbTrans1133 := thrift.NewTMemoryBufferLen(len(arg1132))
-    defer mbTrans1133.Close()
-    _, err1134 := mbTrans1133.WriteString(arg1132)
-    if err1134 != nil {
-      Usage()
-      return
-    }
-    factory1135 := thrift.NewTJSONProtocolFactory()
-    jsProt1136 := factory1135.GetProtocol(mbTrans1133)
-    argvalue1 := interfaces.NewUint64()
-    err1137 := argvalue1.Read(context.Background(), jsProt1136)
-    if err1137 != nil {
-      Usage()
-      return
-    }
-    value1 := argvalue1
-    arg1138 := flag.Arg(3)
+    arg1138 := flag.Arg(1)
     mbTrans1139 := thrift.NewTMemoryBufferLen(len(arg1138))
     defer mbTrans1139.Close()
     _, err1140 := mbTrans1139.WriteString(arg1138)
@@ -2538,14 +2504,14 @@ func main() {
     }
     factory1141 := thrift.NewTJSONProtocolFactory()
     jsProt1142 := factory1141.GetProtocol(mbTrans1139)
-    argvalue2 := interfaces.NewUint64()
-    err1143 := argvalue2.Read(context.Background(), jsProt1142)
+    argvalue0 := interfaces.NewUint64()
+    err1143 := argvalue0.Read(context.Background(), jsProt1142)
     if err1143 != nil {
       Usage()
       return
     }
-    value2 := argvalue2
-    arg1144 := flag.Arg(4)
+    value0 := argvalue0
+    arg1144 := flag.Arg(2)
     mbTrans1145 := thrift.NewTMemoryBufferLen(len(arg1144))
     defer mbTrans1145.Close()
     _, err1146 := mbTrans1145.WriteString(arg1144)
@@ -2555,9 +2521,43 @@ func main() {
     }
     factory1147 := thrift.NewTJSONProtocolFactory()
     jsProt1148 := factory1147.GetProtocol(mbTrans1145)
-    argvalue3 := interfaces.NewUint64()
-    err1149 := argvalue3.Read(context.Background(), jsProt1148)
+    argvalue1 := interfaces.NewUint64()
+    err1149 := argvalue1.Read(context.Background(), jsProt1148)
     if err1149 != nil {
+      Usage()
+      return
+    }
+    value1 := argvalue1
+    arg1150 := flag.Arg(3)
+    mbTrans1151 := thrift.NewTMemoryBufferLen(len(arg1150))
+    defer mbTrans1151.Close()
+    _, err1152 := mbTrans1151.WriteString(arg1150)
+    if err1152 != nil {
+      Usage()
+      return
+    }
+    factory1153 := thrift.NewTJSONProtocolFactory()
+    jsProt1154 := factory1153.GetProtocol(mbTrans1151)
+    argvalue2 := interfaces.NewUint64()
+    err1155 := argvalue2.Read(context.Background(), jsProt1154)
+    if err1155 != nil {
+      Usage()
+      return
+    }
+    value2 := argvalue2
+    arg1156 := flag.Arg(4)
+    mbTrans1157 := thrift.NewTMemoryBufferLen(len(arg1156))
+    defer mbTrans1157.Close()
+    _, err1158 := mbTrans1157.WriteString(arg1156)
+    if err1158 != nil {
+      Usage()
+      return
+    }
+    factory1159 := thrift.NewTJSONProtocolFactory()
+    jsProt1160 := factory1159.GetProtocol(mbTrans1157)
+    argvalue3 := interfaces.NewUint64()
+    err1161 := argvalue3.Read(context.Background(), jsProt1160)
+    if err1161 != nil {
       Usage()
       return
     }
@@ -2570,41 +2570,7 @@ func main() {
       fmt.Fprintln(os.Stderr, "DbIdx128FindSecondary requires 4 args")
       flag.Usage()
     }
-    arg1150 := flag.Arg(1)
-    mbTrans1151 := thrift.NewTMemoryBufferLen(len(arg1150))
-    defer mbTrans1151.Close()
-    _, err1152 := mbTrans1151.WriteString(arg1150)
-    if err1152 != nil {
-      Usage()
-      return
-    }
-    factory1153 := thrift.NewTJSONProtocolFactory()
-    jsProt1154 := factory1153.GetProtocol(mbTrans1151)
-    argvalue0 := interfaces.NewUint64()
-    err1155 := argvalue0.Read(context.Background(), jsProt1154)
-    if err1155 != nil {
-      Usage()
-      return
-    }
-    value0 := argvalue0
-    arg1156 := flag.Arg(2)
-    mbTrans1157 := thrift.NewTMemoryBufferLen(len(arg1156))
-    defer mbTrans1157.Close()
-    _, err1158 := mbTrans1157.WriteString(arg1156)
-    if err1158 != nil {
-      Usage()
-      return
-    }
-    factory1159 := thrift.NewTJSONProtocolFactory()
-    jsProt1160 := factory1159.GetProtocol(mbTrans1157)
-    argvalue1 := interfaces.NewUint64()
-    err1161 := argvalue1.Read(context.Background(), jsProt1160)
-    if err1161 != nil {
-      Usage()
-      return
-    }
-    value1 := argvalue1
-    arg1162 := flag.Arg(3)
+    arg1162 := flag.Arg(1)
     mbTrans1163 := thrift.NewTMemoryBufferLen(len(arg1162))
     defer mbTrans1163.Close()
     _, err1164 := mbTrans1163.WriteString(arg1162)
@@ -2614,9 +2580,43 @@ func main() {
     }
     factory1165 := thrift.NewTJSONProtocolFactory()
     jsProt1166 := factory1165.GetProtocol(mbTrans1163)
-    argvalue2 := interfaces.NewUint64()
-    err1167 := argvalue2.Read(context.Background(), jsProt1166)
+    argvalue0 := interfaces.NewUint64()
+    err1167 := argvalue0.Read(context.Background(), jsProt1166)
     if err1167 != nil {
+      Usage()
+      return
+    }
+    value0 := argvalue0
+    arg1168 := flag.Arg(2)
+    mbTrans1169 := thrift.NewTMemoryBufferLen(len(arg1168))
+    defer mbTrans1169.Close()
+    _, err1170 := mbTrans1169.WriteString(arg1168)
+    if err1170 != nil {
+      Usage()
+      return
+    }
+    factory1171 := thrift.NewTJSONProtocolFactory()
+    jsProt1172 := factory1171.GetProtocol(mbTrans1169)
+    argvalue1 := interfaces.NewUint64()
+    err1173 := argvalue1.Read(context.Background(), jsProt1172)
+    if err1173 != nil {
+      Usage()
+      return
+    }
+    value1 := argvalue1
+    arg1174 := flag.Arg(3)
+    mbTrans1175 := thrift.NewTMemoryBufferLen(len(arg1174))
+    defer mbTrans1175.Close()
+    _, err1176 := mbTrans1175.WriteString(arg1174)
+    if err1176 != nil {
+      Usage()
+      return
+    }
+    factory1177 := thrift.NewTJSONProtocolFactory()
+    jsProt1178 := factory1177.GetProtocol(mbTrans1175)
+    argvalue2 := interfaces.NewUint64()
+    err1179 := argvalue2.Read(context.Background(), jsProt1178)
+    if err1179 != nil {
       Usage()
       return
     }
@@ -2631,41 +2631,7 @@ func main() {
       fmt.Fprintln(os.Stderr, "DbIdx128Lowerbound requires 5 args")
       flag.Usage()
     }
-    arg1169 := flag.Arg(1)
-    mbTrans1170 := thrift.NewTMemoryBufferLen(len(arg1169))
-    defer mbTrans1170.Close()
-    _, err1171 := mbTrans1170.WriteString(arg1169)
-    if err1171 != nil {
-      Usage()
-      return
-    }
-    factory1172 := thrift.NewTJSONProtocolFactory()
-    jsProt1173 := factory1172.GetProtocol(mbTrans1170)
-    argvalue0 := interfaces.NewUint64()
-    err1174 := argvalue0.Read(context.Background(), jsProt1173)
-    if err1174 != nil {
-      Usage()
-      return
-    }
-    value0 := argvalue0
-    arg1175 := flag.Arg(2)
-    mbTrans1176 := thrift.NewTMemoryBufferLen(len(arg1175))
-    defer mbTrans1176.Close()
-    _, err1177 := mbTrans1176.WriteString(arg1175)
-    if err1177 != nil {
-      Usage()
-      return
-    }
-    factory1178 := thrift.NewTJSONProtocolFactory()
-    jsProt1179 := factory1178.GetProtocol(mbTrans1176)
-    argvalue1 := interfaces.NewUint64()
-    err1180 := argvalue1.Read(context.Background(), jsProt1179)
-    if err1180 != nil {
-      Usage()
-      return
-    }
-    value1 := argvalue1
-    arg1181 := flag.Arg(3)
+    arg1181 := flag.Arg(1)
     mbTrans1182 := thrift.NewTMemoryBufferLen(len(arg1181))
     defer mbTrans1182.Close()
     _, err1183 := mbTrans1182.WriteString(arg1181)
@@ -2675,28 +2641,62 @@ func main() {
     }
     factory1184 := thrift.NewTJSONProtocolFactory()
     jsProt1185 := factory1184.GetProtocol(mbTrans1182)
-    argvalue2 := interfaces.NewUint64()
-    err1186 := argvalue2.Read(context.Background(), jsProt1185)
+    argvalue0 := interfaces.NewUint64()
+    err1186 := argvalue0.Read(context.Background(), jsProt1185)
     if err1186 != nil {
+      Usage()
+      return
+    }
+    value0 := argvalue0
+    arg1187 := flag.Arg(2)
+    mbTrans1188 := thrift.NewTMemoryBufferLen(len(arg1187))
+    defer mbTrans1188.Close()
+    _, err1189 := mbTrans1188.WriteString(arg1187)
+    if err1189 != nil {
+      Usage()
+      return
+    }
+    factory1190 := thrift.NewTJSONProtocolFactory()
+    jsProt1191 := factory1190.GetProtocol(mbTrans1188)
+    argvalue1 := interfaces.NewUint64()
+    err1192 := argvalue1.Read(context.Background(), jsProt1191)
+    if err1192 != nil {
+      Usage()
+      return
+    }
+    value1 := argvalue1
+    arg1193 := flag.Arg(3)
+    mbTrans1194 := thrift.NewTMemoryBufferLen(len(arg1193))
+    defer mbTrans1194.Close()
+    _, err1195 := mbTrans1194.WriteString(arg1193)
+    if err1195 != nil {
+      Usage()
+      return
+    }
+    factory1196 := thrift.NewTJSONProtocolFactory()
+    jsProt1197 := factory1196.GetProtocol(mbTrans1194)
+    argvalue2 := interfaces.NewUint64()
+    err1198 := argvalue2.Read(context.Background(), jsProt1197)
+    if err1198 != nil {
       Usage()
       return
     }
     value2 := argvalue2
     argvalue3 := []byte(flag.Arg(4))
     value3 := argvalue3
-    arg1188 := flag.Arg(5)
-    mbTrans1189 := thrift.NewTMemoryBufferLen(len(arg1188))
-    defer mbTrans1189.Close()
-    _, err1190 := mbTrans1189.WriteString(arg1188)
-    if err1190 != nil {
+    arg1200 := flag.Arg(5)
+    mbTrans1201 := thrift.NewTMemoryBufferLen(len(arg1200))
+    defer mbTrans1201.Close()
+    _, err1202 := mbTrans1201.WriteString(arg1200)
+    if err1202 != nil {
       Usage()
       return
     }
-    factory1191 := thrift.NewTJSONProtocolFactory()
-    jsProt1192 := factory1191.GetProtocol(mbTrans1189)
+    factory1203 := thrift.NewTJSONProtocolFactory()
+    jsProt1204 := factory1203.GetProtocol(mbTrans1201)
     argvalue4 := interfaces.NewUint64()
-    err1193 := argvalue4.Read(context.Background(), jsProt1192)
-    if err1193 != nil {
+    err1205 := argvalue4.Read(context.Background(), jsProt1204)
+    if err1205 != nil {
       Usage()
       return
     }
@@ -2709,41 +2709,7 @@ func main() {
       fmt.Fprintln(os.Stderr, "DbIdx128Upperbound requires 5 args")
       flag.Usage()
     }
-    arg1194 := flag.Arg(1)
-    mbTrans1195 := thrift.NewTMemoryBufferLen(len(arg1194))
-    defer mbTrans1195.Close()
-    _, err1196 := mbTrans1195.WriteString(arg1194)
-    if err1196 != nil {
-      Usage()
-      return
-    }
-    factory1197 := thrift.NewTJSONProtocolFactory()
-    jsProt1198 := factory1197.GetProtocol(mbTrans1195)
-    argvalue0 := interfaces.NewUint64()
-    err1199 := argvalue0.Read(context.Background(), jsProt1198)
-    if err1199 != nil {
-      Usage()
-      return
-    }
-    value0 := argvalue0
-    arg1200 := flag.Arg(2)
-    mbTrans1201 := thrift.NewTMemoryBufferLen(len(arg1200))
-    defer mbTrans1201.Close()
-    _, err1202 := mbTrans1201.WriteString(arg1200)
-    if err1202 != nil {
-      Usage()
-      return
-    }
-    factory1203 := thrift.NewTJSONProtocolFactory()
-    jsProt1204 := factory1203.GetProtocol(mbTrans1201)
-    argvalue1 := interfaces.NewUint64()
-    err1205 := argvalue1.Read(context.Background(), jsProt1204)
-    if err1205 != nil {
-      Usage()
-      return
-    }
-    value1 := argvalue1
-    arg1206 := flag.Arg(3)
+    arg1206 := flag.Arg(1)
     mbTrans1207 := thrift.NewTMemoryBufferLen(len(arg1206))
     defer mbTrans1207.Close()
     _, err1208 := mbTrans1207.WriteString(arg1206)
@@ -2753,28 +2719,62 @@ func main() {
     }
     factory1209 := thrift.NewTJSONProtocolFactory()
     jsProt1210 := factory1209.GetProtocol(mbTrans1207)
-    argvalue2 := interfaces.NewUint64()
-    err1211 := argvalue2.Read(context.Background(), jsProt1210)
+    argvalue0 := interfaces.NewUint64()
+    err1211 := argvalue0.Read(context.Background(), jsProt1210)
     if err1211 != nil {
+      Usage()
+      return
+    }
+    value0 := argvalue0
+    arg1212 := flag.Arg(2)
+    mbTrans1213 := thrift.NewTMemoryBufferLen(len(arg1212))
+    defer mbTrans1213.Close()
+    _, err1214 := mbTrans1213.WriteString(arg1212)
+    if err1214 != nil {
+      Usage()
+      return
+    }
+    factory1215 := thrift.NewTJSONProtocolFactory()
+    jsProt1216 := factory1215.GetProtocol(mbTrans1213)
+    argvalue1 := interfaces.NewUint64()
+    err1217 := argvalue1.Read(context.Background(), jsProt1216)
+    if err1217 != nil {
+      Usage()
+      return
+    }
+    value1 := argvalue1
+    arg1218 := flag.Arg(3)
+    mbTrans1219 := thrift.NewTMemoryBufferLen(len(arg1218))
+    defer mbTrans1219.Close()
+    _, err1220 := mbTrans1219.WriteString(arg1218)
+    if err1220 != nil {
+      Usage()
+      return
+    }
+    factory1221 := thrift.NewTJSONProtocolFactory()
+    jsProt1222 := factory1221.GetProtocol(mbTrans1219)
+    argvalue2 := interfaces.NewUint64()
+    err1223 := argvalue2.Read(context.Background(), jsProt1222)
+    if err1223 != nil {
       Usage()
       return
     }
     value2 := argvalue2
     argvalue3 := []byte(flag.Arg(4))
     value3 := argvalue3
-    arg1213 := flag.Arg(5)
-    mbTrans1214 := thrift.NewTMemoryBufferLen(len(arg1213))
-    defer mbTrans1214.Close()
-    _, err1215 := mbTrans1214.WriteString(arg1213)
-    if err1215 != nil {
+    arg1225 := flag.Arg(5)
+    mbTrans1226 := thrift.NewTMemoryBufferLen(len(arg1225))
+    defer mbTrans1226.Close()
+    _, err1227 := mbTrans1226.WriteString(arg1225)
+    if err1227 != nil {
       Usage()
       return
     }
-    factory1216 := thrift.NewTJSONProtocolFactory()
-    jsProt1217 := factory1216.GetProtocol(mbTrans1214)
+    factory1228 := thrift.NewTJSONProtocolFactory()
+    jsProt1229 := factory1228.GetProtocol(mbTrans1226)
     argvalue4 := interfaces.NewUint64()
-    err1218 := argvalue4.Read(context.Background(), jsProt1217)
-    if err1218 != nil {
+    err1230 := argvalue4.Read(context.Background(), jsProt1229)
+    if err1230 != nil {
       Usage()
       return
     }
@@ -2787,41 +2787,7 @@ func main() {
       fmt.Fprintln(os.Stderr, "DbIdx128End requires 3 args")
       flag.Usage()
     }
-    arg1219 := flag.Arg(1)
-    mbTrans1220 := thrift.NewTMemoryBufferLen(len(arg1219))
-    defer mbTrans1220.Close()
-    _, err1221 := mbTrans1220.WriteString(arg1219)
-    if err1221 != nil {
-      Usage()
-      return
-    }
-    factory1222 := thrift.NewTJSONProtocolFactory()
-    jsProt1223 := factory1222.GetProtocol(mbTrans1220)
-    argvalue0 := interfaces.NewUint64()
-    err1224 := argvalue0.Read(context.Background(), jsProt1223)
-    if err1224 != nil {
-      Usage()
-      return
-    }
-    value0 := argvalue0
-    arg1225 := flag.Arg(2)
-    mbTrans1226 := thrift.NewTMemoryBufferLen(len(arg1225))
-    defer mbTrans1226.Close()
-    _, err1227 := mbTrans1226.WriteString(arg1225)
-    if err1227 != nil {
-      Usage()
-      return
-    }
-    factory1228 := thrift.NewTJSONProtocolFactory()
-    jsProt1229 := factory1228.GetProtocol(mbTrans1226)
-    argvalue1 := interfaces.NewUint64()
-    err1230 := argvalue1.Read(context.Background(), jsProt1229)
-    if err1230 != nil {
-      Usage()
-      return
-    }
-    value1 := argvalue1
-    arg1231 := flag.Arg(3)
+    arg1231 := flag.Arg(1)
     mbTrans1232 := thrift.NewTMemoryBufferLen(len(arg1231))
     defer mbTrans1232.Close()
     _, err1233 := mbTrans1232.WriteString(arg1231)
@@ -2831,9 +2797,43 @@ func main() {
     }
     factory1234 := thrift.NewTJSONProtocolFactory()
     jsProt1235 := factory1234.GetProtocol(mbTrans1232)
-    argvalue2 := interfaces.NewUint64()
-    err1236 := argvalue2.Read(context.Background(), jsProt1235)
+    argvalue0 := interfaces.NewUint64()
+    err1236 := argvalue0.Read(context.Background(), jsProt1235)
     if err1236 != nil {
+      Usage()
+      return
+    }
+    value0 := argvalue0
+    arg1237 := flag.Arg(2)
+    mbTrans1238 := thrift.NewTMemoryBufferLen(len(arg1237))
+    defer mbTrans1238.Close()
+    _, err1239 := mbTrans1238.WriteString(arg1237)
+    if err1239 != nil {
+      Usage()
+      return
+    }
+    factory1240 := thrift.NewTJSONProtocolFactory()
+    jsProt1241 := factory1240.GetProtocol(mbTrans1238)
+    argvalue1 := interfaces.NewUint64()
+    err1242 := argvalue1.Read(context.Background(), jsProt1241)
+    if err1242 != nil {
+      Usage()
+      return
+    }
+    value1 := argvalue1
+    arg1243 := flag.Arg(3)
+    mbTrans1244 := thrift.NewTMemoryBufferLen(len(arg1243))
+    defer mbTrans1244.Close()
+    _, err1245 := mbTrans1244.WriteString(arg1243)
+    if err1245 != nil {
+      Usage()
+      return
+    }
+    factory1246 := thrift.NewTJSONProtocolFactory()
+    jsProt1247 := factory1246.GetProtocol(mbTrans1244)
+    argvalue2 := interfaces.NewUint64()
+    err1248 := argvalue2.Read(context.Background(), jsProt1247)
+    if err1248 != nil {
       Usage()
       return
     }
@@ -2846,41 +2846,7 @@ func main() {
       fmt.Fprintln(os.Stderr, "DbIdx256Store requires 5 args")
       flag.Usage()
     }
-    arg1237 := flag.Arg(1)
-    mbTrans1238 := thrift.NewTMemoryBufferLen(len(arg1237))
-    defer mbTrans1238.Close()
-    _, err1239 := mbTrans1238.WriteString(arg1237)
-    if err1239 != nil {
-      Usage()
-      return
-    }
-    factory1240 := thrift.NewTJSONProtocolFactory()
-    jsProt1241 := factory1240.GetProtocol(mbTrans1238)
-    argvalue0 := interfaces.NewUint64()
-    err1242 := argvalue0.Read(context.Background(), jsProt1241)
-    if err1242 != nil {
-      Usage()
-      return
-    }
-    value0 := argvalue0
-    arg1243 := flag.Arg(2)
-    mbTrans1244 := thrift.NewTMemoryBufferLen(len(arg1243))
-    defer mbTrans1244.Close()
-    _, err1245 := mbTrans1244.WriteString(arg1243)
-    if err1245 != nil {
-      Usage()
-      return
-    }
-    factory1246 := thrift.NewTJSONProtocolFactory()
-    jsProt1247 := factory1246.GetProtocol(mbTrans1244)
-    argvalue1 := interfaces.NewUint64()
-    err1248 := argvalue1.Read(context.Background(), jsProt1247)
-    if err1248 != nil {
-      Usage()
-      return
-    }
-    value1 := argvalue1
-    arg1249 := flag.Arg(3)
+    arg1249 := flag.Arg(1)
     mbTrans1250 := thrift.NewTMemoryBufferLen(len(arg1249))
     defer mbTrans1250.Close()
     _, err1251 := mbTrans1250.WriteString(arg1249)
@@ -2890,14 +2856,14 @@ func main() {
     }
     factory1252 := thrift.NewTJSONProtocolFactory()
     jsProt1253 := factory1252.GetProtocol(mbTrans1250)
-    argvalue2 := interfaces.NewUint64()
-    err1254 := argvalue2.Read(context.Background(), jsProt1253)
+    argvalue0 := interfaces.NewUint64()
+    err1254 := argvalue0.Read(context.Background(), jsProt1253)
     if err1254 != nil {
       Usage()
       return
     }
-    value2 := argvalue2
-    arg1255 := flag.Arg(4)
+    value0 := argvalue0
+    arg1255 := flag.Arg(2)
     mbTrans1256 := thrift.NewTMemoryBufferLen(len(arg1255))
     defer mbTrans1256.Close()
     _, err1257 := mbTrans1256.WriteString(arg1255)
@@ -2907,9 +2873,43 @@ func main() {
     }
     factory1258 := thrift.NewTJSONProtocolFactory()
     jsProt1259 := factory1258.GetProtocol(mbTrans1256)
-    argvalue3 := interfaces.NewUint64()
-    err1260 := argvalue3.Read(context.Background(), jsProt1259)
+    argvalue1 := interfaces.NewUint64()
+    err1260 := argvalue1.Read(context.Background(), jsProt1259)
     if err1260 != nil {
+      Usage()
+      return
+    }
+    value1 := argvalue1
+    arg1261 := flag.Arg(3)
+    mbTrans1262 := thrift.NewTMemoryBufferLen(len(arg1261))
+    defer mbTrans1262.Close()
+    _, err1263 := mbTrans1262.WriteString(arg1261)
+    if err1263 != nil {
+      Usage()
+      return
+    }
+    factory1264 := thrift.NewTJSONProtocolFactory()
+    jsProt1265 := factory1264.GetProtocol(mbTrans1262)
+    argvalue2 := interfaces.NewUint64()
+    err1266 := argvalue2.Read(context.Background(), jsProt1265)
+    if err1266 != nil {
+      Usage()
+      return
+    }
+    value2 := argvalue2
+    arg1267 := flag.Arg(4)
+    mbTrans1268 := thrift.NewTMemoryBufferLen(len(arg1267))
+    defer mbTrans1268.Close()
+    _, err1269 := mbTrans1268.WriteString(arg1267)
+    if err1269 != nil {
+      Usage()
+      return
+    }
+    factory1270 := thrift.NewTJSONProtocolFactory()
+    jsProt1271 := factory1270.GetProtocol(mbTrans1268)
+    argvalue3 := interfaces.NewUint64()
+    err1272 := argvalue3.Read(context.Background(), jsProt1271)
+    if err1272 != nil {
       Usage()
       return
     }
@@ -2924,26 +2924,26 @@ func main() {
       fmt.Fprintln(os.Stderr, "DbIdx256Update requires 3 args")
       flag.Usage()
     }
-    tmp0, err1262 := (strconv.Atoi(flag.Arg(1)))
-    if err1262 != nil {
+    tmp0, err1274 := (strconv.Atoi(flag.Arg(1)))
+    if err1274 != nil {
       Usage()
       return
     }
     argvalue0 := int32(tmp0)
     value0 := argvalue0
-    arg1263 := flag.Arg(2)
-    mbTrans1264 := thrift.NewTMemoryBufferLen(len(arg1263))
-    defer mbTrans1264.Close()
-    _, err1265 := mbTrans1264.WriteString(arg1263)
-    if err1265 != nil {
+    arg1275 := flag.Arg(2)
+    mbTrans1276 := thrift.NewTMemoryBufferLen(len(arg1275))
+    defer mbTrans1276.Close()
+    _, err1277 := mbTrans1276.WriteString(arg1275)
+    if err1277 != nil {
       Usage()
       return
     }
-    factory1266 := thrift.NewTJSONProtocolFactory()
-    jsProt1267 := factory1266.GetProtocol(mbTrans1264)
+    factory1278 := thrift.NewTJSONProtocolFactory()
+    jsProt1279 := factory1278.GetProtocol(mbTrans1276)
     argvalue1 := interfaces.NewUint64()
-    err1268 := argvalue1.Read(context.Background(), jsProt1267)
-    if err1268 != nil {
+    err1280 := argvalue1.Read(context.Background(), jsProt1279)
+    if err1280 != nil {
       Usage()
       return
     }
@@ -2958,8 +2958,8 @@ func main() {
       fmt.Fprintln(os.Stderr, "DbIdx256Remove requires 1 args")
       flag.Usage()
     }
-    tmp0, err1270 := (strconv.Atoi(flag.Arg(1)))
-    if err1270 != nil {
+    tmp0, err1282 := (strconv.Atoi(flag.Arg(1)))
+    if err1282 != nil {
       Usage()
       return
     }
@@ -2973,8 +2973,8 @@ func main() {
       fmt.Fprintln(os.Stderr, "DbIdx256Next requires 1 args")
       flag.Usage()
     }
-    tmp0, err1271 := (strconv.Atoi(flag.Arg(1)))
-    if err1271 != nil {
+    tmp0, err1283 := (strconv.Atoi(flag.Arg(1)))
+    if err1283 != nil {
       Usage()
       return
     }
@@ -2988,8 +2988,8 @@ func main() {
       fmt.Fprintln(os.Stderr, "DbIdx256Previous requires 1 args")
       flag.Usage()
     }
-    tmp0, err1272 := (strconv.Atoi(flag.Arg(1)))
-    if err1272 != nil {
+    tmp0, err1284 := (strconv.Atoi(flag.Arg(1)))
+    if err1284 != nil {
       Usage()
       return
     }
@@ -3003,41 +3003,7 @@ func main() {
       fmt.Fprintln(os.Stderr, "DbIdx256FindPrimary requires 4 args")
       flag.Usage()
     }
-    arg1273 := flag.Arg(1)
-    mbTrans1274 := thrift.NewTMemoryBufferLen(len(arg1273))
-    defer mbTrans1274.Close()
-    _, err1275 := mbTrans1274.WriteString(arg1273)
-    if err1275 != nil {
-      Usage()
-      return
-    }
-    factory1276 := thrift.NewTJSONProtocolFactory()
-    jsProt1277 := factory1276.GetProtocol(mbTrans1274)
-    argvalue0 := interfaces.NewUint64()
-    err1278 := argvalue0.Read(context.Background(), jsProt1277)
-    if err1278 != nil {
-      Usage()
-      return
-    }
-    value0 := argvalue0
-    arg1279 := flag.Arg(2)
-    mbTrans1280 := thrift.NewTMemoryBufferLen(len(arg1279))
-    defer mbTrans1280.Close()
-    _, err1281 := mbTrans1280.WriteString(arg1279)
-    if err1281 != nil {
-      Usage()
-      return
-    }
-    factory1282 := thrift.NewTJSONProtocolFactory()
-    jsProt1283 := factory1282.GetProtocol(mbTrans1280)
-    argvalue1 := interfaces.NewUint64()
-    err1284 := argvalue1.Read(context.Background(), jsProt1283)
-    if err1284 != nil {
-      Usage()
-      return
-    }
-    value1 := argvalue1
-    arg1285 := flag.Arg(3)
+    arg1285 := flag.Arg(1)
     mbTrans1286 := thrift.NewTMemoryBufferLen(len(arg1285))
     defer mbTrans1286.Close()
     _, err1287 := mbTrans1286.WriteString(arg1285)
@@ -3047,14 +3013,14 @@ func main() {
     }
     factory1288 := thrift.NewTJSONProtocolFactory()
     jsProt1289 := factory1288.GetProtocol(mbTrans1286)
-    argvalue2 := interfaces.NewUint64()
-    err1290 := argvalue2.Read(context.Background(), jsProt1289)
+    argvalue0 := interfaces.NewUint64()
+    err1290 := argvalue0.Read(context.Background(), jsProt1289)
     if err1290 != nil {
       Usage()
       return
     }
-    value2 := argvalue2
-    arg1291 := flag.Arg(4)
+    value0 := argvalue0
+    arg1291 := flag.Arg(2)
     mbTrans1292 := thrift.NewTMemoryBufferLen(len(arg1291))
     defer mbTrans1292.Close()
     _, err1293 := mbTrans1292.WriteString(arg1291)
@@ -3064,9 +3030,43 @@ func main() {
     }
     factory1294 := thrift.NewTJSONProtocolFactory()
     jsProt1295 := factory1294.GetProtocol(mbTrans1292)
-    argvalue3 := interfaces.NewUint64()
-    err1296 := argvalue3.Read(context.Background(), jsProt1295)
+    argvalue1 := interfaces.NewUint64()
+    err1296 := argvalue1.Read(context.Background(), jsProt1295)
     if err1296 != nil {
+      Usage()
+      return
+    }
+    value1 := argvalue1
+    arg1297 := flag.Arg(3)
+    mbTrans1298 := thrift.NewTMemoryBufferLen(len(arg1297))
+    defer mbTrans1298.Close()
+    _, err1299 := mbTrans1298.WriteString(arg1297)
+    if err1299 != nil {
+      Usage()
+      return
+    }
+    factory1300 := thrift.NewTJSONProtocolFactory()
+    jsProt1301 := factory1300.GetProtocol(mbTrans1298)
+    argvalue2 := interfaces.NewUint64()
+    err1302 := argvalue2.Read(context.Background(), jsProt1301)
+    if err1302 != nil {
+      Usage()
+      return
+    }
+    value2 := argvalue2
+    arg1303 := flag.Arg(4)
+    mbTrans1304 := thrift.NewTMemoryBufferLen(len(arg1303))
+    defer mbTrans1304.Close()
+    _, err1305 := mbTrans1304.WriteString(arg1303)
+    if err1305 != nil {
+      Usage()
+      return
+    }
+    factory1306 := thrift.NewTJSONProtocolFactory()
+    jsProt1307 := factory1306.GetProtocol(mbTrans1304)
+    argvalue3 := interfaces.NewUint64()
+    err1308 := argvalue3.Read(context.Background(), jsProt1307)
+    if err1308 != nil {
       Usage()
       return
     }
@@ -3079,41 +3079,7 @@ func main() {
       fmt.Fprintln(os.Stderr, "DbIdx256FindSecondary requires 4 args")
       flag.Usage()
     }
-    arg1297 := flag.Arg(1)
-    mbTrans1298 := thrift.NewTMemoryBufferLen(len(arg1297))
-    defer mbTrans1298.Close()
-    _, err1299 := mbTrans1298.WriteString(arg1297)
-    if err1299 != nil {
-      Usage()
-      return
-    }
-    factory1300 := thrift.NewTJSONProtocolFactory()
-    jsProt1301 := factory1300.GetProtocol(mbTrans1298)
-    argvalue0 := interfaces.NewUint64()
-    err1302 := argvalue0.Read(context.Background(), jsProt1301)
-    if err1302 != nil {
-      Usage()
-      return
-    }
-    value0 := argvalue0
-    arg1303 := flag.Arg(2)
-    mbTrans1304 := thrift.NewTMemoryBufferLen(len(arg1303))
-    defer mbTrans1304.Close()
-    _, err1305 := mbTrans1304.WriteString(arg1303)
-    if err1305 != nil {
-      Usage()
-      return
-    }
-    factory1306 := thrift.NewTJSONProtocolFactory()
-    jsProt1307 := factory1306.GetProtocol(mbTrans1304)
-    argvalue1 := interfaces.NewUint64()
-    err1308 := argvalue1.Read(context.Background(), jsProt1307)
-    if err1308 != nil {
-      Usage()
-      return
-    }
-    value1 := argvalue1
-    arg1309 := flag.Arg(3)
+    arg1309 := flag.Arg(1)
     mbTrans1310 := thrift.NewTMemoryBufferLen(len(arg1309))
     defer mbTrans1310.Close()
     _, err1311 := mbTrans1310.WriteString(arg1309)
@@ -3123,9 +3089,43 @@ func main() {
     }
     factory1312 := thrift.NewTJSONProtocolFactory()
     jsProt1313 := factory1312.GetProtocol(mbTrans1310)
-    argvalue2 := interfaces.NewUint64()
-    err1314 := argvalue2.Read(context.Background(), jsProt1313)
+    argvalue0 := interfaces.NewUint64()
+    err1314 := argvalue0.Read(context.Background(), jsProt1313)
     if err1314 != nil {
+      Usage()
+      return
+    }
+    value0 := argvalue0
+    arg1315 := flag.Arg(2)
+    mbTrans1316 := thrift.NewTMemoryBufferLen(len(arg1315))
+    defer mbTrans1316.Close()
+    _, err1317 := mbTrans1316.WriteString(arg1315)
+    if err1317 != nil {
+      Usage()
+      return
+    }
+    factory1318 := thrift.NewTJSONProtocolFactory()
+    jsProt1319 := factory1318.GetProtocol(mbTrans1316)
+    argvalue1 := interfaces.NewUint64()
+    err1320 := argvalue1.Read(context.Background(), jsProt1319)
+    if err1320 != nil {
+      Usage()
+      return
+    }
+    value1 := argvalue1
+    arg1321 := flag.Arg(3)
+    mbTrans1322 := thrift.NewTMemoryBufferLen(len(arg1321))
+    defer mbTrans1322.Close()
+    _, err1323 := mbTrans1322.WriteString(arg1321)
+    if err1323 != nil {
+      Usage()
+      return
+    }
+    factory1324 := thrift.NewTJSONProtocolFactory()
+    jsProt1325 := factory1324.GetProtocol(mbTrans1322)
+    argvalue2 := interfaces.NewUint64()
+    err1326 := argvalue2.Read(context.Background(), jsProt1325)
+    if err1326 != nil {
       Usage()
       return
     }
@@ -3140,41 +3140,7 @@ func main() {
       fmt.Fprintln(os.Stderr, "DbIdx256Lowerbound requires 5 args")
       flag.Usage()
     }
-    arg1316 := flag.Arg(1)
-    mbTrans1317 := thrift.NewTMemoryBufferLen(len(arg1316))
-    defer mbTrans1317.Close()
-    _, err1318 := mbTrans1317.WriteString(arg1316)
-    if err1318 != nil {
-      Usage()
-      return
-    }
-    factory1319 := thrift.NewTJSONProtocolFactory()
-    jsProt1320 := factory1319.GetProtocol(mbTrans1317)
-    argvalue0 := interfaces.NewUint64()
-    err1321 := argvalue0.Read(context.Background(), jsProt1320)
-    if err1321 != nil {
-      Usage()
-      return
-    }
-    value0 := argvalue0
-    arg1322 := flag.Arg(2)
-    mbTrans1323 := thrift.NewTMemoryBufferLen(len(arg1322))
-    defer mbTrans1323.Close()
-    _, err1324 := mbTrans1323.WriteString(arg1322)
-    if err1324 != nil {
-      Usage()
-      return
-    }
-    factory1325 := thrift.NewTJSONProtocolFactory()
-    jsProt1326 := factory1325.GetProtocol(mbTrans1323)
-    argvalue1 := interfaces.NewUint64()
-    err1327 := argvalue1.Read(context.Background(), jsProt1326)
-    if err1327 != nil {
-      Usage()
-      return
-    }
-    value1 := argvalue1
-    arg1328 := flag.Arg(3)
+    arg1328 := flag.Arg(1)
     mbTrans1329 := thrift.NewTMemoryBufferLen(len(arg1328))
     defer mbTrans1329.Close()
     _, err1330 := mbTrans1329.WriteString(arg1328)
@@ -3184,28 +3150,62 @@ func main() {
     }
     factory1331 := thrift.NewTJSONProtocolFactory()
     jsProt1332 := factory1331.GetProtocol(mbTrans1329)
-    argvalue2 := interfaces.NewUint64()
-    err1333 := argvalue2.Read(context.Background(), jsProt1332)
+    argvalue0 := interfaces.NewUint64()
+    err1333 := argvalue0.Read(context.Background(), jsProt1332)
     if err1333 != nil {
+      Usage()
+      return
+    }
+    value0 := argvalue0
+    arg1334 := flag.Arg(2)
+    mbTrans1335 := thrift.NewTMemoryBufferLen(len(arg1334))
+    defer mbTrans1335.Close()
+    _, err1336 := mbTrans1335.WriteString(arg1334)
+    if err1336 != nil {
+      Usage()
+      return
+    }
+    factory1337 := thrift.NewTJSONProtocolFactory()
+    jsProt1338 := factory1337.GetProtocol(mbTrans1335)
+    argvalue1 := interfaces.NewUint64()
+    err1339 := argvalue1.Read(context.Background(), jsProt1338)
+    if err1339 != nil {
+      Usage()
+      return
+    }
+    value1 := argvalue1
+    arg1340 := flag.Arg(3)
+    mbTrans1341 := thrift.NewTMemoryBufferLen(len(arg1340))
+    defer mbTrans1341.Close()
+    _, err1342 := mbTrans1341.WriteString(arg1340)
+    if err1342 != nil {
+      Usage()
+      return
+    }
+    factory1343 := thrift.NewTJSONProtocolFactory()
+    jsProt1344 := factory1343.GetProtocol(mbTrans1341)
+    argvalue2 := interfaces.NewUint64()
+    err1345 := argvalue2.Read(context.Background(), jsProt1344)
+    if err1345 != nil {
       Usage()
       return
     }
     value2 := argvalue2
     argvalue3 := []byte(flag.Arg(4))
     value3 := argvalue3
-    arg1335 := flag.Arg(5)
-    mbTrans1336 := thrift.NewTMemoryBufferLen(len(arg1335))
-    defer mbTrans1336.Close()
-    _, err1337 := mbTrans1336.WriteString(arg1335)
-    if err1337 != nil {
+    arg1347 := flag.Arg(5)
+    mbTrans1348 := thrift.NewTMemoryBufferLen(len(arg1347))
+    defer mbTrans1348.Close()
+    _, err1349 := mbTrans1348.WriteString(arg1347)
+    if err1349 != nil {
       Usage()
       return
     }
-    factory1338 := thrift.NewTJSONProtocolFactory()
-    jsProt1339 := factory1338.GetProtocol(mbTrans1336)
+    factory1350 := thrift.NewTJSONProtocolFactory()
+    jsProt1351 := factory1350.GetProtocol(mbTrans1348)
     argvalue4 := interfaces.NewUint64()
-    err1340 := argvalue4.Read(context.Background(), jsProt1339)
-    if err1340 != nil {
+    err1352 := argvalue4.Read(context.Background(), jsProt1351)
+    if err1352 != nil {
       Usage()
       return
     }
@@ -3218,41 +3218,7 @@ func main() {
       fmt.Fprintln(os.Stderr, "DbIdx256Upperbound requires 5 args")
       flag.Usage()
     }
-    arg1341 := flag.Arg(1)
-    mbTrans1342 := thrift.NewTMemoryBufferLen(len(arg1341))
-    defer mbTrans1342.Close()
-    _, err1343 := mbTrans1342.WriteString(arg1341)
-    if err1343 != nil {
-      Usage()
-      return
-    }
-    factory1344 := thrift.NewTJSONProtocolFactory()
-    jsProt1345 := factory1344.GetProtocol(mbTrans1342)
-    argvalue0 := interfaces.NewUint64()
-    err1346 := argvalue0.Read(context.Background(), jsProt1345)
-    if err1346 != nil {
-      Usage()
-      return
-    }
-    value0 := argvalue0
-    arg1347 := flag.Arg(2)
-    mbTrans1348 := thrift.NewTMemoryBufferLen(len(arg1347))
-    defer mbTrans1348.Close()
-    _, err1349 := mbTrans1348.WriteString(arg1347)
-    if err1349 != nil {
-      Usage()
-      return
-    }
-    factory1350 := thrift.NewTJSONProtocolFactory()
-    jsProt1351 := factory1350.GetProtocol(mbTrans1348)
-    argvalue1 := interfaces.NewUint64()
-    err1352 := argvalue1.Read(context.Background(), jsProt1351)
-    if err1352 != nil {
-      Usage()
-      return
-    }
-    value1 := argvalue1
-    arg1353 := flag.Arg(3)
+    arg1353 := flag.Arg(1)
     mbTrans1354 := thrift.NewTMemoryBufferLen(len(arg1353))
     defer mbTrans1354.Close()
     _, err1355 := mbTrans1354.WriteString(arg1353)
@@ -3262,28 +3228,62 @@ func main() {
     }
     factory1356 := thrift.NewTJSONProtocolFactory()
     jsProt1357 := factory1356.GetProtocol(mbTrans1354)
-    argvalue2 := interfaces.NewUint64()
-    err1358 := argvalue2.Read(context.Background(), jsProt1357)
+    argvalue0 := interfaces.NewUint64()
+    err1358 := argvalue0.Read(context.Background(), jsProt1357)
     if err1358 != nil {
+      Usage()
+      return
+    }
+    value0 := argvalue0
+    arg1359 := flag.Arg(2)
+    mbTrans1360 := thrift.NewTMemoryBufferLen(len(arg1359))
+    defer mbTrans1360.Close()
+    _, err1361 := mbTrans1360.WriteString(arg1359)
+    if err1361 != nil {
+      Usage()
+      return
+    }
+    factory1362 := thrift.NewTJSONProtocolFactory()
+    jsProt1363 := factory1362.GetProtocol(mbTrans1360)
+    argvalue1 := interfaces.NewUint64()
+    err1364 := argvalue1.Read(context.Background(), jsProt1363)
+    if err1364 != nil {
+      Usage()
+      return
+    }
+    value1 := argvalue1
+    arg1365 := flag.Arg(3)
+    mbTrans1366 := thrift.NewTMemoryBufferLen(len(arg1365))
+    defer mbTrans1366.Close()
+    _, err1367 := mbTrans1366.WriteString(arg1365)
+    if err1367 != nil {
+      Usage()
+      return
+    }
+    factory1368 := thrift.NewTJSONProtocolFactory()
+    jsProt1369 := factory1368.GetProtocol(mbTrans1366)
+    argvalue2 := interfaces.NewUint64()
+    err1370 := argvalue2.Read(context.Background(), jsProt1369)
+    if err1370 != nil {
       Usage()
       return
     }
     value2 := argvalue2
     argvalue3 := []byte(flag.Arg(4))
     value3 := argvalue3
-    arg1360 := flag.Arg(5)
-    mbTrans1361 := thrift.NewTMemoryBufferLen(len(arg1360))
-    defer mbTrans1361.Close()
-    _, err1362 := mbTrans1361.WriteString(arg1360)
-    if err1362 != nil {
+    arg1372 := flag.Arg(5)
+    mbTrans1373 := thrift.NewTMemoryBufferLen(len(arg1372))
+    defer mbTrans1373.Close()
+    _, err1374 := mbTrans1373.WriteString(arg1372)
+    if err1374 != nil {
       Usage()
       return
     }
-    factory1363 := thrift.NewTJSONProtocolFactory()
-    jsProt1364 := factory1363.GetProtocol(mbTrans1361)
+    factory1375 := thrift.NewTJSONProtocolFactory()
+    jsProt1376 := factory1375.GetProtocol(mbTrans1373)
     argvalue4 := interfaces.NewUint64()
-    err1365 := argvalue4.Read(context.Background(), jsProt1364)
-    if err1365 != nil {
+    err1377 := argvalue4.Read(context.Background(), jsProt1376)
+    if err1377 != nil {
       Usage()
       return
     }
@@ -3296,41 +3296,7 @@ func main() {
       fmt.Fprintln(os.Stderr, "DbIdx256End requires 3 args")
       flag.Usage()
     }
-    arg1366 := flag.Arg(1)
-    mbTrans1367 := thrift.NewTMemoryBufferLen(len(arg1366))
-    defer mbTrans1367.Close()
-    _, err1368 := mbTrans1367.WriteString(arg1366)
-    if err1368 != nil {
-      Usage()
-      return
-    }
-    factory1369 := thrift.NewTJSONProtocolFactory()
-    jsProt1370 := factory1369.GetProtocol(mbTrans1367)
-    argvalue0 := interfaces.NewUint64()
-    err1371 := argvalue0.Read(context.Background(), jsProt1370)
-    if err1371 != nil {
-      Usage()
-      return
-    }
-    value0 := argvalue0
-    arg1372 := flag.Arg(2)
-    mbTrans1373 := thrift.NewTMemoryBufferLen(len(arg1372))
-    defer mbTrans1373.Close()
-    _, err1374 := mbTrans1373.WriteString(arg1372)
-    if err1374 != nil {
-      Usage()
-      return
-    }
-    factory1375 := thrift.NewTJSONProtocolFactory()
-    jsProt1376 := factory1375.GetProtocol(mbTrans1373)
-    argvalue1 := interfaces.NewUint64()
-    err1377 := argvalue1.Read(context.Background(), jsProt1376)
-    if err1377 != nil {
-      Usage()
-      return
-    }
-    value1 := argvalue1
-    arg1378 := flag.Arg(3)
+    arg1378 := flag.Arg(1)
     mbTrans1379 := thrift.NewTMemoryBufferLen(len(arg1378))
     defer mbTrans1379.Close()
     _, err1380 := mbTrans1379.WriteString(arg1378)
@@ -3340,9 +3306,43 @@ func main() {
     }
     factory1381 := thrift.NewTJSONProtocolFactory()
     jsProt1382 := factory1381.GetProtocol(mbTrans1379)
-    argvalue2 := interfaces.NewUint64()
-    err1383 := argvalue2.Read(context.Background(), jsProt1382)
+    argvalue0 := interfaces.NewUint64()
+    err1383 := argvalue0.Read(context.Background(), jsProt1382)
     if err1383 != nil {
+      Usage()
+      return
+    }
+    value0 := argvalue0
+    arg1384 := flag.Arg(2)
+    mbTrans1385 := thrift.NewTMemoryBufferLen(len(arg1384))
+    defer mbTrans1385.Close()
+    _, err1386 := mbTrans1385.WriteString(arg1384)
+    if err1386 != nil {
+      Usage()
+      return
+    }
+    factory1387 := thrift.NewTJSONProtocolFactory()
+    jsProt1388 := factory1387.GetProtocol(mbTrans1385)
+    argvalue1 := interfaces.NewUint64()
+    err1389 := argvalue1.Read(context.Background(), jsProt1388)
+    if err1389 != nil {
+      Usage()
+      return
+    }
+    value1 := argvalue1
+    arg1390 := flag.Arg(3)
+    mbTrans1391 := thrift.NewTMemoryBufferLen(len(arg1390))
+    defer mbTrans1391.Close()
+    _, err1392 := mbTrans1391.WriteString(arg1390)
+    if err1392 != nil {
+      Usage()
+      return
+    }
+    factory1393 := thrift.NewTJSONProtocolFactory()
+    jsProt1394 := factory1393.GetProtocol(mbTrans1391)
+    argvalue2 := interfaces.NewUint64()
+    err1395 := argvalue2.Read(context.Background(), jsProt1394)
+    if err1395 != nil {
       Usage()
       return
     }
@@ -3355,41 +3355,7 @@ func main() {
       fmt.Fprintln(os.Stderr, "DbIdxDoubleStore requires 5 args")
       flag.Usage()
     }
-    arg1384 := flag.Arg(1)
-    mbTrans1385 := thrift.NewTMemoryBufferLen(len(arg1384))
-    defer mbTrans1385.Close()
-    _, err1386 := mbTrans1385.WriteString(arg1384)
-    if err1386 != nil {
-      Usage()
-      return
-    }
-    factory1387 := thrift.NewTJSONProtocolFactory()
-    jsProt1388 := factory1387.GetProtocol(mbTrans1385)
-    argvalue0 := interfaces.NewUint64()
-    err1389 := argvalue0.Read(context.Background(), jsProt1388)
-    if err1389 != nil {
-      Usage()
-      return
-    }
-    value0 := argvalue0
-    arg1390 := flag.Arg(2)
-    mbTrans1391 := thrift.NewTMemoryBufferLen(len(arg1390))
-    defer mbTrans1391.Close()
-    _, err1392 := mbTrans1391.WriteString(arg1390)
-    if err1392 != nil {
-      Usage()
-      return
-    }
-    factory1393 := thrift.NewTJSONProtocolFactory()
-    jsProt1394 := factory1393.GetProtocol(mbTrans1391)
-    argvalue1 := interfaces.NewUint64()
-    err1395 := argvalue1.Read(context.Background(), jsProt1394)
-    if err1395 != nil {
-      Usage()
-      return
-    }
-    value1 := argvalue1
-    arg1396 := flag.Arg(3)
+    arg1396 := flag.Arg(1)
     mbTrans1397 := thrift.NewTMemoryBufferLen(len(arg1396))
     defer mbTrans1397.Close()
     _, err1398 := mbTrans1397.WriteString(arg1396)
@@ -3399,14 +3365,14 @@ func main() {
     }
     factory1399 := thrift.NewTJSONProtocolFactory()
     jsProt1400 := factory1399.GetProtocol(mbTrans1397)
-    argvalue2 := interfaces.NewUint64()
-    err1401 := argvalue2.Read(context.Background(), jsProt1400)
+    argvalue0 := interfaces.NewUint64()
+    err1401 := argvalue0.Read(context.Background(), jsProt1400)
     if err1401 != nil {
       Usage()
       return
     }
-    value2 := argvalue2
-    arg1402 := flag.Arg(4)
+    value0 := argvalue0
+    arg1402 := flag.Arg(2)
     mbTrans1403 := thrift.NewTMemoryBufferLen(len(arg1402))
     defer mbTrans1403.Close()
     _, err1404 := mbTrans1403.WriteString(arg1402)
@@ -3416,9 +3382,43 @@ func main() {
     }
     factory1405 := thrift.NewTJSONProtocolFactory()
     jsProt1406 := factory1405.GetProtocol(mbTrans1403)
-    argvalue3 := interfaces.NewUint64()
-    err1407 := argvalue3.Read(context.Background(), jsProt1406)
+    argvalue1 := interfaces.NewUint64()
+    err1407 := argvalue1.Read(context.Background(), jsProt1406)
     if err1407 != nil {
+      Usage()
+      return
+    }
+    value1 := argvalue1
+    arg1408 := flag.Arg(3)
+    mbTrans1409 := thrift.NewTMemoryBufferLen(len(arg1408))
+    defer mbTrans1409.Close()
+    _, err1410 := mbTrans1409.WriteString(arg1408)
+    if err1410 != nil {
+      Usage()
+      return
+    }
+    factory1411 := thrift.NewTJSONProtocolFactory()
+    jsProt1412 := factory1411.GetProtocol(mbTrans1409)
+    argvalue2 := interfaces.NewUint64()
+    err1413 := argvalue2.Read(context.Background(), jsProt1412)
+    if err1413 != nil {
+      Usage()
+      return
+    }
+    value2 := argvalue2
+    arg1414 := flag.Arg(4)
+    mbTrans1415 := thrift.NewTMemoryBufferLen(len(arg1414))
+    defer mbTrans1415.Close()
+    _, err1416 := mbTrans1415.WriteString(arg1414)
+    if err1416 != nil {
+      Usage()
+      return
+    }
+    factory1417 := thrift.NewTJSONProtocolFactory()
+    jsProt1418 := factory1417.GetProtocol(mbTrans1415)
+    argvalue3 := interfaces.NewUint64()
+    err1419 := argvalue3.Read(context.Background(), jsProt1418)
+    if err1419 != nil {
       Usage()
       return
     }
@@ -3433,26 +3433,26 @@ func main() {
       fmt.Fprintln(os.Stderr, "DbIdxDoubleUpdate requires 3 args")
       flag.Usage()
     }
-    tmp0, err1409 := (strconv.Atoi(flag.Arg(1)))
-    if err1409 != nil {
+    tmp0, err1421 := (strconv.Atoi(flag.Arg(1)))
+    if err1421 != nil {
       Usage()
       return
     }
     argvalue0 := int32(tmp0)
     value0 := argvalue0
-    arg1410 := flag.Arg(2)
-    mbTrans1411 := thrift.NewTMemoryBufferLen(len(arg1410))
-    defer mbTrans1411.Close()
-    _, err1412 := mbTrans1411.WriteString(arg1410)
-    if err1412 != nil {
+    arg1422 := flag.Arg(2)
+    mbTrans1423 := thrift.NewTMemoryBufferLen(len(arg1422))
+    defer mbTrans1423.Close()
+    _, err1424 := mbTrans1423.WriteString(arg1422)
+    if err1424 != nil {
       Usage()
       return
     }
-    factory1413 := thrift.NewTJSONProtocolFactory()
-    jsProt1414 := factory1413.GetProtocol(mbTrans1411)
+    factory1425 := thrift.NewTJSONProtocolFactory()
+    jsProt1426 := factory1425.GetProtocol(mbTrans1423)
     argvalue1 := interfaces.NewUint64()
-    err1415 := argvalue1.Read(context.Background(), jsProt1414)
-    if err1415 != nil {
+    err1427 := argvalue1.Read(context.Background(), jsProt1426)
+    if err1427 != nil {
       Usage()
       return
     }
@@ -3467,8 +3467,8 @@ func main() {
       fmt.Fprintln(os.Stderr, "DbIdxDoubleRemove requires 1 args")
       flag.Usage()
     }
-    tmp0, err1417 := (strconv.Atoi(flag.Arg(1)))
-    if err1417 != nil {
+    tmp0, err1429 := (strconv.Atoi(flag.Arg(1)))
+    if err1429 != nil {
       Usage()
       return
     }
@@ -3482,8 +3482,8 @@ func main() {
       fmt.Fprintln(os.Stderr, "DbIdxDoubleNext requires 1 args")
       flag.Usage()
     }
-    tmp0, err1418 := (strconv.Atoi(flag.Arg(1)))
-    if err1418 != nil {
+    tmp0, err1430 := (strconv.Atoi(flag.Arg(1)))
+    if err1430 != nil {
       Usage()
       return
     }
@@ -3497,8 +3497,8 @@ func main() {
       fmt.Fprintln(os.Stderr, "DbIdxDoublePrevious requires 1 args")
       flag.Usage()
     }
-    tmp0, err1419 := (strconv.Atoi(flag.Arg(1)))
-    if err1419 != nil {
+    tmp0, err1431 := (strconv.Atoi(flag.Arg(1)))
+    if err1431 != nil {
       Usage()
       return
     }
@@ -3512,41 +3512,7 @@ func main() {
       fmt.Fprintln(os.Stderr, "DbIdxDoubleFindPrimary requires 4 args")
       flag.Usage()
     }
-    arg1420 := flag.Arg(1)
-    mbTrans1421 := thrift.NewTMemoryBufferLen(len(arg1420))
-    defer mbTrans1421.Close()
-    _, err1422 := mbTrans1421.WriteString(arg1420)
-    if err1422 != nil {
-      Usage()
-      return
-    }
-    factory1423 := thrift.NewTJSONProtocolFactory()
-    jsProt1424 := factory1423.GetProtocol(mbTrans1421)
-    argvalue0 := interfaces.NewUint64()
-    err1425 := argvalue0.Read(context.Background(), jsProt1424)
-    if err1425 != nil {
-      Usage()
-      return
-    }
-    value0 := argvalue0
-    arg1426 := flag.Arg(2)
-    mbTrans1427 := thrift.NewTMemoryBufferLen(len(arg1426))
-    defer mbTrans1427.Close()
-    _, err1428 := mbTrans1427.WriteString(arg1426)
-    if err1428 != nil {
-      Usage()
-      return
-    }
-    factory1429 := thrift.NewTJSONProtocolFactory()
-    jsProt1430 := factory1429.GetProtocol(mbTrans1427)
-    argvalue1 := interfaces.NewUint64()
-    err1431 := argvalue1.Read(context.Background(), jsProt1430)
-    if err1431 != nil {
-      Usage()
-      return
-    }
-    value1 := argvalue1
-    arg1432 := flag.Arg(3)
+    arg1432 := flag.Arg(1)
     mbTrans1433 := thrift.NewTMemoryBufferLen(len(arg1432))
     defer mbTrans1433.Close()
     _, err1434 := mbTrans1433.WriteString(arg1432)
@@ -3556,14 +3522,14 @@ func main() {
     }
     factory1435 := thrift.NewTJSONProtocolFactory()
     jsProt1436 := factory1435.GetProtocol(mbTrans1433)
-    argvalue2 := interfaces.NewUint64()
-    err1437 := argvalue2.Read(context.Background(), jsProt1436)
+    argvalue0 := interfaces.NewUint64()
+    err1437 := argvalue0.Read(context.Background(), jsProt1436)
     if err1437 != nil {
       Usage()
       return
     }
-    value2 := argvalue2
-    arg1438 := flag.Arg(4)
+    value0 := argvalue0
+    arg1438 := flag.Arg(2)
     mbTrans1439 := thrift.NewTMemoryBufferLen(len(arg1438))
     defer mbTrans1439.Close()
     _, err1440 := mbTrans1439.WriteString(arg1438)
@@ -3573,9 +3539,43 @@ func main() {
     }
     factory1441 := thrift.NewTJSONProtocolFactory()
     jsProt1442 := factory1441.GetProtocol(mbTrans1439)
-    argvalue3 := interfaces.NewUint64()
-    err1443 := argvalue3.Read(context.Background(), jsProt1442)
+    argvalue1 := interfaces.NewUint64()
+    err1443 := argvalue1.Read(context.Background(), jsProt1442)
     if err1443 != nil {
+      Usage()
+      return
+    }
+    value1 := argvalue1
+    arg1444 := flag.Arg(3)
+    mbTrans1445 := thrift.NewTMemoryBufferLen(len(arg1444))
+    defer mbTrans1445.Close()
+    _, err1446 := mbTrans1445.WriteString(arg1444)
+    if err1446 != nil {
+      Usage()
+      return
+    }
+    factory1447 := thrift.NewTJSONProtocolFactory()
+    jsProt1448 := factory1447.GetProtocol(mbTrans1445)
+    argvalue2 := interfaces.NewUint64()
+    err1449 := argvalue2.Read(context.Background(), jsProt1448)
+    if err1449 != nil {
+      Usage()
+      return
+    }
+    value2 := argvalue2
+    arg1450 := flag.Arg(4)
+    mbTrans1451 := thrift.NewTMemoryBufferLen(len(arg1450))
+    defer mbTrans1451.Close()
+    _, err1452 := mbTrans1451.WriteString(arg1450)
+    if err1452 != nil {
+      Usage()
+      return
+    }
+    factory1453 := thrift.NewTJSONProtocolFactory()
+    jsProt1454 := factory1453.GetProtocol(mbTrans1451)
+    argvalue3 := interfaces.NewUint64()
+    err1455 := argvalue3.Read(context.Background(), jsProt1454)
+    if err1455 != nil {
       Usage()
       return
     }
@@ -3588,41 +3588,7 @@ func main() {
       fmt.Fprintln(os.Stderr, "DbIdxDoubleFindSecondary requires 4 args")
       flag.Usage()
     }
-    arg1444 := flag.Arg(1)
-    mbTrans1445 := thrift.NewTMemoryBufferLen(len(arg1444))
-    defer mbTrans1445.Close()
-    _, err1446 := mbTrans1445.WriteString(arg1444)
-    if err1446 != nil {
-      Usage()
-      return
-    }
-    factory1447 := thrift.NewTJSONProtocolFactory()
-    jsProt1448 := factory1447.GetProtocol(mbTrans1445)
-    argvalue0 := interfaces.NewUint64()
-    err1449 := argvalue0.Read(context.Background(), jsProt1448)
-    if err1449 != nil {
-      Usage()
-      return
-    }
-    value0 := argvalue0
-    arg1450 := flag.Arg(2)
-    mbTrans1451 := thrift.NewTMemoryBufferLen(len(arg1450))
-    defer mbTrans1451.Close()
-    _, err1452 := mbTrans1451.WriteString(arg1450)
-    if err1452 != nil {
-      Usage()
-      return
-    }
-    factory1453 := thrift.NewTJSONProtocolFactory()
-    jsProt1454 := factory1453.GetProtocol(mbTrans1451)
-    argvalue1 := interfaces.NewUint64()
-    err1455 := argvalue1.Read(context.Background(), jsProt1454)
-    if err1455 != nil {
-      Usage()
-      return
-    }
-    value1 := argvalue1
-    arg1456 := flag.Arg(3)
+    arg1456 := flag.Arg(1)
     mbTrans1457 := thrift.NewTMemoryBufferLen(len(arg1456))
     defer mbTrans1457.Close()
     _, err1458 := mbTrans1457.WriteString(arg1456)
@@ -3632,9 +3598,43 @@ func main() {
     }
     factory1459 := thrift.NewTJSONProtocolFactory()
     jsProt1460 := factory1459.GetProtocol(mbTrans1457)
-    argvalue2 := interfaces.NewUint64()
-    err1461 := argvalue2.Read(context.Background(), jsProt1460)
+    argvalue0 := interfaces.NewUint64()
+    err1461 := argvalue0.Read(context.Background(), jsProt1460)
     if err1461 != nil {
+      Usage()
+      return
+    }
+    value0 := argvalue0
+    arg1462 := flag.Arg(2)
+    mbTrans1463 := thrift.NewTMemoryBufferLen(len(arg1462))
+    defer mbTrans1463.Close()
+    _, err1464 := mbTrans1463.WriteString(arg1462)
+    if err1464 != nil {
+      Usage()
+      return
+    }
+    factory1465 := thrift.NewTJSONProtocolFactory()
+    jsProt1466 := factory1465.GetProtocol(mbTrans1463)
+    argvalue1 := interfaces.NewUint64()
+    err1467 := argvalue1.Read(context.Background(), jsProt1466)
+    if err1467 != nil {
+      Usage()
+      return
+    }
+    value1 := argvalue1
+    arg1468 := flag.Arg(3)
+    mbTrans1469 := thrift.NewTMemoryBufferLen(len(arg1468))
+    defer mbTrans1469.Close()
+    _, err1470 := mbTrans1469.WriteString(arg1468)
+    if err1470 != nil {
+      Usage()
+      return
+    }
+    factory1471 := thrift.NewTJSONProtocolFactory()
+    jsProt1472 := factory1471.GetProtocol(mbTrans1469)
+    argvalue2 := interfaces.NewUint64()
+    err1473 := argvalue2.Read(context.Background(), jsProt1472)
+    if err1473 != nil {
       Usage()
       return
     }
@@ -3649,41 +3649,7 @@ func main() {
       fmt.Fprintln(os.Stderr, "DbIdxDoubleLowerbound requires 5 args")
       flag.Usage()
     }
-    arg1463 := flag.Arg(1)
-    mbTrans1464 := thrift.NewTMemoryBufferLen(len(arg1463))
-    defer mbTrans1464.Close()
-    _, err1465 := mbTrans1464.WriteString(arg1463)
-    if err1465 != nil {
-      Usage()
-      return
-    }
-    factory1466 := thrift.NewTJSONProtocolFactory()
-    jsProt1467 := factory1466.GetProtocol(mbTrans1464)
-    argvalue0 := interfaces.NewUint64()
-    err1468 := argvalue0.Read(context.Background(), jsProt1467)
-    if err1468 != nil {
-      Usage()
-      return
-    }
-    value0 := argvalue0
-    arg1469 := flag.Arg(2)
-    mbTrans1470 := thrift.NewTMemoryBufferLen(len(arg1469))
-    defer mbTrans1470.Close()
-    _, err1471 := mbTrans1470.WriteString(arg1469)
-    if err1471 != nil {
-      Usage()
-      return
-    }
-    factory1472 := thrift.NewTJSONProtocolFactory()
-    jsProt1473 := factory1472.GetProtocol(mbTrans1470)
-    argvalue1 := interfaces.NewUint64()
-    err1474 := argvalue1.Read(context.Background(), jsProt1473)
-    if err1474 != nil {
-      Usage()
-      return
-    }
-    value1 := argvalue1
-    arg1475 := flag.Arg(3)
+    arg1475 := flag.Arg(1)
     mbTrans1476 := thrift.NewTMemoryBufferLen(len(arg1475))
     defer mbTrans1476.Close()
     _, err1477 := mbTrans1476.WriteString(arg1475)
@@ -3693,28 +3659,62 @@ func main() {
     }
     factory1478 := thrift.NewTJSONProtocolFactory()
     jsProt1479 := factory1478.GetProtocol(mbTrans1476)
-    argvalue2 := interfaces.NewUint64()
-    err1480 := argvalue2.Read(context.Background(), jsProt1479)
+    argvalue0 := interfaces.NewUint64()
+    err1480 := argvalue0.Read(context.Background(), jsProt1479)
     if err1480 != nil {
+      Usage()
+      return
+    }
+    value0 := argvalue0
+    arg1481 := flag.Arg(2)
+    mbTrans1482 := thrift.NewTMemoryBufferLen(len(arg1481))
+    defer mbTrans1482.Close()
+    _, err1483 := mbTrans1482.WriteString(arg1481)
+    if err1483 != nil {
+      Usage()
+      return
+    }
+    factory1484 := thrift.NewTJSONProtocolFactory()
+    jsProt1485 := factory1484.GetProtocol(mbTrans1482)
+    argvalue1 := interfaces.NewUint64()
+    err1486 := argvalue1.Read(context.Background(), jsProt1485)
+    if err1486 != nil {
+      Usage()
+      return
+    }
+    value1 := argvalue1
+    arg1487 := flag.Arg(3)
+    mbTrans1488 := thrift.NewTMemoryBufferLen(len(arg1487))
+    defer mbTrans1488.Close()
+    _, err1489 := mbTrans1488.WriteString(arg1487)
+    if err1489 != nil {
+      Usage()
+      return
+    }
+    factory1490 := thrift.NewTJSONProtocolFactory()
+    jsProt1491 := factory1490.GetProtocol(mbTrans1488)
+    argvalue2 := interfaces.NewUint64()
+    err1492 := argvalue2.Read(context.Background(), jsProt1491)
+    if err1492 != nil {
       Usage()
       return
     }
     value2 := argvalue2
     argvalue3 := []byte(flag.Arg(4))
     value3 := argvalue3
-    arg1482 := flag.Arg(5)
-    mbTrans1483 := thrift.NewTMemoryBufferLen(len(arg1482))
-    defer mbTrans1483.Close()
-    _, err1484 := mbTrans1483.WriteString(arg1482)
-    if err1484 != nil {
+    arg1494 := flag.Arg(5)
+    mbTrans1495 := thrift.NewTMemoryBufferLen(len(arg1494))
+    defer mbTrans1495.Close()
+    _, err1496 := mbTrans1495.WriteString(arg1494)
+    if err1496 != nil {
       Usage()
       return
     }
-    factory1485 := thrift.NewTJSONProtocolFactory()
-    jsProt1486 := factory1485.GetProtocol(mbTrans1483)
+    factory1497 := thrift.NewTJSONProtocolFactory()
+    jsProt1498 := factory1497.GetProtocol(mbTrans1495)
     argvalue4 := interfaces.NewUint64()
-    err1487 := argvalue4.Read(context.Background(), jsProt1486)
-    if err1487 != nil {
+    err1499 := argvalue4.Read(context.Background(), jsProt1498)
+    if err1499 != nil {
       Usage()
       return
     }
@@ -3727,41 +3727,7 @@ func main() {
       fmt.Fprintln(os.Stderr, "DbIdxDoubleUpperbound requires 5 args")
       flag.Usage()
     }
-    arg1488 := flag.Arg(1)
-    mbTrans1489 := thrift.NewTMemoryBufferLen(len(arg1488))
-    defer mbTrans1489.Close()
-    _, err1490 := mbTrans1489.WriteString(arg1488)
-    if err1490 != nil {
-      Usage()
-      return
-    }
-    factory1491 := thrift.NewTJSONProtocolFactory()
-    jsProt1492 := factory1491.GetProtocol(mbTrans1489)
-    argvalue0 := interfaces.NewUint64()
-    err1493 := argvalue0.Read(context.Background(), jsProt1492)
-    if err1493 != nil {
-      Usage()
-      return
-    }
-    value0 := argvalue0
-    arg1494 := flag.Arg(2)
-    mbTrans1495 := thrift.NewTMemoryBufferLen(len(arg1494))
-    defer mbTrans1495.Close()
-    _, err1496 := mbTrans1495.WriteString(arg1494)
-    if err1496 != nil {
-      Usage()
-      return
-    }
-    factory1497 := thrift.NewTJSONProtocolFactory()
-    jsProt1498 := factory1497.GetProtocol(mbTrans1495)
-    argvalue1 := interfaces.NewUint64()
-    err1499 := argvalue1.Read(context.Background(), jsProt1498)
-    if err1499 != nil {
-      Usage()
-      return
-    }
-    value1 := argvalue1
-    arg1500 := flag.Arg(3)
+    arg1500 := flag.Arg(1)
     mbTrans1501 := thrift.NewTMemoryBufferLen(len(arg1500))
     defer mbTrans1501.Close()
     _, err1502 := mbTrans1501.WriteString(arg1500)
@@ -3771,28 +3737,62 @@ func main() {
     }
     factory1503 := thrift.NewTJSONProtocolFactory()
     jsProt1504 := factory1503.GetProtocol(mbTrans1501)
-    argvalue2 := interfaces.NewUint64()
-    err1505 := argvalue2.Read(context.Background(), jsProt1504)
+    argvalue0 := interfaces.NewUint64()
+    err1505 := argvalue0.Read(context.Background(), jsProt1504)
     if err1505 != nil {
+      Usage()
+      return
+    }
+    value0 := argvalue0
+    arg1506 := flag.Arg(2)
+    mbTrans1507 := thrift.NewTMemoryBufferLen(len(arg1506))
+    defer mbTrans1507.Close()
+    _, err1508 := mbTrans1507.WriteString(arg1506)
+    if err1508 != nil {
+      Usage()
+      return
+    }
+    factory1509 := thrift.NewTJSONProtocolFactory()
+    jsProt1510 := factory1509.GetProtocol(mbTrans1507)
+    argvalue1 := interfaces.NewUint64()
+    err1511 := argvalue1.Read(context.Background(), jsProt1510)
+    if err1511 != nil {
+      Usage()
+      return
+    }
+    value1 := argvalue1
+    arg1512 := flag.Arg(3)
+    mbTrans1513 := thrift.NewTMemoryBufferLen(len(arg1512))
+    defer mbTrans1513.Close()
+    _, err1514 := mbTrans1513.WriteString(arg1512)
+    if err1514 != nil {
+      Usage()
+      return
+    }
+    factory1515 := thrift.NewTJSONProtocolFactory()
+    jsProt1516 := factory1515.GetProtocol(mbTrans1513)
+    argvalue2 := interfaces.NewUint64()
+    err1517 := argvalue2.Read(context.Background(), jsProt1516)
+    if err1517 != nil {
       Usage()
       return
     }
     value2 := argvalue2
     argvalue3 := []byte(flag.Arg(4))
     value3 := argvalue3
-    arg1507 := flag.Arg(5)
-    mbTrans1508 := thrift.NewTMemoryBufferLen(len(arg1507))
-    defer mbTrans1508.Close()
-    _, err1509 := mbTrans1508.WriteString(arg1507)
-    if err1509 != nil {
+    arg1519 := flag.Arg(5)
+    mbTrans1520 := thrift.NewTMemoryBufferLen(len(arg1519))
+    defer mbTrans1520.Close()
+    _, err1521 := mbTrans1520.WriteString(arg1519)
+    if err1521 != nil {
       Usage()
       return
     }
-    factory1510 := thrift.NewTJSONProtocolFactory()
-    jsProt1511 := factory1510.GetProtocol(mbTrans1508)
+    factory1522 := thrift.NewTJSONProtocolFactory()
+    jsProt1523 := factory1522.GetProtocol(mbTrans1520)
     argvalue4 := interfaces.NewUint64()
-    err1512 := argvalue4.Read(context.Background(), jsProt1511)
-    if err1512 != nil {
+    err1524 := argvalue4.Read(context.Background(), jsProt1523)
+    if err1524 != nil {
       Usage()
       return
     }
@@ -3805,41 +3805,7 @@ func main() {
       fmt.Fprintln(os.Stderr, "DbIdxDoubleEnd requires 3 args")
       flag.Usage()
     }
-    arg1513 := flag.Arg(1)
-    mbTrans1514 := thrift.NewTMemoryBufferLen(len(arg1513))
-    defer mbTrans1514.Close()
-    _, err1515 := mbTrans1514.WriteString(arg1513)
-    if err1515 != nil {
-      Usage()
-      return
-    }
-    factory1516 := thrift.NewTJSONProtocolFactory()
-    jsProt1517 := factory1516.GetProtocol(mbTrans1514)
-    argvalue0 := interfaces.NewUint64()
-    err1518 := argvalue0.Read(context.Background(), jsProt1517)
-    if err1518 != nil {
-      Usage()
-      return
-    }
-    value0 := argvalue0
-    arg1519 := flag.Arg(2)
-    mbTrans1520 := thrift.NewTMemoryBufferLen(len(arg1519))
-    defer mbTrans1520.Close()
-    _, err1521 := mbTrans1520.WriteString(arg1519)
-    if err1521 != nil {
-      Usage()
-      return
-    }
-    factory1522 := thrift.NewTJSONProtocolFactory()
-    jsProt1523 := factory1522.GetProtocol(mbTrans1520)
-    argvalue1 := interfaces.NewUint64()
-    err1524 := argvalue1.Read(context.Background(), jsProt1523)
-    if err1524 != nil {
-      Usage()
-      return
-    }
-    value1 := argvalue1
-    arg1525 := flag.Arg(3)
+    arg1525 := flag.Arg(1)
     mbTrans1526 := thrift.NewTMemoryBufferLen(len(arg1525))
     defer mbTrans1526.Close()
     _, err1527 := mbTrans1526.WriteString(arg1525)
@@ -3849,9 +3815,43 @@ func main() {
     }
     factory1528 := thrift.NewTJSONProtocolFactory()
     jsProt1529 := factory1528.GetProtocol(mbTrans1526)
-    argvalue2 := interfaces.NewUint64()
-    err1530 := argvalue2.Read(context.Background(), jsProt1529)
+    argvalue0 := interfaces.NewUint64()
+    err1530 := argvalue0.Read(context.Background(), jsProt1529)
     if err1530 != nil {
+      Usage()
+      return
+    }
+    value0 := argvalue0
+    arg1531 := flag.Arg(2)
+    mbTrans1532 := thrift.NewTMemoryBufferLen(len(arg1531))
+    defer mbTrans1532.Close()
+    _, err1533 := mbTrans1532.WriteString(arg1531)
+    if err1533 != nil {
+      Usage()
+      return
+    }
+    factory1534 := thrift.NewTJSONProtocolFactory()
+    jsProt1535 := factory1534.GetProtocol(mbTrans1532)
+    argvalue1 := interfaces.NewUint64()
+    err1536 := argvalue1.Read(context.Background(), jsProt1535)
+    if err1536 != nil {
+      Usage()
+      return
+    }
+    value1 := argvalue1
+    arg1537 := flag.Arg(3)
+    mbTrans1538 := thrift.NewTMemoryBufferLen(len(arg1537))
+    defer mbTrans1538.Close()
+    _, err1539 := mbTrans1538.WriteString(arg1537)
+    if err1539 != nil {
+      Usage()
+      return
+    }
+    factory1540 := thrift.NewTJSONProtocolFactory()
+    jsProt1541 := factory1540.GetProtocol(mbTrans1538)
+    argvalue2 := interfaces.NewUint64()
+    err1542 := argvalue2.Read(context.Background(), jsProt1541)
+    if err1542 != nil {
       Usage()
       return
     }
@@ -3864,41 +3864,7 @@ func main() {
       fmt.Fprintln(os.Stderr, "DbIdxLongDoubleStore requires 5 args")
       flag.Usage()
     }
-    arg1531 := flag.Arg(1)
-    mbTrans1532 := thrift.NewTMemoryBufferLen(len(arg1531))
-    defer mbTrans1532.Close()
-    _, err1533 := mbTrans1532.WriteString(arg1531)
-    if err1533 != nil {
-      Usage()
-      return
-    }
-    factory1534 := thrift.NewTJSONProtocolFactory()
-    jsProt1535 := factory1534.GetProtocol(mbTrans1532)
-    argvalue0 := interfaces.NewUint64()
-    err1536 := argvalue0.Read(context.Background(), jsProt1535)
-    if err1536 != nil {
-      Usage()
-      return
-    }
-    value0 := argvalue0
-    arg1537 := flag.Arg(2)
-    mbTrans1538 := thrift.NewTMemoryBufferLen(len(arg1537))
-    defer mbTrans1538.Close()
-    _, err1539 := mbTrans1538.WriteString(arg1537)
-    if err1539 != nil {
-      Usage()
-      return
-    }
-    factory1540 := thrift.NewTJSONProtocolFactory()
-    jsProt1541 := factory1540.GetProtocol(mbTrans1538)
-    argvalue1 := interfaces.NewUint64()
-    err1542 := argvalue1.Read(context.Background(), jsProt1541)
-    if err1542 != nil {
-      Usage()
-      return
-    }
-    value1 := argvalue1
-    arg1543 := flag.Arg(3)
+    arg1543 := flag.Arg(1)
     mbTrans1544 := thrift.NewTMemoryBufferLen(len(arg1543))
     defer mbTrans1544.Close()
     _, err1545 := mbTrans1544.WriteString(arg1543)
@@ -3908,14 +3874,14 @@ func main() {
     }
     factory1546 := thrift.NewTJSONProtocolFactory()
     jsProt1547 := factory1546.GetProtocol(mbTrans1544)
-    argvalue2 := interfaces.NewUint64()
-    err1548 := argvalue2.Read(context.Background(), jsProt1547)
+    argvalue0 := interfaces.NewUint64()
+    err1548 := argvalue0.Read(context.Background(), jsProt1547)
     if err1548 != nil {
       Usage()
       return
     }
-    value2 := argvalue2
-    arg1549 := flag.Arg(4)
+    value0 := argvalue0
+    arg1549 := flag.Arg(2)
     mbTrans1550 := thrift.NewTMemoryBufferLen(len(arg1549))
     defer mbTrans1550.Close()
     _, err1551 := mbTrans1550.WriteString(arg1549)
@@ -3925,9 +3891,43 @@ func main() {
     }
     factory1552 := thrift.NewTJSONProtocolFactory()
     jsProt1553 := factory1552.GetProtocol(mbTrans1550)
-    argvalue3 := interfaces.NewUint64()
-    err1554 := argvalue3.Read(context.Background(), jsProt1553)
+    argvalue1 := interfaces.NewUint64()
+    err1554 := argvalue1.Read(context.Background(), jsProt1553)
     if err1554 != nil {
+      Usage()
+      return
+    }
+    value1 := argvalue1
+    arg1555 := flag.Arg(3)
+    mbTrans1556 := thrift.NewTMemoryBufferLen(len(arg1555))
+    defer mbTrans1556.Close()
+    _, err1557 := mbTrans1556.WriteString(arg1555)
+    if err1557 != nil {
+      Usage()
+      return
+    }
+    factory1558 := thrift.NewTJSONProtocolFactory()
+    jsProt1559 := factory1558.GetProtocol(mbTrans1556)
+    argvalue2 := interfaces.NewUint64()
+    err1560 := argvalue2.Read(context.Background(), jsProt1559)
+    if err1560 != nil {
+      Usage()
+      return
+    }
+    value2 := argvalue2
+    arg1561 := flag.Arg(4)
+    mbTrans1562 := thrift.NewTMemoryBufferLen(len(arg1561))
+    defer mbTrans1562.Close()
+    _, err1563 := mbTrans1562.WriteString(arg1561)
+    if err1563 != nil {
+      Usage()
+      return
+    }
+    factory1564 := thrift.NewTJSONProtocolFactory()
+    jsProt1565 := factory1564.GetProtocol(mbTrans1562)
+    argvalue3 := interfaces.NewUint64()
+    err1566 := argvalue3.Read(context.Background(), jsProt1565)
+    if err1566 != nil {
       Usage()
       return
     }
@@ -3942,26 +3942,26 @@ func main() {
       fmt.Fprintln(os.Stderr, "DbIdxLongDoubleUpdate requires 3 args")
       flag.Usage()
     }
-    tmp0, err1556 := (strconv.Atoi(flag.Arg(1)))
-    if err1556 != nil {
+    tmp0, err1568 := (strconv.Atoi(flag.Arg(1)))
+    if err1568 != nil {
       Usage()
       return
     }
     argvalue0 := int32(tmp0)
     value0 := argvalue0
-    arg1557 := flag.Arg(2)
-    mbTrans1558 := thrift.NewTMemoryBufferLen(len(arg1557))
-    defer mbTrans1558.Close()
-    _, err1559 := mbTrans1558.WriteString(arg1557)
-    if err1559 != nil {
+    arg1569 := flag.Arg(2)
+    mbTrans1570 := thrift.NewTMemoryBufferLen(len(arg1569))
+    defer mbTrans1570.Close()
+    _, err1571 := mbTrans1570.WriteString(arg1569)
+    if err1571 != nil {
       Usage()
       return
     }
-    factory1560 := thrift.NewTJSONProtocolFactory()
-    jsProt1561 := factory1560.GetProtocol(mbTrans1558)
+    factory1572 := thrift.NewTJSONProtocolFactory()
+    jsProt1573 := factory1572.GetProtocol(mbTrans1570)
     argvalue1 := interfaces.NewUint64()
-    err1562 := argvalue1.Read(context.Background(), jsProt1561)
-    if err1562 != nil {
+    err1574 := argvalue1.Read(context.Background(), jsProt1573)
+    if err1574 != nil {
       Usage()
       return
     }
@@ -3976,8 +3976,8 @@ func main() {
       fmt.Fprintln(os.Stderr, "DbIdxLongDoubleRemove requires 1 args")
       flag.Usage()
     }
-    tmp0, err1564 := (strconv.Atoi(flag.Arg(1)))
-    if err1564 != nil {
+    tmp0, err1576 := (strconv.Atoi(flag.Arg(1)))
+    if err1576 != nil {
       Usage()
       return
     }
@@ -3991,8 +3991,8 @@ func main() {
       fmt.Fprintln(os.Stderr, "DbIdxLongDoubleNext requires 1 args")
       flag.Usage()
     }
-    tmp0, err1565 := (strconv.Atoi(flag.Arg(1)))
-    if err1565 != nil {
+    tmp0, err1577 := (strconv.Atoi(flag.Arg(1)))
+    if err1577 != nil {
       Usage()
       return
     }
@@ -4006,8 +4006,8 @@ func main() {
       fmt.Fprintln(os.Stderr, "DbIdxLongDoublePrevious requires 1 args")
       flag.Usage()
     }
-    tmp0, err1566 := (strconv.Atoi(flag.Arg(1)))
-    if err1566 != nil {
+    tmp0, err1578 := (strconv.Atoi(flag.Arg(1)))
+    if err1578 != nil {
       Usage()
       return
     }
@@ -4021,41 +4021,7 @@ func main() {
       fmt.Fprintln(os.Stderr, "DbIdxLongDoubleFindPrimary requires 4 args")
       flag.Usage()
     }
-    arg1567 := flag.Arg(1)
-    mbTrans1568 := thrift.NewTMemoryBufferLen(len(arg1567))
-    defer mbTrans1568.Close()
-    _, err1569 := mbTrans1568.WriteString(arg1567)
-    if err1569 != nil {
-      Usage()
-      return
-    }
-    factory1570 := thrift.NewTJSONProtocolFactory()
-    jsProt1571 := factory1570.GetProtocol(mbTrans1568)
-    argvalue0 := interfaces.NewUint64()
-    err1572 := argvalue0.Read(context.Background(), jsProt1571)
-    if err1572 != nil {
-      Usage()
-      return
-    }
-    value0 := argvalue0
-    arg1573 := flag.Arg(2)
-    mbTrans1574 := thrift.NewTMemoryBufferLen(len(arg1573))
-    defer mbTrans1574.Close()
-    _, err1575 := mbTrans1574.WriteString(arg1573)
-    if err1575 != nil {
-      Usage()
-      return
-    }
-    factory1576 := thrift.NewTJSONProtocolFactory()
-    jsProt1577 := factory1576.GetProtocol(mbTrans1574)
-    argvalue1 := interfaces.NewUint64()
-    err1578 := argvalue1.Read(context.Background(), jsProt1577)
-    if err1578 != nil {
-      Usage()
-      return
-    }
-    value1 := argvalue1
-    arg1579 := flag.Arg(3)
+    arg1579 := flag.Arg(1)
     mbTrans1580 := thrift.NewTMemoryBufferLen(len(arg1579))
     defer mbTrans1580.Close()
     _, err1581 := mbTrans1580.WriteString(arg1579)
@@ -4065,14 +4031,14 @@ func main() {
     }
     factory1582 := thrift.NewTJSONProtocolFactory()
     jsProt1583 := factory1582.GetProtocol(mbTrans1580)
-    argvalue2 := interfaces.NewUint64()
-    err1584 := argvalue2.Read(context.Background(), jsProt1583)
+    argvalue0 := interfaces.NewUint64()
+    err1584 := argvalue0.Read(context.Background(), jsProt1583)
     if err1584 != nil {
       Usage()
       return
     }
-    value2 := argvalue2
-    arg1585 := flag.Arg(4)
+    value0 := argvalue0
+    arg1585 := flag.Arg(2)
     mbTrans1586 := thrift.NewTMemoryBufferLen(len(arg1585))
     defer mbTrans1586.Close()
     _, err1587 := mbTrans1586.WriteString(arg1585)
@@ -4082,9 +4048,43 @@ func main() {
     }
     factory1588 := thrift.NewTJSONProtocolFactory()
     jsProt1589 := factory1588.GetProtocol(mbTrans1586)
-    argvalue3 := interfaces.NewUint64()
-    err1590 := argvalue3.Read(context.Background(), jsProt1589)
+    argvalue1 := interfaces.NewUint64()
+    err1590 := argvalue1.Read(context.Background(), jsProt1589)
     if err1590 != nil {
+      Usage()
+      return
+    }
+    value1 := argvalue1
+    arg1591 := flag.Arg(3)
+    mbTrans1592 := thrift.NewTMemoryBufferLen(len(arg1591))
+    defer mbTrans1592.Close()
+    _, err1593 := mbTrans1592.WriteString(arg1591)
+    if err1593 != nil {
+      Usage()
+      return
+    }
+    factory1594 := thrift.NewTJSONProtocolFactory()
+    jsProt1595 := factory1594.GetProtocol(mbTrans1592)
+    argvalue2 := interfaces.NewUint64()
+    err1596 := argvalue2.Read(context.Background(), jsProt1595)
+    if err1596 != nil {
+      Usage()
+      return
+    }
+    value2 := argvalue2
+    arg1597 := flag.Arg(4)
+    mbTrans1598 := thrift.NewTMemoryBufferLen(len(arg1597))
+    defer mbTrans1598.Close()
+    _, err1599 := mbTrans1598.WriteString(arg1597)
+    if err1599 != nil {
+      Usage()
+      return
+    }
+    factory1600 := thrift.NewTJSONProtocolFactory()
+    jsProt1601 := factory1600.GetProtocol(mbTrans1598)
+    argvalue3 := interfaces.NewUint64()
+    err1602 := argvalue3.Read(context.Background(), jsProt1601)
+    if err1602 != nil {
       Usage()
       return
     }
@@ -4097,41 +4097,7 @@ func main() {
       fmt.Fprintln(os.Stderr, "DbIdxLongDoubleFindSecondary requires 4 args")
       flag.Usage()
     }
-    arg1591 := flag.Arg(1)
-    mbTrans1592 := thrift.NewTMemoryBufferLen(len(arg1591))
-    defer mbTrans1592.Close()
-    _, err1593 := mbTrans1592.WriteString(arg1591)
-    if err1593 != nil {
-      Usage()
-      return
-    }
-    factory1594 := thrift.NewTJSONProtocolFactory()
-    jsProt1595 := factory1594.GetProtocol(mbTrans1592)
-    argvalue0 := interfaces.NewUint64()
-    err1596 := argvalue0.Read(context.Background(), jsProt1595)
-    if err1596 != nil {
-      Usage()
-      return
-    }
-    value0 := argvalue0
-    arg1597 := flag.Arg(2)
-    mbTrans1598 := thrift.NewTMemoryBufferLen(len(arg1597))
-    defer mbTrans1598.Close()
-    _, err1599 := mbTrans1598.WriteString(arg1597)
-    if err1599 != nil {
-      Usage()
-      return
-    }
-    factory1600 := thrift.NewTJSONProtocolFactory()
-    jsProt1601 := factory1600.GetProtocol(mbTrans1598)
-    argvalue1 := interfaces.NewUint64()
-    err1602 := argvalue1.Read(context.Background(), jsProt1601)
-    if err1602 != nil {
-      Usage()
-      return
-    }
-    value1 := argvalue1
-    arg1603 := flag.Arg(3)
+    arg1603 := flag.Arg(1)
     mbTrans1604 := thrift.NewTMemoryBufferLen(len(arg1603))
     defer mbTrans1604.Close()
     _, err1605 := mbTrans1604.WriteString(arg1603)
@@ -4141,9 +4107,43 @@ func main() {
     }
     factory1606 := thrift.NewTJSONProtocolFactory()
     jsProt1607 := factory1606.GetProtocol(mbTrans1604)
-    argvalue2 := interfaces.NewUint64()
-    err1608 := argvalue2.Read(context.Background(), jsProt1607)
+    argvalue0 := interfaces.NewUint64()
+    err1608 := argvalue0.Read(context.Background(), jsProt1607)
     if err1608 != nil {
+      Usage()
+      return
+    }
+    value0 := argvalue0
+    arg1609 := flag.Arg(2)
+    mbTrans1610 := thrift.NewTMemoryBufferLen(len(arg1609))
+    defer mbTrans1610.Close()
+    _, err1611 := mbTrans1610.WriteString(arg1609)
+    if err1611 != nil {
+      Usage()
+      return
+    }
+    factory1612 := thrift.NewTJSONProtocolFactory()
+    jsProt1613 := factory1612.GetProtocol(mbTrans1610)
+    argvalue1 := interfaces.NewUint64()
+    err1614 := argvalue1.Read(context.Background(), jsProt1613)
+    if err1614 != nil {
+      Usage()
+      return
+    }
+    value1 := argvalue1
+    arg1615 := flag.Arg(3)
+    mbTrans1616 := thrift.NewTMemoryBufferLen(len(arg1615))
+    defer mbTrans1616.Close()
+    _, err1617 := mbTrans1616.WriteString(arg1615)
+    if err1617 != nil {
+      Usage()
+      return
+    }
+    factory1618 := thrift.NewTJSONProtocolFactory()
+    jsProt1619 := factory1618.GetProtocol(mbTrans1616)
+    argvalue2 := interfaces.NewUint64()
+    err1620 := argvalue2.Read(context.Background(), jsProt1619)
+    if err1620 != nil {
       Usage()
       return
     }
@@ -4158,41 +4158,7 @@ func main() {
       fmt.Fprintln(os.Stderr, "DbIdxLongDoubleLowerbound requires 5 args")
       flag.Usage()
     }
-    arg1610 := flag.Arg(1)
-    mbTrans1611 := thrift.NewTMemoryBufferLen(len(arg1610))
-    defer mbTrans1611.Close()
-    _, err1612 := mbTrans1611.WriteString(arg1610)
-    if err1612 != nil {
-      Usage()
-      return
-    }
-    factory1613 := thrift.NewTJSONProtocolFactory()
-    jsProt1614 := factory1613.GetProtocol(mbTrans1611)
-    argvalue0 := interfaces.NewUint64()
-    err1615 := argvalue0.Read(context.Background(), jsProt1614)
-    if err1615 != nil {
-      Usage()
-      return
-    }
-    value0 := argvalue0
-    arg1616 := flag.Arg(2)
-    mbTrans1617 := thrift.NewTMemoryBufferLen(len(arg1616))
-    defer mbTrans1617.Close()
-    _, err1618 := mbTrans1617.WriteString(arg1616)
-    if err1618 != nil {
-      Usage()
-      return
-    }
-    factory1619 := thrift.NewTJSONProtocolFactory()
-    jsProt1620 := factory1619.GetProtocol(mbTrans1617)
-    argvalue1 := interfaces.NewUint64()
-    err1621 := argvalue1.Read(context.Background(), jsProt1620)
-    if err1621 != nil {
-      Usage()
-      return
-    }
-    value1 := argvalue1
-    arg1622 := flag.Arg(3)
+    arg1622 := flag.Arg(1)
     mbTrans1623 := thrift.NewTMemoryBufferLen(len(arg1622))
     defer mbTrans1623.Close()
     _, err1624 := mbTrans1623.WriteString(arg1622)
@@ -4202,28 +4168,62 @@ func main() {
     }
     factory1625 := thrift.NewTJSONProtocolFactory()
     jsProt1626 := factory1625.GetProtocol(mbTrans1623)
-    argvalue2 := interfaces.NewUint64()
-    err1627 := argvalue2.Read(context.Background(), jsProt1626)
+    argvalue0 := interfaces.NewUint64()
+    err1627 := argvalue0.Read(context.Background(), jsProt1626)
     if err1627 != nil {
+      Usage()
+      return
+    }
+    value0 := argvalue0
+    arg1628 := flag.Arg(2)
+    mbTrans1629 := thrift.NewTMemoryBufferLen(len(arg1628))
+    defer mbTrans1629.Close()
+    _, err1630 := mbTrans1629.WriteString(arg1628)
+    if err1630 != nil {
+      Usage()
+      return
+    }
+    factory1631 := thrift.NewTJSONProtocolFactory()
+    jsProt1632 := factory1631.GetProtocol(mbTrans1629)
+    argvalue1 := interfaces.NewUint64()
+    err1633 := argvalue1.Read(context.Background(), jsProt1632)
+    if err1633 != nil {
+      Usage()
+      return
+    }
+    value1 := argvalue1
+    arg1634 := flag.Arg(3)
+    mbTrans1635 := thrift.NewTMemoryBufferLen(len(arg1634))
+    defer mbTrans1635.Close()
+    _, err1636 := mbTrans1635.WriteString(arg1634)
+    if err1636 != nil {
+      Usage()
+      return
+    }
+    factory1637 := thrift.NewTJSONProtocolFactory()
+    jsProt1638 := factory1637.GetProtocol(mbTrans1635)
+    argvalue2 := interfaces.NewUint64()
+    err1639 := argvalue2.Read(context.Background(), jsProt1638)
+    if err1639 != nil {
       Usage()
       return
     }
     value2 := argvalue2
     argvalue3 := []byte(flag.Arg(4))
     value3 := argvalue3
-    arg1629 := flag.Arg(5)
-    mbTrans1630 := thrift.NewTMemoryBufferLen(len(arg1629))
-    defer mbTrans1630.Close()
-    _, err1631 := mbTrans1630.WriteString(arg1629)
-    if err1631 != nil {
+    arg1641 := flag.Arg(5)
+    mbTrans1642 := thrift.NewTMemoryBufferLen(len(arg1641))
+    defer mbTrans1642.Close()
+    _, err1643 := mbTrans1642.WriteString(arg1641)
+    if err1643 != nil {
       Usage()
       return
     }
-    factory1632 := thrift.NewTJSONProtocolFactory()
-    jsProt1633 := factory1632.GetProtocol(mbTrans1630)
+    factory1644 := thrift.NewTJSONProtocolFactory()
+    jsProt1645 := factory1644.GetProtocol(mbTrans1642)
     argvalue4 := interfaces.NewUint64()
-    err1634 := argvalue4.Read(context.Background(), jsProt1633)
-    if err1634 != nil {
+    err1646 := argvalue4.Read(context.Background(), jsProt1645)
+    if err1646 != nil {
       Usage()
       return
     }
@@ -4236,41 +4236,7 @@ func main() {
       fmt.Fprintln(os.Stderr, "DbIdxLongDoubleUpperbound requires 5 args")
       flag.Usage()
     }
-    arg1635 := flag.Arg(1)
-    mbTrans1636 := thrift.NewTMemoryBufferLen(len(arg1635))
-    defer mbTrans1636.Close()
-    _, err1637 := mbTrans1636.WriteString(arg1635)
-    if err1637 != nil {
-      Usage()
-      return
-    }
-    factory1638 := thrift.NewTJSONProtocolFactory()
-    jsProt1639 := factory1638.GetProtocol(mbTrans1636)
-    argvalue0 := interfaces.NewUint64()
-    err1640 := argvalue0.Read(context.Background(), jsProt1639)
-    if err1640 != nil {
-      Usage()
-      return
-    }
-    value0 := argvalue0
-    arg1641 := flag.Arg(2)
-    mbTrans1642 := thrift.NewTMemoryBufferLen(len(arg1641))
-    defer mbTrans1642.Close()
-    _, err1643 := mbTrans1642.WriteString(arg1641)
-    if err1643 != nil {
-      Usage()
-      return
-    }
-    factory1644 := thrift.NewTJSONProtocolFactory()
-    jsProt1645 := factory1644.GetProtocol(mbTrans1642)
-    argvalue1 := interfaces.NewUint64()
-    err1646 := argvalue1.Read(context.Background(), jsProt1645)
-    if err1646 != nil {
-      Usage()
-      return
-    }
-    value1 := argvalue1
-    arg1647 := flag.Arg(3)
+    arg1647 := flag.Arg(1)
     mbTrans1648 := thrift.NewTMemoryBufferLen(len(arg1647))
     defer mbTrans1648.Close()
     _, err1649 := mbTrans1648.WriteString(arg1647)
@@ -4280,28 +4246,62 @@ func main() {
     }
     factory1650 := thrift.NewTJSONProtocolFactory()
     jsProt1651 := factory1650.GetProtocol(mbTrans1648)
-    argvalue2 := interfaces.NewUint64()
-    err1652 := argvalue2.Read(context.Background(), jsProt1651)
+    argvalue0 := interfaces.NewUint64()
+    err1652 := argvalue0.Read(context.Background(), jsProt1651)
     if err1652 != nil {
+      Usage()
+      return
+    }
+    value0 := argvalue0
+    arg1653 := flag.Arg(2)
+    mbTrans1654 := thrift.NewTMemoryBufferLen(len(arg1653))
+    defer mbTrans1654.Close()
+    _, err1655 := mbTrans1654.WriteString(arg1653)
+    if err1655 != nil {
+      Usage()
+      return
+    }
+    factory1656 := thrift.NewTJSONProtocolFactory()
+    jsProt1657 := factory1656.GetProtocol(mbTrans1654)
+    argvalue1 := interfaces.NewUint64()
+    err1658 := argvalue1.Read(context.Background(), jsProt1657)
+    if err1658 != nil {
+      Usage()
+      return
+    }
+    value1 := argvalue1
+    arg1659 := flag.Arg(3)
+    mbTrans1660 := thrift.NewTMemoryBufferLen(len(arg1659))
+    defer mbTrans1660.Close()
+    _, err1661 := mbTrans1660.WriteString(arg1659)
+    if err1661 != nil {
+      Usage()
+      return
+    }
+    factory1662 := thrift.NewTJSONProtocolFactory()
+    jsProt1663 := factory1662.GetProtocol(mbTrans1660)
+    argvalue2 := interfaces.NewUint64()
+    err1664 := argvalue2.Read(context.Background(), jsProt1663)
+    if err1664 != nil {
       Usage()
       return
     }
     value2 := argvalue2
     argvalue3 := []byte(flag.Arg(4))
     value3 := argvalue3
-    arg1654 := flag.Arg(5)
-    mbTrans1655 := thrift.NewTMemoryBufferLen(len(arg1654))
-    defer mbTrans1655.Close()
-    _, err1656 := mbTrans1655.WriteString(arg1654)
-    if err1656 != nil {
+    arg1666 := flag.Arg(5)
+    mbTrans1667 := thrift.NewTMemoryBufferLen(len(arg1666))
+    defer mbTrans1667.Close()
+    _, err1668 := mbTrans1667.WriteString(arg1666)
+    if err1668 != nil {
       Usage()
       return
     }
-    factory1657 := thrift.NewTJSONProtocolFactory()
-    jsProt1658 := factory1657.GetProtocol(mbTrans1655)
+    factory1669 := thrift.NewTJSONProtocolFactory()
+    jsProt1670 := factory1669.GetProtocol(mbTrans1667)
     argvalue4 := interfaces.NewUint64()
-    err1659 := argvalue4.Read(context.Background(), jsProt1658)
-    if err1659 != nil {
+    err1671 := argvalue4.Read(context.Background(), jsProt1670)
+    if err1671 != nil {
       Usage()
       return
     }
@@ -4314,41 +4314,7 @@ func main() {
       fmt.Fprintln(os.Stderr, "DbIdxLongDoubleEnd requires 3 args")
       flag.Usage()
     }
-    arg1660 := flag.Arg(1)
-    mbTrans1661 := thrift.NewTMemoryBufferLen(len(arg1660))
-    defer mbTrans1661.Close()
-    _, err1662 := mbTrans1661.WriteString(arg1660)
-    if err1662 != nil {
-      Usage()
-      return
-    }
-    factory1663 := thrift.NewTJSONProtocolFactory()
-    jsProt1664 := factory1663.GetProtocol(mbTrans1661)
-    argvalue0 := interfaces.NewUint64()
-    err1665 := argvalue0.Read(context.Background(), jsProt1664)
-    if err1665 != nil {
-      Usage()
-      return
-    }
-    value0 := argvalue0
-    arg1666 := flag.Arg(2)
-    mbTrans1667 := thrift.NewTMemoryBufferLen(len(arg1666))
-    defer mbTrans1667.Close()
-    _, err1668 := mbTrans1667.WriteString(arg1666)
-    if err1668 != nil {
-      Usage()
-      return
-    }
-    factory1669 := thrift.NewTJSONProtocolFactory()
-    jsProt1670 := factory1669.GetProtocol(mbTrans1667)
-    argvalue1 := interfaces.NewUint64()
-    err1671 := argvalue1.Read(context.Background(), jsProt1670)
-    if err1671 != nil {
-      Usage()
-      return
-    }
-    value1 := argvalue1
-    arg1672 := flag.Arg(3)
+    arg1672 := flag.Arg(1)
     mbTrans1673 := thrift.NewTMemoryBufferLen(len(arg1672))
     defer mbTrans1673.Close()
     _, err1674 := mbTrans1673.WriteString(arg1672)
@@ -4358,9 +4324,43 @@ func main() {
     }
     factory1675 := thrift.NewTJSONProtocolFactory()
     jsProt1676 := factory1675.GetProtocol(mbTrans1673)
-    argvalue2 := interfaces.NewUint64()
-    err1677 := argvalue2.Read(context.Background(), jsProt1676)
+    argvalue0 := interfaces.NewUint64()
+    err1677 := argvalue0.Read(context.Background(), jsProt1676)
     if err1677 != nil {
+      Usage()
+      return
+    }
+    value0 := argvalue0
+    arg1678 := flag.Arg(2)
+    mbTrans1679 := thrift.NewTMemoryBufferLen(len(arg1678))
+    defer mbTrans1679.Close()
+    _, err1680 := mbTrans1679.WriteString(arg1678)
+    if err1680 != nil {
+      Usage()
+      return
+    }
+    factory1681 := thrift.NewTJSONProtocolFactory()
+    jsProt1682 := factory1681.GetProtocol(mbTrans1679)
+    argvalue1 := interfaces.NewUint64()
+    err1683 := argvalue1.Read(context.Background(), jsProt1682)
+    if err1683 != nil {
+      Usage()
+      return
+    }
+    value1 := argvalue1
+    arg1684 := flag.Arg(3)
+    mbTrans1685 := thrift.NewTMemoryBufferLen(len(arg1684))
+    defer mbTrans1685.Close()
+    _, err1686 := mbTrans1685.WriteString(arg1684)
+    if err1686 != nil {
+      Usage()
+      return
+    }
+    factory1687 := thrift.NewTJSONProtocolFactory()
+    jsProt1688 := factory1687.GetProtocol(mbTrans1685)
+    argvalue2 := interfaces.NewUint64()
+    err1689 := argvalue2.Read(context.Background(), jsProt1688)
+    if err1689 != nil {
       Usage()
       return
     }
@@ -4383,25 +4383,25 @@ func main() {
       fmt.Fprintln(os.Stderr, "GetCodeHash requires 2 args")
       flag.Usage()
     }
-    arg1679 := flag.Arg(1)
-    mbTrans1680 := thrift.NewTMemoryBufferLen(len(arg1679))
-    defer mbTrans1680.Close()
-    _, err1681 := mbTrans1680.WriteString(arg1679)
-    if err1681 != nil {
+    arg1691 := flag.Arg(1)
+    mbTrans1692 := thrift.NewTMemoryBufferLen(len(arg1691))
+    defer mbTrans1692.Close()
+    _, err1693 := mbTrans1692.WriteString(arg1691)
+    if err1693 != nil {
       Usage()
       return
     }
-    factory1682 := thrift.NewTJSONProtocolFactory()
-    jsProt1683 := factory1682.GetProtocol(mbTrans1680)
+    factory1694 := thrift.NewTJSONProtocolFactory()
+    jsProt1695 := factory1694.GetProtocol(mbTrans1692)
     argvalue0 := interfaces.NewUint64()
-    err1684 := argvalue0.Read(context.Background(), jsProt1683)
-    if err1684 != nil {
+    err1696 := argvalue0.Read(context.Background(), jsProt1695)
+    if err1696 != nil {
       Usage()
       return
     }
     value0 := argvalue0
-    argvalue1, err1685 := (strconv.ParseInt(flag.Arg(2), 10, 64))
-    if err1685 != nil {
+    argvalue1, err1697 := (strconv.ParseInt(flag.Arg(2), 10, 64))
+    if err1697 != nil {
       Usage()
       return
     }
@@ -4424,8 +4424,8 @@ func main() {
     }
     argvalue0 := []byte(flag.Arg(1))
     value0 := argvalue0
-    tmp1, err1687 := (strconv.Atoi(flag.Arg(2)))
-    if err1687 != nil {
+    tmp1, err1699 := (strconv.Atoi(flag.Arg(2)))
+    if err1699 != nil {
       Usage()
       return
     }
@@ -4439,8 +4439,8 @@ func main() {
       fmt.Fprintln(os.Stderr, "Blake2F requires 6 args")
       flag.Usage()
     }
-    argvalue0, err1688 := (strconv.ParseInt(flag.Arg(1), 10, 64))
-    if err1688 != nil {
+    argvalue0, err1700 := (strconv.ParseInt(flag.Arg(1), 10, 64))
+    if err1700 != nil {
       Usage()
       return
     }
@@ -4453,8 +4453,8 @@ func main() {
     value3 := argvalue3
     argvalue4 := []byte(flag.Arg(5))
     value4 := argvalue4
-    tmp5, err1693 := (strconv.Atoi(flag.Arg(6)))
-    if err1693 != nil {
+    tmp5, err1705 := (strconv.Atoi(flag.Arg(6)))
+    if err1705 != nil {
       Usage()
       return
     }

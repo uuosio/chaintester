@@ -103,6 +103,9 @@ func TestChainTester(t *testing.T) {
 
 func TestApplyCtx(t *testing.T) {
 	tester := NewChainTester()
+	defer tester.FreeChain()
+	tester.SetNativeApply(native_apply)
+
 	tester.GetInfo()
 
 	{
@@ -119,10 +122,6 @@ func TestApplyCtx(t *testing.T) {
 
 func OnApply(receiver, firstReceiver, action uint64) {
 	native_apply(receiver, firstReceiver, action)
-}
-
-func init() {
-	SetApplyFunc(OnApply)
 }
 
 func native_apply(receiver uint64, firstReceiver uint64, action uint64) {

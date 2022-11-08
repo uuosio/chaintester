@@ -109,13 +109,9 @@ func getUint64(value *interfaces.Uint64) uint64 {
 	return binary.LittleEndian.Uint64(value.RawValue)
 }
 
-var g_apply_func func(uint64, uint64, uint64)
+var g_ChainTesterApplyMap = make(map[int32]func(uint64, uint64, uint64))
 
-func SetApplyFunc(apply func(uint64, uint64, uint64)) {
-	g_apply_func = apply
-}
-
-func (p *ApplyRequestHandler) ApplyRequest(ctx context.Context, receiver *interfaces.Uint64, firstReceiver *interfaces.Uint64, action *interfaces.Uint64) (_r int32, _err error) {
+func (p *ApplyRequestHandler) ApplyRequest(ctx context.Context, receiver *interfaces.Uint64, firstReceiver *interfaces.Uint64, action *interfaces.Uint64, chainTesterId int32) (_r int32, _err error) {
 	// fmt.Println("+++++++ApplyRequest called!")
 	defer func() {
 		if err := recover(); err != nil {
@@ -135,12 +131,11 @@ func (p *ApplyRequestHandler) ApplyRequest(ctx context.Context, receiver *interf
 	_receiver := getUint64(receiver)
 	_firstReceiver := getUint64(firstReceiver)
 	_action := getUint64(action)
-	if g_apply_func == nil {
-		panic("apply function not set!")
-	}
 
 	SetInApply(true)
-	g_apply_func(_receiver, _firstReceiver, _action)
+	if apply, ok := g_ChainTesterApplyMap[chainTesterId]; ok {
+		apply(_receiver, _firstReceiver, _action)
+	}
 	GetVMAPI().EndApply(ctx)
 	SetInApply(false)
 
@@ -149,7 +144,7 @@ func (p *ApplyRequestHandler) ApplyRequest(ctx context.Context, receiver *interf
 	return
 }
 
-func (p *ApplyRequestHandler) ApplyEnd(ctx context.Context) (_r int32, _err error) {
+func (p *ApplyRequestHandler) ApplyEnd(ctx context.Context, chainTesterId int32) (_r int32, _err error) {
 	// fmt.Println("+++++++ApplyEnd")
 	GetApplyRequestServer().server.EndProcessRequests()
 	return 1, nil

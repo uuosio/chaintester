@@ -15,10 +15,6 @@ func OnApply(receiver, firstReceiver, action uint64) {
 	ContractApply(receiver, firstReceiver, action)
 }
 
-func init() {
-	chaintester.SetApplyFunc(OnApply)
-}
-
 func TestHello(t *testing.T) {
 	// t.Errorf("++++++enable_debug: %v", os.Getenv("enable_debug"))
 	permissions := `
