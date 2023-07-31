@@ -43,7 +43,7 @@ func Usage() {
   fmt.Fprintln(os.Stderr, "  string push_action(i32 id, string account, string action, ActionArguments arguments, string permissions)")
   fmt.Fprintln(os.Stderr, "  string push_actions(i32 id,  actions)")
   fmt.Fprintln(os.Stderr, "  string deploy_contract(i32 id, string account, string wasm, string abi)")
-  fmt.Fprintln(os.Stderr, "  string get_table_rows(i32 id, bool json, string code, string scope, string table, string lower_bound, string upper_bound, i64 limit, string key_type, string index_position, bool reverse, bool show_payer)")
+  fmt.Fprintln(os.Stderr, "  string get_table_rows(i32 id, bool json, string code, string scope, string table, string lower_bound, string upper_bound, i64 limit, string key_type, string index_position, string encode_type, bool reverse, bool show_payer)")
   fmt.Fprintln(os.Stderr)
   os.Exit(0)
 }
@@ -575,8 +575,8 @@ func main() {
     fmt.Print("\n")
     break
   case "get_table_rows":
-    if flag.NArg() - 1 != 12 {
-      fmt.Fprintln(os.Stderr, "GetTableRows requires 12 args")
+    if flag.NArg() - 1 != 13 {
+      fmt.Fprintln(os.Stderr, "GetTableRows requires 13 args")
       flag.Usage()
     }
     tmp0, err132 := (strconv.Atoi(flag.Arg(1)))
@@ -608,11 +608,13 @@ func main() {
     value8 := argvalue8
     argvalue9 := flag.Arg(10)
     value9 := argvalue9
-    argvalue10 := flag.Arg(11) == "true"
+    argvalue10 := flag.Arg(11)
     value10 := argvalue10
     argvalue11 := flag.Arg(12) == "true"
     value11 := argvalue11
-    fmt.Print(client.GetTableRows(context.Background(), value0, value1, value2, value3, value4, value5, value6, value7, value8, value9, value10, value11))
+    argvalue12 := flag.Arg(13) == "true"
+    value12 := argvalue12
+    fmt.Print(client.GetTableRows(context.Background(), value0, value1, value2, value3, value4, value5, value6, value7, value8, value9, value10, value11, value12))
     fmt.Print("\n")
     break
   case "":

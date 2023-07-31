@@ -297,15 +297,17 @@ func (p *ChainTester) pushAction(account string, action string, arguments *inter
 	}
 }
 
-func (p *ChainTester) PushAction(account string, action string, arguments string, permissions string) (*JsonValue, error) {
+func (p *ChainTester) PushAction(account string, action string, arguments interface{}, permissions string) (*JsonValue, error) {
 	_arguments := interfaces.NewActionArguments()
-	_arguments.JSONArgs_ = &arguments
-	return p.pushAction(account, action, _arguments, permissions)
-}
+	switch args := arguments.(type) {
+	case string:
+		_arguments.JSONArgs_ = &args
+	case []byte:
+		_arguments.RawArgs_ = args
+	default:
+		panic("Invalid arguments type")
+	}
 
-func (p *ChainTester) PushActionEx(account string, action string, arguments []byte, permissions string) (*JsonValue, error) {
-	_arguments := interfaces.NewActionArguments()
-	_arguments.RawArgs_ = arguments
 	return p.pushAction(account, action, _arguments, permissions)
 }
 
@@ -512,11 +514,12 @@ func (p *ChainTester) GetTableRows(_json bool, code string, scope string, table 
 		limit,
 		"",
 		"",
+		"",
 		false,
 		false)
 }
 
-func (p *ChainTester) GetTableRowsEx(_json bool, code string, scope string, table string, lower_bound string, upper_bound string, limit int64, key_type string, index_position string, reverse bool, show_payer bool) (*JsonValue, error) {
+func (p *ChainTester) GetTableRowsEx(_json bool, code string, scope string, table string, lower_bound string, upper_bound string, limit int64, key_type string, index_position string, encode_type string, reverse bool, show_payer bool) (*JsonValue, error) {
 	ret, err := p.IPCChainTesterClient.GetTableRows(defaultCtx,
 		p.id,
 		_json,
@@ -528,6 +531,7 @@ func (p *ChainTester) GetTableRowsEx(_json bool, code string, scope string, tabl
 		limit,
 		key_type,
 		index_position,
+		encode_type,
 		reverse,
 		show_payer)
 	value := &JsonValue{}

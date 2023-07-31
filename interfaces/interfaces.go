@@ -1904,9 +1904,10 @@ type IPCChainTester interface {
   //  - Limit
   //  - KeyType
   //  - IndexPosition
+  //  - EncodeType
   //  - Reverse
   //  - ShowPayer
-  GetTableRows(ctx context.Context, id int32, json bool, code string, scope string, table string, lower_bound string, upper_bound string, limit int64, key_type string, index_position string, reverse bool, show_payer bool) (_r string, _err error)
+  GetTableRows(ctx context.Context, id int32, json bool, code string, scope string, table string, lower_bound string, upper_bound string, limit int64, key_type string, index_position string, encode_type string, reverse bool, show_payer bool) (_r string, _err error)
 }
 
 type IPCChainTesterClient struct {
@@ -2322,9 +2323,10 @@ func (p *IPCChainTesterClient) DeployContract(ctx context.Context, id int32, acc
 //  - Limit
 //  - KeyType
 //  - IndexPosition
+//  - EncodeType
 //  - Reverse
 //  - ShowPayer
-func (p *IPCChainTesterClient) GetTableRows(ctx context.Context, id int32, json bool, code string, scope string, table string, lower_bound string, upper_bound string, limit int64, key_type string, index_position string, reverse bool, show_payer bool) (_r string, _err error) {
+func (p *IPCChainTesterClient) GetTableRows(ctx context.Context, id int32, json bool, code string, scope string, table string, lower_bound string, upper_bound string, limit int64, key_type string, index_position string, encode_type string, reverse bool, show_payer bool) (_r string, _err error) {
   var _args59 IPCChainTesterGetTableRowsArgs
   _args59.ID = id
   _args59.JSON = json
@@ -2336,6 +2338,7 @@ func (p *IPCChainTesterClient) GetTableRows(ctx context.Context, id int32, json 
   _args59.Limit = limit
   _args59.KeyType = key_type
   _args59.IndexPosition = index_position
+  _args59.EncodeType = encode_type
   _args59.Reverse = reverse
   _args59.ShowPayer = show_payer
   var _result61 IPCChainTesterGetTableRowsResult
@@ -3997,7 +4000,7 @@ func (p *iPCChainTesterProcessorGetTableRows) Process(ctx context.Context, seqId
 
   result := IPCChainTesterGetTableRowsResult{}
   var retval string
-  if retval, err2 = p.handler.GetTableRows(ctx, args.ID, args.JSON, args.Code, args.Scope, args.Table, args.LowerBound, args.UpperBound, args.Limit, args.KeyType, args.IndexPosition, args.Reverse, args.ShowPayer); err2 != nil {
+  if retval, err2 = p.handler.GetTableRows(ctx, args.ID, args.JSON, args.Code, args.Scope, args.Table, args.LowerBound, args.UpperBound, args.Limit, args.KeyType, args.IndexPosition, args.EncodeType, args.Reverse, args.ShowPayer); err2 != nil {
     tickerCancel()
     if err2 == thrift.ErrAbandonRequest {
       return false, thrift.WrapTException(err2)
@@ -8816,6 +8819,7 @@ func (p *IPCChainTesterDeployContractResult) String() string {
 //  - Limit
 //  - KeyType
 //  - IndexPosition
+//  - EncodeType
 //  - Reverse
 //  - ShowPayer
 type IPCChainTesterGetTableRowsArgs struct {
@@ -8829,8 +8833,9 @@ type IPCChainTesterGetTableRowsArgs struct {
   Limit int64 `thrift:"limit,8" db:"limit" json:"limit"`
   KeyType string `thrift:"key_type,9" db:"key_type" json:"key_type"`
   IndexPosition string `thrift:"index_position,10" db:"index_position" json:"index_position"`
-  Reverse bool `thrift:"reverse,11" db:"reverse" json:"reverse"`
-  ShowPayer bool `thrift:"show_payer,12" db:"show_payer" json:"show_payer"`
+  EncodeType string `thrift:"encode_type,11" db:"encode_type" json:"encode_type"`
+  Reverse bool `thrift:"reverse,12" db:"reverse" json:"reverse"`
+  ShowPayer bool `thrift:"show_payer,13" db:"show_payer" json:"show_payer"`
 }
 
 func NewIPCChainTesterGetTableRowsArgs() *IPCChainTesterGetTableRowsArgs {
@@ -8876,6 +8881,10 @@ func (p *IPCChainTesterGetTableRowsArgs) GetKeyType() string {
 
 func (p *IPCChainTesterGetTableRowsArgs) GetIndexPosition() string {
   return p.IndexPosition
+}
+
+func (p *IPCChainTesterGetTableRowsArgs) GetEncodeType() string {
+  return p.EncodeType
 }
 
 func (p *IPCChainTesterGetTableRowsArgs) GetReverse() bool {
@@ -8999,7 +9008,7 @@ func (p *IPCChainTesterGetTableRowsArgs) Read(ctx context.Context, iprot thrift.
         }
       }
     case 11:
-      if fieldTypeId == thrift.BOOL {
+      if fieldTypeId == thrift.STRING {
         if err := p.ReadField11(ctx, iprot); err != nil {
           return err
         }
@@ -9011,6 +9020,16 @@ func (p *IPCChainTesterGetTableRowsArgs) Read(ctx context.Context, iprot thrift.
     case 12:
       if fieldTypeId == thrift.BOOL {
         if err := p.ReadField12(ctx, iprot); err != nil {
+          return err
+        }
+      } else {
+        if err := iprot.Skip(ctx, fieldTypeId); err != nil {
+          return err
+        }
+      }
+    case 13:
+      if fieldTypeId == thrift.BOOL {
+        if err := p.ReadField13(ctx, iprot); err != nil {
           return err
         }
       } else {
@@ -9124,10 +9143,10 @@ func (p *IPCChainTesterGetTableRowsArgs)  ReadField10(ctx context.Context, iprot
 }
 
 func (p *IPCChainTesterGetTableRowsArgs)  ReadField11(ctx context.Context, iprot thrift.TProtocol) error {
-  if v, err := iprot.ReadBool(ctx); err != nil {
+  if v, err := iprot.ReadString(ctx); err != nil {
   return thrift.PrependError("error reading field 11: ", err)
 } else {
-  p.Reverse = v
+  p.EncodeType = v
 }
   return nil
 }
@@ -9135,6 +9154,15 @@ func (p *IPCChainTesterGetTableRowsArgs)  ReadField11(ctx context.Context, iprot
 func (p *IPCChainTesterGetTableRowsArgs)  ReadField12(ctx context.Context, iprot thrift.TProtocol) error {
   if v, err := iprot.ReadBool(ctx); err != nil {
   return thrift.PrependError("error reading field 12: ", err)
+} else {
+  p.Reverse = v
+}
+  return nil
+}
+
+func (p *IPCChainTesterGetTableRowsArgs)  ReadField13(ctx context.Context, iprot thrift.TProtocol) error {
+  if v, err := iprot.ReadBool(ctx); err != nil {
+  return thrift.PrependError("error reading field 13: ", err)
 } else {
   p.ShowPayer = v
 }
@@ -9157,6 +9185,7 @@ func (p *IPCChainTesterGetTableRowsArgs) Write(ctx context.Context, oprot thrift
     if err := p.writeField10(ctx, oprot); err != nil { return err }
     if err := p.writeField11(ctx, oprot); err != nil { return err }
     if err := p.writeField12(ctx, oprot); err != nil { return err }
+    if err := p.writeField13(ctx, oprot); err != nil { return err }
   }
   if err := oprot.WriteFieldStop(ctx); err != nil {
     return thrift.PrependError("write field stop error: ", err) }
@@ -9266,22 +9295,32 @@ func (p *IPCChainTesterGetTableRowsArgs) writeField10(ctx context.Context, oprot
 }
 
 func (p *IPCChainTesterGetTableRowsArgs) writeField11(ctx context.Context, oprot thrift.TProtocol) (err error) {
-  if err := oprot.WriteFieldBegin(ctx, "reverse", thrift.BOOL, 11); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T write field begin error 11:reverse: ", p), err) }
-  if err := oprot.WriteBool(ctx, bool(p.Reverse)); err != nil {
-  return thrift.PrependError(fmt.Sprintf("%T.reverse (11) field write error: ", p), err) }
+  if err := oprot.WriteFieldBegin(ctx, "encode_type", thrift.STRING, 11); err != nil {
+    return thrift.PrependError(fmt.Sprintf("%T write field begin error 11:encode_type: ", p), err) }
+  if err := oprot.WriteString(ctx, string(p.EncodeType)); err != nil {
+  return thrift.PrependError(fmt.Sprintf("%T.encode_type (11) field write error: ", p), err) }
   if err := oprot.WriteFieldEnd(ctx); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T write field end error 11:reverse: ", p), err) }
+    return thrift.PrependError(fmt.Sprintf("%T write field end error 11:encode_type: ", p), err) }
   return err
 }
 
 func (p *IPCChainTesterGetTableRowsArgs) writeField12(ctx context.Context, oprot thrift.TProtocol) (err error) {
-  if err := oprot.WriteFieldBegin(ctx, "show_payer", thrift.BOOL, 12); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T write field begin error 12:show_payer: ", p), err) }
-  if err := oprot.WriteBool(ctx, bool(p.ShowPayer)); err != nil {
-  return thrift.PrependError(fmt.Sprintf("%T.show_payer (12) field write error: ", p), err) }
+  if err := oprot.WriteFieldBegin(ctx, "reverse", thrift.BOOL, 12); err != nil {
+    return thrift.PrependError(fmt.Sprintf("%T write field begin error 12:reverse: ", p), err) }
+  if err := oprot.WriteBool(ctx, bool(p.Reverse)); err != nil {
+  return thrift.PrependError(fmt.Sprintf("%T.reverse (12) field write error: ", p), err) }
   if err := oprot.WriteFieldEnd(ctx); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T write field end error 12:show_payer: ", p), err) }
+    return thrift.PrependError(fmt.Sprintf("%T write field end error 12:reverse: ", p), err) }
+  return err
+}
+
+func (p *IPCChainTesterGetTableRowsArgs) writeField13(ctx context.Context, oprot thrift.TProtocol) (err error) {
+  if err := oprot.WriteFieldBegin(ctx, "show_payer", thrift.BOOL, 13); err != nil {
+    return thrift.PrependError(fmt.Sprintf("%T write field begin error 13:show_payer: ", p), err) }
+  if err := oprot.WriteBool(ctx, bool(p.ShowPayer)); err != nil {
+  return thrift.PrependError(fmt.Sprintf("%T.show_payer (13) field write error: ", p), err) }
+  if err := oprot.WriteFieldEnd(ctx); err != nil {
+    return thrift.PrependError(fmt.Sprintf("%T write field end error 13:show_payer: ", p), err) }
   return err
 }
 
@@ -9437,16 +9476,16 @@ func (p *PushActionsClient) SetLastResponseMeta_(meta thrift.ResponseMeta) {
 // Parameters:
 //  - Actions
 func (p *PushActionsClient) PushActions(ctx context.Context, actions []*Action) (_r int32, _err error) {
-  var _args144 PushActionsPushActionsArgs
-  _args144.Actions = actions
-  var _result146 PushActionsPushActionsResult
-  var _meta145 thrift.ResponseMeta
-  _meta145, _err = p.Client_().Call(ctx, "push_actions", &_args144, &_result146)
-  p.SetLastResponseMeta_(_meta145)
+  var _args145 PushActionsPushActionsArgs
+  _args145.Actions = actions
+  var _result147 PushActionsPushActionsResult
+  var _meta146 thrift.ResponseMeta
+  _meta146, _err = p.Client_().Call(ctx, "push_actions", &_args145, &_result147)
+  p.SetLastResponseMeta_(_meta146)
   if _err != nil {
     return
   }
-  return _result146.GetSuccess(), nil
+  return _result147.GetSuccess(), nil
 }
 
 type PushActionsProcessor struct {
@@ -9469,9 +9508,9 @@ func (p *PushActionsProcessor) ProcessorMap() map[string]thrift.TProcessorFuncti
 
 func NewPushActionsProcessor(handler PushActions) *PushActionsProcessor {
 
-  self147 := &PushActionsProcessor{handler:handler, processorMap:make(map[string]thrift.TProcessorFunction)}
-  self147.processorMap["push_actions"] = &pushActionsProcessorPushActions{handler:handler}
-return self147
+  self148 := &PushActionsProcessor{handler:handler, processorMap:make(map[string]thrift.TProcessorFunction)}
+  self148.processorMap["push_actions"] = &pushActionsProcessorPushActions{handler:handler}
+return self148
 }
 
 func (p *PushActionsProcessor) Process(ctx context.Context, iprot, oprot thrift.TProtocol) (success bool, err thrift.TException) {
@@ -9482,12 +9521,12 @@ func (p *PushActionsProcessor) Process(ctx context.Context, iprot, oprot thrift.
   }
   iprot.Skip(ctx, thrift.STRUCT)
   iprot.ReadMessageEnd(ctx)
-  x148 := thrift.NewTApplicationException(thrift.UNKNOWN_METHOD, "Unknown function " + name)
+  x149 := thrift.NewTApplicationException(thrift.UNKNOWN_METHOD, "Unknown function " + name)
   oprot.WriteMessageBegin(ctx, name, thrift.EXCEPTION, seqId)
-  x148.Write(ctx, oprot)
+  x149.Write(ctx, oprot)
   oprot.WriteMessageEnd(ctx)
   oprot.Flush(ctx)
-  return false, x148
+  return false, x149
 
 }
 
@@ -9633,11 +9672,11 @@ func (p *PushActionsPushActionsArgs)  ReadField1(ctx context.Context, iprot thri
   tSlice := make([]*Action, 0, size)
   p.Actions =  tSlice
   for i := 0; i < size; i ++ {
-    _elem149 := &Action{}
-    if err := _elem149.Read(ctx, iprot); err != nil {
-      return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", _elem149), err)
+    _elem150 := &Action{}
+    if err := _elem150.Read(ctx, iprot); err != nil {
+      return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", _elem150), err)
     }
-    p.Actions = append(p.Actions, _elem149)
+    p.Actions = append(p.Actions, _elem150)
   }
   if err := iprot.ReadListEnd(ctx); err != nil {
     return thrift.PrependError("error reading list end: ", err)
@@ -9838,34 +9877,34 @@ func (p *ApplyRequestClient) SetLastResponseMeta_(meta thrift.ResponseMeta) {
 //  - Action
 //  - ChainTesterId
 func (p *ApplyRequestClient) ApplyRequest(ctx context.Context, receiver *Uint64, firstReceiver *Uint64, action *Uint64, chainTesterId int32) (_r int32, _err error) {
-  var _args156 ApplyRequestApplyRequestArgs
-  _args156.Receiver = receiver
-  _args156.FirstReceiver = firstReceiver
-  _args156.Action = action
-  _args156.ChainTesterId = chainTesterId
-  var _result158 ApplyRequestApplyRequestResult
-  var _meta157 thrift.ResponseMeta
-  _meta157, _err = p.Client_().Call(ctx, "apply_request", &_args156, &_result158)
-  p.SetLastResponseMeta_(_meta157)
+  var _args157 ApplyRequestApplyRequestArgs
+  _args157.Receiver = receiver
+  _args157.FirstReceiver = firstReceiver
+  _args157.Action = action
+  _args157.ChainTesterId = chainTesterId
+  var _result159 ApplyRequestApplyRequestResult
+  var _meta158 thrift.ResponseMeta
+  _meta158, _err = p.Client_().Call(ctx, "apply_request", &_args157, &_result159)
+  p.SetLastResponseMeta_(_meta158)
   if _err != nil {
     return
   }
-  return _result158.GetSuccess(), nil
+  return _result159.GetSuccess(), nil
 }
 
 // Parameters:
 //  - ChainTesterId
 func (p *ApplyRequestClient) ApplyEnd(ctx context.Context, chainTesterId int32) (_r int32, _err error) {
-  var _args159 ApplyRequestApplyEndArgs
-  _args159.ChainTesterId = chainTesterId
-  var _result161 ApplyRequestApplyEndResult
-  var _meta160 thrift.ResponseMeta
-  _meta160, _err = p.Client_().Call(ctx, "apply_end", &_args159, &_result161)
-  p.SetLastResponseMeta_(_meta160)
+  var _args160 ApplyRequestApplyEndArgs
+  _args160.ChainTesterId = chainTesterId
+  var _result162 ApplyRequestApplyEndResult
+  var _meta161 thrift.ResponseMeta
+  _meta161, _err = p.Client_().Call(ctx, "apply_end", &_args160, &_result162)
+  p.SetLastResponseMeta_(_meta161)
   if _err != nil {
     return
   }
-  return _result161.GetSuccess(), nil
+  return _result162.GetSuccess(), nil
 }
 
 type ApplyRequestProcessor struct {
@@ -9888,10 +9927,10 @@ func (p *ApplyRequestProcessor) ProcessorMap() map[string]thrift.TProcessorFunct
 
 func NewApplyRequestProcessor(handler ApplyRequest) *ApplyRequestProcessor {
 
-  self162 := &ApplyRequestProcessor{handler:handler, processorMap:make(map[string]thrift.TProcessorFunction)}
-  self162.processorMap["apply_request"] = &applyRequestProcessorApplyRequest{handler:handler}
-  self162.processorMap["apply_end"] = &applyRequestProcessorApplyEnd{handler:handler}
-return self162
+  self163 := &ApplyRequestProcessor{handler:handler, processorMap:make(map[string]thrift.TProcessorFunction)}
+  self163.processorMap["apply_request"] = &applyRequestProcessorApplyRequest{handler:handler}
+  self163.processorMap["apply_end"] = &applyRequestProcessorApplyEnd{handler:handler}
+return self163
 }
 
 func (p *ApplyRequestProcessor) Process(ctx context.Context, iprot, oprot thrift.TProtocol) (success bool, err thrift.TException) {
@@ -9902,12 +9941,12 @@ func (p *ApplyRequestProcessor) Process(ctx context.Context, iprot, oprot thrift
   }
   iprot.Skip(ctx, thrift.STRUCT)
   iprot.ReadMessageEnd(ctx)
-  x163 := thrift.NewTApplicationException(thrift.UNKNOWN_METHOD, "Unknown function " + name)
+  x164 := thrift.NewTApplicationException(thrift.UNKNOWN_METHOD, "Unknown function " + name)
   oprot.WriteMessageBegin(ctx, name, thrift.EXCEPTION, seqId)
-  x163.Write(ctx, oprot)
+  x164.Write(ctx, oprot)
   oprot.WriteMessageEnd(ctx)
   oprot.Flush(ctx)
-  return false, x163
+  return false, x164
 
 }
 
@@ -11158,43 +11197,43 @@ func (p *ApplyClient) SetLastResponseMeta_(meta thrift.ResponseMeta) {
 }
 
 func (p *ApplyClient) EndApply(ctx context.Context) (_r int32, _err error) {
-  var _args184 ApplyEndApplyArgs
-  var _result186 ApplyEndApplyResult
-  var _meta185 thrift.ResponseMeta
-  _meta185, _err = p.Client_().Call(ctx, "end_apply", &_args184, &_result186)
-  p.SetLastResponseMeta_(_meta185)
+  var _args185 ApplyEndApplyArgs
+  var _result187 ApplyEndApplyResult
+  var _meta186 thrift.ResponseMeta
+  _meta186, _err = p.Client_().Call(ctx, "end_apply", &_args185, &_result187)
+  p.SetLastResponseMeta_(_meta186)
   if _err != nil {
     return
   }
-  return _result186.GetSuccess(), nil
+  return _result187.GetSuccess(), nil
 }
 
 func (p *ApplyClient) GetActiveProducers(ctx context.Context) (_r []byte, _err error) {
-  var _args187 ApplyGetActiveProducersArgs
-  var _result189 ApplyGetActiveProducersResult
-  var _meta188 thrift.ResponseMeta
-  _meta188, _err = p.Client_().Call(ctx, "get_active_producers", &_args187, &_result189)
-  p.SetLastResponseMeta_(_meta188)
+  var _args188 ApplyGetActiveProducersArgs
+  var _result190 ApplyGetActiveProducersResult
+  var _meta189 thrift.ResponseMeta
+  _meta189, _err = p.Client_().Call(ctx, "get_active_producers", &_args188, &_result190)
+  p.SetLastResponseMeta_(_meta189)
   if _err != nil {
     return
   }
-  return _result189.GetSuccess(), nil
+  return _result190.GetSuccess(), nil
 }
 
 // Parameters:
 //  - Account
 func (p *ApplyClient) GetResourceLimits(ctx context.Context, account *Uint64) (_r *GetResourceLimitsReturn, _err error) {
-  var _args190 ApplyGetResourceLimitsArgs
-  _args190.Account = account
-  var _result192 ApplyGetResourceLimitsResult
-  var _meta191 thrift.ResponseMeta
-  _meta191, _err = p.Client_().Call(ctx, "get_resource_limits", &_args190, &_result192)
-  p.SetLastResponseMeta_(_meta191)
+  var _args191 ApplyGetResourceLimitsArgs
+  _args191.Account = account
+  var _result193 ApplyGetResourceLimitsResult
+  var _meta192 thrift.ResponseMeta
+  _meta192, _err = p.Client_().Call(ctx, "get_resource_limits", &_args191, &_result193)
+  p.SetLastResponseMeta_(_meta192)
   if _err != nil {
     return
   }
-  if _ret193 := _result192.GetSuccess(); _ret193 != nil {
-    return _ret193, nil
+  if _ret194 := _result193.GetSuccess(); _ret194 != nil {
+    return _ret194, nil
   }
   return nil, thrift.NewTApplicationException(thrift.MISSING_RESULT, "get_resource_limits failed: unknown result")
 }
@@ -11205,15 +11244,15 @@ func (p *ApplyClient) GetResourceLimits(ctx context.Context, account *Uint64) (_
 //  - NetWeight
 //  - CPUWeight
 func (p *ApplyClient) SetResourceLimits(ctx context.Context, account *Uint64, ram_bytes int64, net_weight int64, cpu_weight int64) (_err error) {
-  var _args194 ApplySetResourceLimitsArgs
-  _args194.Account = account
-  _args194.RAMBytes = ram_bytes
-  _args194.NetWeight = net_weight
-  _args194.CPUWeight = cpu_weight
-  var _result196 ApplySetResourceLimitsResult
-  var _meta195 thrift.ResponseMeta
-  _meta195, _err = p.Client_().Call(ctx, "set_resource_limits", &_args194, &_result196)
-  p.SetLastResponseMeta_(_meta195)
+  var _args195 ApplySetResourceLimitsArgs
+  _args195.Account = account
+  _args195.RAMBytes = ram_bytes
+  _args195.NetWeight = net_weight
+  _args195.CPUWeight = cpu_weight
+  var _result197 ApplySetResourceLimitsResult
+  var _meta196 thrift.ResponseMeta
+  _meta196, _err = p.Client_().Call(ctx, "set_resource_limits", &_args195, &_result197)
+  p.SetLastResponseMeta_(_meta196)
   if _err != nil {
     return
   }
@@ -11223,61 +11262,61 @@ func (p *ApplyClient) SetResourceLimits(ctx context.Context, account *Uint64, ra
 // Parameters:
 //  - ProducerData
 func (p *ApplyClient) SetProposedProducers(ctx context.Context, producer_data []byte) (_r int64, _err error) {
-  var _args197 ApplySetProposedProducersArgs
-  _args197.ProducerData = producer_data
-  var _result199 ApplySetProposedProducersResult
-  var _meta198 thrift.ResponseMeta
-  _meta198, _err = p.Client_().Call(ctx, "set_proposed_producers", &_args197, &_result199)
-  p.SetLastResponseMeta_(_meta198)
+  var _args198 ApplySetProposedProducersArgs
+  _args198.ProducerData = producer_data
+  var _result200 ApplySetProposedProducersResult
+  var _meta199 thrift.ResponseMeta
+  _meta199, _err = p.Client_().Call(ctx, "set_proposed_producers", &_args198, &_result200)
+  p.SetLastResponseMeta_(_meta199)
   if _err != nil {
     return
   }
-  return _result199.GetSuccess(), nil
+  return _result200.GetSuccess(), nil
 }
 
 // Parameters:
 //  - ProducerDataFormat
 //  - ProducerData
 func (p *ApplyClient) SetProposedProducersEx(ctx context.Context, producer_data_format *Uint64, producer_data []byte) (_r int64, _err error) {
-  var _args200 ApplySetProposedProducersExArgs
-  _args200.ProducerDataFormat = producer_data_format
-  _args200.ProducerData = producer_data
-  var _result202 ApplySetProposedProducersExResult
-  var _meta201 thrift.ResponseMeta
-  _meta201, _err = p.Client_().Call(ctx, "set_proposed_producers_ex", &_args200, &_result202)
-  p.SetLastResponseMeta_(_meta201)
+  var _args201 ApplySetProposedProducersExArgs
+  _args201.ProducerDataFormat = producer_data_format
+  _args201.ProducerData = producer_data
+  var _result203 ApplySetProposedProducersExResult
+  var _meta202 thrift.ResponseMeta
+  _meta202, _err = p.Client_().Call(ctx, "set_proposed_producers_ex", &_args201, &_result203)
+  p.SetLastResponseMeta_(_meta202)
   if _err != nil {
     return
   }
-  return _result202.GetSuccess(), nil
+  return _result203.GetSuccess(), nil
 }
 
 // Parameters:
 //  - Account
 func (p *ApplyClient) IsPrivileged(ctx context.Context, account *Uint64) (_r bool, _err error) {
-  var _args203 ApplyIsPrivilegedArgs
-  _args203.Account = account
-  var _result205 ApplyIsPrivilegedResult
-  var _meta204 thrift.ResponseMeta
-  _meta204, _err = p.Client_().Call(ctx, "is_privileged", &_args203, &_result205)
-  p.SetLastResponseMeta_(_meta204)
+  var _args204 ApplyIsPrivilegedArgs
+  _args204.Account = account
+  var _result206 ApplyIsPrivilegedResult
+  var _meta205 thrift.ResponseMeta
+  _meta205, _err = p.Client_().Call(ctx, "is_privileged", &_args204, &_result206)
+  p.SetLastResponseMeta_(_meta205)
   if _err != nil {
     return
   }
-  return _result205.GetSuccess(), nil
+  return _result206.GetSuccess(), nil
 }
 
 // Parameters:
 //  - Account
 //  - IsPriv
 func (p *ApplyClient) SetPrivileged(ctx context.Context, account *Uint64, is_priv bool) (_err error) {
-  var _args206 ApplySetPrivilegedArgs
-  _args206.Account = account
-  _args206.IsPriv = is_priv
-  var _result208 ApplySetPrivilegedResult
-  var _meta207 thrift.ResponseMeta
-  _meta207, _err = p.Client_().Call(ctx, "set_privileged", &_args206, &_result208)
-  p.SetLastResponseMeta_(_meta207)
+  var _args207 ApplySetPrivilegedArgs
+  _args207.Account = account
+  _args207.IsPriv = is_priv
+  var _result209 ApplySetPrivilegedResult
+  var _meta208 thrift.ResponseMeta
+  _meta208, _err = p.Client_().Call(ctx, "set_privileged", &_args207, &_result209)
+  p.SetLastResponseMeta_(_meta208)
   if _err != nil {
     return
   }
@@ -11287,12 +11326,12 @@ func (p *ApplyClient) SetPrivileged(ctx context.Context, account *Uint64, is_pri
 // Parameters:
 //  - Data
 func (p *ApplyClient) SetBlockchainParametersPacked(ctx context.Context, data []byte) (_err error) {
-  var _args209 ApplySetBlockchainParametersPackedArgs
-  _args209.Data = data
-  var _result211 ApplySetBlockchainParametersPackedResult
-  var _meta210 thrift.ResponseMeta
-  _meta210, _err = p.Client_().Call(ctx, "set_blockchain_parameters_packed", &_args209, &_result211)
-  p.SetLastResponseMeta_(_meta210)
+  var _args210 ApplySetBlockchainParametersPackedArgs
+  _args210.Data = data
+  var _result212 ApplySetBlockchainParametersPackedResult
+  var _meta211 thrift.ResponseMeta
+  _meta211, _err = p.Client_().Call(ctx, "set_blockchain_parameters_packed", &_args210, &_result212)
+  p.SetLastResponseMeta_(_meta211)
   if _err != nil {
     return
   }
@@ -11300,26 +11339,26 @@ func (p *ApplyClient) SetBlockchainParametersPacked(ctx context.Context, data []
 }
 
 func (p *ApplyClient) GetBlockchainParametersPacked(ctx context.Context) (_r []byte, _err error) {
-  var _args212 ApplyGetBlockchainParametersPackedArgs
-  var _result214 ApplyGetBlockchainParametersPackedResult
-  var _meta213 thrift.ResponseMeta
-  _meta213, _err = p.Client_().Call(ctx, "get_blockchain_parameters_packed", &_args212, &_result214)
-  p.SetLastResponseMeta_(_meta213)
+  var _args213 ApplyGetBlockchainParametersPackedArgs
+  var _result215 ApplyGetBlockchainParametersPackedResult
+  var _meta214 thrift.ResponseMeta
+  _meta214, _err = p.Client_().Call(ctx, "get_blockchain_parameters_packed", &_args213, &_result215)
+  p.SetLastResponseMeta_(_meta214)
   if _err != nil {
     return
   }
-  return _result214.GetSuccess(), nil
+  return _result215.GetSuccess(), nil
 }
 
 // Parameters:
 //  - FeatureDigest
 func (p *ApplyClient) PreactivateFeature(ctx context.Context, feature_digest []byte) (_err error) {
-  var _args215 ApplyPreactivateFeatureArgs
-  _args215.FeatureDigest = feature_digest
-  var _result217 ApplyPreactivateFeatureResult
-  var _meta216 thrift.ResponseMeta
-  _meta216, _err = p.Client_().Call(ctx, "preactivate_feature", &_args215, &_result217)
-  p.SetLastResponseMeta_(_meta216)
+  var _args216 ApplyPreactivateFeatureArgs
+  _args216.FeatureDigest = feature_digest
+  var _result218 ApplyPreactivateFeatureResult
+  var _meta217 thrift.ResponseMeta
+  _meta217, _err = p.Client_().Call(ctx, "preactivate_feature", &_args216, &_result218)
+  p.SetLastResponseMeta_(_meta217)
   if _err != nil {
     return
   }
@@ -11331,18 +11370,18 @@ func (p *ApplyClient) PreactivateFeature(ctx context.Context, feature_digest []b
 //  - PubkeysData
 //  - PermsData
 func (p *ApplyClient) CheckTransactionAuthorization(ctx context.Context, trx_data []byte, pubkeys_data []byte, perms_data []byte) (_r int32, _err error) {
-  var _args218 ApplyCheckTransactionAuthorizationArgs
-  _args218.TrxData = trx_data
-  _args218.PubkeysData = pubkeys_data
-  _args218.PermsData = perms_data
-  var _result220 ApplyCheckTransactionAuthorizationResult
-  var _meta219 thrift.ResponseMeta
-  _meta219, _err = p.Client_().Call(ctx, "check_transaction_authorization", &_args218, &_result220)
-  p.SetLastResponseMeta_(_meta219)
+  var _args219 ApplyCheckTransactionAuthorizationArgs
+  _args219.TrxData = trx_data
+  _args219.PubkeysData = pubkeys_data
+  _args219.PermsData = perms_data
+  var _result221 ApplyCheckTransactionAuthorizationResult
+  var _meta220 thrift.ResponseMeta
+  _meta220, _err = p.Client_().Call(ctx, "check_transaction_authorization", &_args219, &_result221)
+  p.SetLastResponseMeta_(_meta220)
   if _err != nil {
     return
   }
-  return _result220.GetSuccess(), nil
+  return _result221.GetSuccess(), nil
 }
 
 // Parameters:
@@ -11352,63 +11391,63 @@ func (p *ApplyClient) CheckTransactionAuthorization(ctx context.Context, trx_dat
 //  - PermsData
 //  - DelayUs
 func (p *ApplyClient) CheckPermissionAuthorization(ctx context.Context, account *Uint64, permission *Uint64, pubkeys_data []byte, perms_data []byte, delay_us *Uint64) (_r int32, _err error) {
-  var _args221 ApplyCheckPermissionAuthorizationArgs
-  _args221.Account = account
-  _args221.Permission = permission
-  _args221.PubkeysData = pubkeys_data
-  _args221.PermsData = perms_data
-  _args221.DelayUs = delay_us
-  var _result223 ApplyCheckPermissionAuthorizationResult
-  var _meta222 thrift.ResponseMeta
-  _meta222, _err = p.Client_().Call(ctx, "check_permission_authorization", &_args221, &_result223)
-  p.SetLastResponseMeta_(_meta222)
+  var _args222 ApplyCheckPermissionAuthorizationArgs
+  _args222.Account = account
+  _args222.Permission = permission
+  _args222.PubkeysData = pubkeys_data
+  _args222.PermsData = perms_data
+  _args222.DelayUs = delay_us
+  var _result224 ApplyCheckPermissionAuthorizationResult
+  var _meta223 thrift.ResponseMeta
+  _meta223, _err = p.Client_().Call(ctx, "check_permission_authorization", &_args222, &_result224)
+  p.SetLastResponseMeta_(_meta223)
   if _err != nil {
     return
   }
-  return _result223.GetSuccess(), nil
+  return _result224.GetSuccess(), nil
 }
 
 // Parameters:
 //  - Account
 //  - Permission
 func (p *ApplyClient) GetPermissionLastUsed(ctx context.Context, account *Uint64, permission *Uint64) (_r int64, _err error) {
-  var _args224 ApplyGetPermissionLastUsedArgs
-  _args224.Account = account
-  _args224.Permission = permission
-  var _result226 ApplyGetPermissionLastUsedResult
-  var _meta225 thrift.ResponseMeta
-  _meta225, _err = p.Client_().Call(ctx, "get_permission_last_used", &_args224, &_result226)
-  p.SetLastResponseMeta_(_meta225)
+  var _args225 ApplyGetPermissionLastUsedArgs
+  _args225.Account = account
+  _args225.Permission = permission
+  var _result227 ApplyGetPermissionLastUsedResult
+  var _meta226 thrift.ResponseMeta
+  _meta226, _err = p.Client_().Call(ctx, "get_permission_last_used", &_args225, &_result227)
+  p.SetLastResponseMeta_(_meta226)
   if _err != nil {
     return
   }
-  return _result226.GetSuccess(), nil
+  return _result227.GetSuccess(), nil
 }
 
 // Parameters:
 //  - Account
 func (p *ApplyClient) GetAccountCreationTime(ctx context.Context, account *Uint64) (_r int64, _err error) {
-  var _args227 ApplyGetAccountCreationTimeArgs
-  _args227.Account = account
-  var _result229 ApplyGetAccountCreationTimeResult
-  var _meta228 thrift.ResponseMeta
-  _meta228, _err = p.Client_().Call(ctx, "get_account_creation_time", &_args227, &_result229)
-  p.SetLastResponseMeta_(_meta228)
+  var _args228 ApplyGetAccountCreationTimeArgs
+  _args228.Account = account
+  var _result230 ApplyGetAccountCreationTimeResult
+  var _meta229 thrift.ResponseMeta
+  _meta229, _err = p.Client_().Call(ctx, "get_account_creation_time", &_args228, &_result230)
+  p.SetLastResponseMeta_(_meta229)
   if _err != nil {
     return
   }
-  return _result229.GetSuccess(), nil
+  return _result230.GetSuccess(), nil
 }
 
 // Parameters:
 //  - Cstr
 func (p *ApplyClient) Prints(ctx context.Context, cstr string) (_err error) {
-  var _args230 ApplyPrintsArgs
-  _args230.Cstr = cstr
-  var _result232 ApplyPrintsResult
-  var _meta231 thrift.ResponseMeta
-  _meta231, _err = p.Client_().Call(ctx, "prints", &_args230, &_result232)
-  p.SetLastResponseMeta_(_meta231)
+  var _args231 ApplyPrintsArgs
+  _args231.Cstr = cstr
+  var _result233 ApplyPrintsResult
+  var _meta232 thrift.ResponseMeta
+  _meta232, _err = p.Client_().Call(ctx, "prints", &_args231, &_result233)
+  p.SetLastResponseMeta_(_meta232)
   if _err != nil {
     return
   }
@@ -11418,12 +11457,12 @@ func (p *ApplyClient) Prints(ctx context.Context, cstr string) (_err error) {
 // Parameters:
 //  - Cstr
 func (p *ApplyClient) PrintsL(ctx context.Context, cstr []byte) (_err error) {
-  var _args233 ApplyPrintsLArgs
-  _args233.Cstr = cstr
-  var _result235 ApplyPrintsLResult
-  var _meta234 thrift.ResponseMeta
-  _meta234, _err = p.Client_().Call(ctx, "prints_l", &_args233, &_result235)
-  p.SetLastResponseMeta_(_meta234)
+  var _args234 ApplyPrintsLArgs
+  _args234.Cstr = cstr
+  var _result236 ApplyPrintsLResult
+  var _meta235 thrift.ResponseMeta
+  _meta235, _err = p.Client_().Call(ctx, "prints_l", &_args234, &_result236)
+  p.SetLastResponseMeta_(_meta235)
   if _err != nil {
     return
   }
@@ -11433,12 +11472,12 @@ func (p *ApplyClient) PrintsL(ctx context.Context, cstr []byte) (_err error) {
 // Parameters:
 //  - N
 func (p *ApplyClient) Printi(ctx context.Context, n int64) (_err error) {
-  var _args236 ApplyPrintiArgs
-  _args236.N = n
-  var _result238 ApplyPrintiResult
-  var _meta237 thrift.ResponseMeta
-  _meta237, _err = p.Client_().Call(ctx, "printi", &_args236, &_result238)
-  p.SetLastResponseMeta_(_meta237)
+  var _args237 ApplyPrintiArgs
+  _args237.N = n
+  var _result239 ApplyPrintiResult
+  var _meta238 thrift.ResponseMeta
+  _meta238, _err = p.Client_().Call(ctx, "printi", &_args237, &_result239)
+  p.SetLastResponseMeta_(_meta238)
   if _err != nil {
     return
   }
@@ -11448,12 +11487,12 @@ func (p *ApplyClient) Printi(ctx context.Context, n int64) (_err error) {
 // Parameters:
 //  - N
 func (p *ApplyClient) Printui(ctx context.Context, n *Uint64) (_err error) {
-  var _args239 ApplyPrintuiArgs
-  _args239.N = n
-  var _result241 ApplyPrintuiResult
-  var _meta240 thrift.ResponseMeta
-  _meta240, _err = p.Client_().Call(ctx, "printui", &_args239, &_result241)
-  p.SetLastResponseMeta_(_meta240)
+  var _args240 ApplyPrintuiArgs
+  _args240.N = n
+  var _result242 ApplyPrintuiResult
+  var _meta241 thrift.ResponseMeta
+  _meta241, _err = p.Client_().Call(ctx, "printui", &_args240, &_result242)
+  p.SetLastResponseMeta_(_meta241)
   if _err != nil {
     return
   }
@@ -11463,12 +11502,12 @@ func (p *ApplyClient) Printui(ctx context.Context, n *Uint64) (_err error) {
 // Parameters:
 //  - Value
 func (p *ApplyClient) Printi128(ctx context.Context, value []byte) (_err error) {
-  var _args242 ApplyPrinti128Args
-  _args242.Value = value
-  var _result244 ApplyPrinti128Result
-  var _meta243 thrift.ResponseMeta
-  _meta243, _err = p.Client_().Call(ctx, "printi128", &_args242, &_result244)
-  p.SetLastResponseMeta_(_meta243)
+  var _args243 ApplyPrinti128Args
+  _args243.Value = value
+  var _result245 ApplyPrinti128Result
+  var _meta244 thrift.ResponseMeta
+  _meta244, _err = p.Client_().Call(ctx, "printi128", &_args243, &_result245)
+  p.SetLastResponseMeta_(_meta244)
   if _err != nil {
     return
   }
@@ -11478,12 +11517,12 @@ func (p *ApplyClient) Printi128(ctx context.Context, value []byte) (_err error) 
 // Parameters:
 //  - Value
 func (p *ApplyClient) Printui128(ctx context.Context, value []byte) (_err error) {
-  var _args245 ApplyPrintui128Args
-  _args245.Value = value
-  var _result247 ApplyPrintui128Result
-  var _meta246 thrift.ResponseMeta
-  _meta246, _err = p.Client_().Call(ctx, "printui128", &_args245, &_result247)
-  p.SetLastResponseMeta_(_meta246)
+  var _args246 ApplyPrintui128Args
+  _args246.Value = value
+  var _result248 ApplyPrintui128Result
+  var _meta247 thrift.ResponseMeta
+  _meta247, _err = p.Client_().Call(ctx, "printui128", &_args246, &_result248)
+  p.SetLastResponseMeta_(_meta247)
   if _err != nil {
     return
   }
@@ -11493,12 +11532,12 @@ func (p *ApplyClient) Printui128(ctx context.Context, value []byte) (_err error)
 // Parameters:
 //  - Value
 func (p *ApplyClient) Printsf(ctx context.Context, value []byte) (_err error) {
-  var _args248 ApplyPrintsfArgs
-  _args248.Value = value
-  var _result250 ApplyPrintsfResult
-  var _meta249 thrift.ResponseMeta
-  _meta249, _err = p.Client_().Call(ctx, "printsf", &_args248, &_result250)
-  p.SetLastResponseMeta_(_meta249)
+  var _args249 ApplyPrintsfArgs
+  _args249.Value = value
+  var _result251 ApplyPrintsfResult
+  var _meta250 thrift.ResponseMeta
+  _meta250, _err = p.Client_().Call(ctx, "printsf", &_args249, &_result251)
+  p.SetLastResponseMeta_(_meta250)
   if _err != nil {
     return
   }
@@ -11508,12 +11547,12 @@ func (p *ApplyClient) Printsf(ctx context.Context, value []byte) (_err error) {
 // Parameters:
 //  - Value
 func (p *ApplyClient) Printdf(ctx context.Context, value []byte) (_err error) {
-  var _args251 ApplyPrintdfArgs
-  _args251.Value = value
-  var _result253 ApplyPrintdfResult
-  var _meta252 thrift.ResponseMeta
-  _meta252, _err = p.Client_().Call(ctx, "printdf", &_args251, &_result253)
-  p.SetLastResponseMeta_(_meta252)
+  var _args252 ApplyPrintdfArgs
+  _args252.Value = value
+  var _result254 ApplyPrintdfResult
+  var _meta253 thrift.ResponseMeta
+  _meta253, _err = p.Client_().Call(ctx, "printdf", &_args252, &_result254)
+  p.SetLastResponseMeta_(_meta253)
   if _err != nil {
     return
   }
@@ -11523,12 +11562,12 @@ func (p *ApplyClient) Printdf(ctx context.Context, value []byte) (_err error) {
 // Parameters:
 //  - Value
 func (p *ApplyClient) Printqf(ctx context.Context, value []byte) (_err error) {
-  var _args254 ApplyPrintqfArgs
-  _args254.Value = value
-  var _result256 ApplyPrintqfResult
-  var _meta255 thrift.ResponseMeta
-  _meta255, _err = p.Client_().Call(ctx, "printqf", &_args254, &_result256)
-  p.SetLastResponseMeta_(_meta255)
+  var _args255 ApplyPrintqfArgs
+  _args255.Value = value
+  var _result257 ApplyPrintqfResult
+  var _meta256 thrift.ResponseMeta
+  _meta256, _err = p.Client_().Call(ctx, "printqf", &_args255, &_result257)
+  p.SetLastResponseMeta_(_meta256)
   if _err != nil {
     return
   }
@@ -11538,12 +11577,12 @@ func (p *ApplyClient) Printqf(ctx context.Context, value []byte) (_err error) {
 // Parameters:
 //  - Name
 func (p *ApplyClient) Printn(ctx context.Context, name *Uint64) (_err error) {
-  var _args257 ApplyPrintnArgs
-  _args257.Name = name
-  var _result259 ApplyPrintnResult
-  var _meta258 thrift.ResponseMeta
-  _meta258, _err = p.Client_().Call(ctx, "printn", &_args257, &_result259)
-  p.SetLastResponseMeta_(_meta258)
+  var _args258 ApplyPrintnArgs
+  _args258.Name = name
+  var _result260 ApplyPrintnResult
+  var _meta259 thrift.ResponseMeta
+  _meta259, _err = p.Client_().Call(ctx, "printn", &_args258, &_result260)
+  p.SetLastResponseMeta_(_meta259)
   if _err != nil {
     return
   }
@@ -11553,12 +11592,12 @@ func (p *ApplyClient) Printn(ctx context.Context, name *Uint64) (_err error) {
 // Parameters:
 //  - Data
 func (p *ApplyClient) Printhex(ctx context.Context, data []byte) (_err error) {
-  var _args260 ApplyPrinthexArgs
-  _args260.Data = data
-  var _result262 ApplyPrinthexResult
-  var _meta261 thrift.ResponseMeta
-  _meta261, _err = p.Client_().Call(ctx, "printhex", &_args260, &_result262)
-  p.SetLastResponseMeta_(_meta261)
+  var _args261 ApplyPrinthexArgs
+  _args261.Data = data
+  var _result263 ApplyPrinthexResult
+  var _meta262 thrift.ResponseMeta
+  _meta262, _err = p.Client_().Call(ctx, "printhex", &_args261, &_result263)
+  p.SetLastResponseMeta_(_meta262)
   if _err != nil {
     return
   }
@@ -11566,38 +11605,38 @@ func (p *ApplyClient) Printhex(ctx context.Context, data []byte) (_err error) {
 }
 
 func (p *ApplyClient) ActionDataSize(ctx context.Context) (_r int32, _err error) {
-  var _args263 ApplyActionDataSizeArgs
-  var _result265 ApplyActionDataSizeResult
-  var _meta264 thrift.ResponseMeta
-  _meta264, _err = p.Client_().Call(ctx, "action_data_size", &_args263, &_result265)
-  p.SetLastResponseMeta_(_meta264)
+  var _args264 ApplyActionDataSizeArgs
+  var _result266 ApplyActionDataSizeResult
+  var _meta265 thrift.ResponseMeta
+  _meta265, _err = p.Client_().Call(ctx, "action_data_size", &_args264, &_result266)
+  p.SetLastResponseMeta_(_meta265)
   if _err != nil {
     return
   }
-  return _result265.GetSuccess(), nil
+  return _result266.GetSuccess(), nil
 }
 
 func (p *ApplyClient) ReadActionData(ctx context.Context) (_r []byte, _err error) {
-  var _args266 ApplyReadActionDataArgs
-  var _result268 ApplyReadActionDataResult
-  var _meta267 thrift.ResponseMeta
-  _meta267, _err = p.Client_().Call(ctx, "read_action_data", &_args266, &_result268)
-  p.SetLastResponseMeta_(_meta267)
+  var _args267 ApplyReadActionDataArgs
+  var _result269 ApplyReadActionDataResult
+  var _meta268 thrift.ResponseMeta
+  _meta268, _err = p.Client_().Call(ctx, "read_action_data", &_args267, &_result269)
+  p.SetLastResponseMeta_(_meta268)
   if _err != nil {
     return
   }
-  return _result268.GetSuccess(), nil
+  return _result269.GetSuccess(), nil
 }
 
 // Parameters:
 //  - Name
 func (p *ApplyClient) RequireRecipient(ctx context.Context, name *Uint64) (_err error) {
-  var _args269 ApplyRequireRecipientArgs
-  _args269.Name = name
-  var _result271 ApplyRequireRecipientResult
-  var _meta270 thrift.ResponseMeta
-  _meta270, _err = p.Client_().Call(ctx, "require_recipient", &_args269, &_result271)
-  p.SetLastResponseMeta_(_meta270)
+  var _args270 ApplyRequireRecipientArgs
+  _args270.Name = name
+  var _result272 ApplyRequireRecipientResult
+  var _meta271 thrift.ResponseMeta
+  _meta271, _err = p.Client_().Call(ctx, "require_recipient", &_args270, &_result272)
+  p.SetLastResponseMeta_(_meta271)
   if _err != nil {
     return
   }
@@ -11607,12 +11646,12 @@ func (p *ApplyClient) RequireRecipient(ctx context.Context, name *Uint64) (_err 
 // Parameters:
 //  - Name
 func (p *ApplyClient) RequireAuth(ctx context.Context, name *Uint64) (_err error) {
-  var _args272 ApplyRequireAuthArgs
-  _args272.Name = name
-  var _result274 ApplyRequireAuthResult
-  var _meta273 thrift.ResponseMeta
-  _meta273, _err = p.Client_().Call(ctx, "require_auth", &_args272, &_result274)
-  p.SetLastResponseMeta_(_meta273)
+  var _args273 ApplyRequireAuthArgs
+  _args273.Name = name
+  var _result275 ApplyRequireAuthResult
+  var _meta274 thrift.ResponseMeta
+  _meta274, _err = p.Client_().Call(ctx, "require_auth", &_args273, &_result275)
+  p.SetLastResponseMeta_(_meta274)
   if _err != nil {
     return
   }
@@ -11622,29 +11661,29 @@ func (p *ApplyClient) RequireAuth(ctx context.Context, name *Uint64) (_err error
 // Parameters:
 //  - Name
 func (p *ApplyClient) HasAuth(ctx context.Context, name *Uint64) (_r bool, _err error) {
-  var _args275 ApplyHasAuthArgs
-  _args275.Name = name
-  var _result277 ApplyHasAuthResult
-  var _meta276 thrift.ResponseMeta
-  _meta276, _err = p.Client_().Call(ctx, "has_auth", &_args275, &_result277)
-  p.SetLastResponseMeta_(_meta276)
+  var _args276 ApplyHasAuthArgs
+  _args276.Name = name
+  var _result278 ApplyHasAuthResult
+  var _meta277 thrift.ResponseMeta
+  _meta277, _err = p.Client_().Call(ctx, "has_auth", &_args276, &_result278)
+  p.SetLastResponseMeta_(_meta277)
   if _err != nil {
     return
   }
-  return _result277.GetSuccess(), nil
+  return _result278.GetSuccess(), nil
 }
 
 // Parameters:
 //  - Name
 //  - Permission
 func (p *ApplyClient) RequireAuth2(ctx context.Context, name *Uint64, permission *Uint64) (_err error) {
-  var _args278 ApplyRequireAuth2Args
-  _args278.Name = name
-  _args278.Permission = permission
-  var _result280 ApplyRequireAuth2Result
-  var _meta279 thrift.ResponseMeta
-  _meta279, _err = p.Client_().Call(ctx, "require_auth2", &_args278, &_result280)
-  p.SetLastResponseMeta_(_meta279)
+  var _args279 ApplyRequireAuth2Args
+  _args279.Name = name
+  _args279.Permission = permission
+  var _result281 ApplyRequireAuth2Result
+  var _meta280 thrift.ResponseMeta
+  _meta280, _err = p.Client_().Call(ctx, "require_auth2", &_args279, &_result281)
+  p.SetLastResponseMeta_(_meta280)
   if _err != nil {
     return
   }
@@ -11654,27 +11693,27 @@ func (p *ApplyClient) RequireAuth2(ctx context.Context, name *Uint64, permission
 // Parameters:
 //  - Name
 func (p *ApplyClient) IsAccount(ctx context.Context, name *Uint64) (_r bool, _err error) {
-  var _args281 ApplyIsAccountArgs
-  _args281.Name = name
-  var _result283 ApplyIsAccountResult
-  var _meta282 thrift.ResponseMeta
-  _meta282, _err = p.Client_().Call(ctx, "is_account", &_args281, &_result283)
-  p.SetLastResponseMeta_(_meta282)
+  var _args282 ApplyIsAccountArgs
+  _args282.Name = name
+  var _result284 ApplyIsAccountResult
+  var _meta283 thrift.ResponseMeta
+  _meta283, _err = p.Client_().Call(ctx, "is_account", &_args282, &_result284)
+  p.SetLastResponseMeta_(_meta283)
   if _err != nil {
     return
   }
-  return _result283.GetSuccess(), nil
+  return _result284.GetSuccess(), nil
 }
 
 // Parameters:
 //  - SerializedAction
 func (p *ApplyClient) SendInline(ctx context.Context, serialized_action []byte) (_err error) {
-  var _args284 ApplySendInlineArgs
-  _args284.SerializedAction = serialized_action
-  var _result286 ApplySendInlineResult
-  var _meta285 thrift.ResponseMeta
-  _meta285, _err = p.Client_().Call(ctx, "send_inline", &_args284, &_result286)
-  p.SetLastResponseMeta_(_meta285)
+  var _args285 ApplySendInlineArgs
+  _args285.SerializedAction = serialized_action
+  var _result287 ApplySendInlineResult
+  var _meta286 thrift.ResponseMeta
+  _meta286, _err = p.Client_().Call(ctx, "send_inline", &_args285, &_result287)
+  p.SetLastResponseMeta_(_meta286)
   if _err != nil {
     return
   }
@@ -11684,12 +11723,12 @@ func (p *ApplyClient) SendInline(ctx context.Context, serialized_action []byte) 
 // Parameters:
 //  - SerializedData
 func (p *ApplyClient) SendContextFreeInline(ctx context.Context, serialized_data []byte) (_err error) {
-  var _args287 ApplySendContextFreeInlineArgs
-  _args287.SerializedData = serialized_data
-  var _result289 ApplySendContextFreeInlineResult
-  var _meta288 thrift.ResponseMeta
-  _meta288, _err = p.Client_().Call(ctx, "send_context_free_inline", &_args287, &_result289)
-  p.SetLastResponseMeta_(_meta288)
+  var _args288 ApplySendContextFreeInlineArgs
+  _args288.SerializedData = serialized_data
+  var _result290 ApplySendContextFreeInlineResult
+  var _meta289 thrift.ResponseMeta
+  _meta289, _err = p.Client_().Call(ctx, "send_context_free_inline", &_args288, &_result290)
+  p.SetLastResponseMeta_(_meta289)
   if _err != nil {
     return
   }
@@ -11697,31 +11736,31 @@ func (p *ApplyClient) SendContextFreeInline(ctx context.Context, serialized_data
 }
 
 func (p *ApplyClient) PublicationTime(ctx context.Context) (_r *Uint64, _err error) {
-  var _args290 ApplyPublicationTimeArgs
-  var _result292 ApplyPublicationTimeResult
-  var _meta291 thrift.ResponseMeta
-  _meta291, _err = p.Client_().Call(ctx, "publication_time", &_args290, &_result292)
-  p.SetLastResponseMeta_(_meta291)
+  var _args291 ApplyPublicationTimeArgs
+  var _result293 ApplyPublicationTimeResult
+  var _meta292 thrift.ResponseMeta
+  _meta292, _err = p.Client_().Call(ctx, "publication_time", &_args291, &_result293)
+  p.SetLastResponseMeta_(_meta292)
   if _err != nil {
     return
   }
-  if _ret293 := _result292.GetSuccess(); _ret293 != nil {
-    return _ret293, nil
+  if _ret294 := _result293.GetSuccess(); _ret294 != nil {
+    return _ret294, nil
   }
   return nil, thrift.NewTApplicationException(thrift.MISSING_RESULT, "publication_time failed: unknown result")
 }
 
 func (p *ApplyClient) CurrentReceiver(ctx context.Context) (_r *Uint64, _err error) {
-  var _args294 ApplyCurrentReceiverArgs
-  var _result296 ApplyCurrentReceiverResult
-  var _meta295 thrift.ResponseMeta
-  _meta295, _err = p.Client_().Call(ctx, "current_receiver", &_args294, &_result296)
-  p.SetLastResponseMeta_(_meta295)
+  var _args295 ApplyCurrentReceiverArgs
+  var _result297 ApplyCurrentReceiverResult
+  var _meta296 thrift.ResponseMeta
+  _meta296, _err = p.Client_().Call(ctx, "current_receiver", &_args295, &_result297)
+  p.SetLastResponseMeta_(_meta296)
   if _err != nil {
     return
   }
-  if _ret297 := _result296.GetSuccess(); _ret297 != nil {
-    return _ret297, nil
+  if _ret298 := _result297.GetSuccess(); _ret298 != nil {
+    return _ret298, nil
   }
   return nil, thrift.NewTApplicationException(thrift.MISSING_RESULT, "current_receiver failed: unknown result")
 }
@@ -11730,13 +11769,13 @@ func (p *ApplyClient) CurrentReceiver(ctx context.Context) (_r *Uint64, _err err
 //  - Test
 //  - Msg
 func (p *ApplyClient) EosioAssert(ctx context.Context, test bool, msg []byte) (_err error) {
-  var _args298 ApplyEosioAssertArgs
-  _args298.Test = test
-  _args298.Msg = msg
-  var _result300 ApplyEosioAssertResult
-  var _meta299 thrift.ResponseMeta
-  _meta299, _err = p.Client_().Call(ctx, "eosio_assert", &_args298, &_result300)
-  p.SetLastResponseMeta_(_meta299)
+  var _args299 ApplyEosioAssertArgs
+  _args299.Test = test
+  _args299.Msg = msg
+  var _result301 ApplyEosioAssertResult
+  var _meta300 thrift.ResponseMeta
+  _meta300, _err = p.Client_().Call(ctx, "eosio_assert", &_args299, &_result301)
+  p.SetLastResponseMeta_(_meta300)
   if _err != nil {
     return
   }
@@ -11747,13 +11786,13 @@ func (p *ApplyClient) EosioAssert(ctx context.Context, test bool, msg []byte) (_
 //  - Test
 //  - Msg
 func (p *ApplyClient) EosioAssertMessage(ctx context.Context, test bool, msg []byte) (_err error) {
-  var _args301 ApplyEosioAssertMessageArgs
-  _args301.Test = test
-  _args301.Msg = msg
-  var _result303 ApplyEosioAssertMessageResult
-  var _meta302 thrift.ResponseMeta
-  _meta302, _err = p.Client_().Call(ctx, "eosio_assert_message", &_args301, &_result303)
-  p.SetLastResponseMeta_(_meta302)
+  var _args302 ApplyEosioAssertMessageArgs
+  _args302.Test = test
+  _args302.Msg = msg
+  var _result304 ApplyEosioAssertMessageResult
+  var _meta303 thrift.ResponseMeta
+  _meta303, _err = p.Client_().Call(ctx, "eosio_assert_message", &_args302, &_result304)
+  p.SetLastResponseMeta_(_meta303)
   if _err != nil {
     return
   }
@@ -11764,13 +11803,13 @@ func (p *ApplyClient) EosioAssertMessage(ctx context.Context, test bool, msg []b
 //  - Test
 //  - Code
 func (p *ApplyClient) EosioAssertCode(ctx context.Context, test bool, code *Uint64) (_err error) {
-  var _args304 ApplyEosioAssertCodeArgs
-  _args304.Test = test
-  _args304.Code = code
-  var _result306 ApplyEosioAssertCodeResult
-  var _meta305 thrift.ResponseMeta
-  _meta305, _err = p.Client_().Call(ctx, "eosio_assert_code", &_args304, &_result306)
-  p.SetLastResponseMeta_(_meta305)
+  var _args305 ApplyEosioAssertCodeArgs
+  _args305.Test = test
+  _args305.Code = code
+  var _result307 ApplyEosioAssertCodeResult
+  var _meta306 thrift.ResponseMeta
+  _meta306, _err = p.Client_().Call(ctx, "eosio_assert_code", &_args305, &_result307)
+  p.SetLastResponseMeta_(_meta306)
   if _err != nil {
     return
   }
@@ -11780,12 +11819,12 @@ func (p *ApplyClient) EosioAssertCode(ctx context.Context, test bool, code *Uint
 // Parameters:
 //  - Code
 func (p *ApplyClient) EosioExit(ctx context.Context, code int32) (_err error) {
-  var _args307 ApplyEosioExitArgs
-  _args307.Code = code
-  var _result309 ApplyEosioExitResult
-  var _meta308 thrift.ResponseMeta
-  _meta308, _err = p.Client_().Call(ctx, "eosio_exit", &_args307, &_result309)
-  p.SetLastResponseMeta_(_meta308)
+  var _args308 ApplyEosioExitArgs
+  _args308.Code = code
+  var _result310 ApplyEosioExitResult
+  var _meta309 thrift.ResponseMeta
+  _meta309, _err = p.Client_().Call(ctx, "eosio_exit", &_args308, &_result310)
+  p.SetLastResponseMeta_(_meta309)
   if _err != nil {
     return
   }
@@ -11793,16 +11832,16 @@ func (p *ApplyClient) EosioExit(ctx context.Context, code int32) (_err error) {
 }
 
 func (p *ApplyClient) CurrentTime(ctx context.Context) (_r *Uint64, _err error) {
-  var _args310 ApplyCurrentTimeArgs
-  var _result312 ApplyCurrentTimeResult
-  var _meta311 thrift.ResponseMeta
-  _meta311, _err = p.Client_().Call(ctx, "current_time", &_args310, &_result312)
-  p.SetLastResponseMeta_(_meta311)
+  var _args311 ApplyCurrentTimeArgs
+  var _result313 ApplyCurrentTimeResult
+  var _meta312 thrift.ResponseMeta
+  _meta312, _err = p.Client_().Call(ctx, "current_time", &_args311, &_result313)
+  p.SetLastResponseMeta_(_meta312)
   if _err != nil {
     return
   }
-  if _ret313 := _result312.GetSuccess(); _ret313 != nil {
-    return _ret313, nil
+  if _ret314 := _result313.GetSuccess(); _ret314 != nil {
+    return _ret314, nil
   }
   return nil, thrift.NewTApplicationException(thrift.MISSING_RESULT, "current_time failed: unknown result")
 }
@@ -11810,29 +11849,29 @@ func (p *ApplyClient) CurrentTime(ctx context.Context) (_r *Uint64, _err error) 
 // Parameters:
 //  - FeatureDigest
 func (p *ApplyClient) IsFeatureActivated(ctx context.Context, feature_digest []byte) (_r bool, _err error) {
-  var _args314 ApplyIsFeatureActivatedArgs
-  _args314.FeatureDigest = feature_digest
-  var _result316 ApplyIsFeatureActivatedResult
-  var _meta315 thrift.ResponseMeta
-  _meta315, _err = p.Client_().Call(ctx, "is_feature_activated", &_args314, &_result316)
-  p.SetLastResponseMeta_(_meta315)
+  var _args315 ApplyIsFeatureActivatedArgs
+  _args315.FeatureDigest = feature_digest
+  var _result317 ApplyIsFeatureActivatedResult
+  var _meta316 thrift.ResponseMeta
+  _meta316, _err = p.Client_().Call(ctx, "is_feature_activated", &_args315, &_result317)
+  p.SetLastResponseMeta_(_meta316)
   if _err != nil {
     return
   }
-  return _result316.GetSuccess(), nil
+  return _result317.GetSuccess(), nil
 }
 
 func (p *ApplyClient) GetSender(ctx context.Context) (_r *Uint64, _err error) {
-  var _args317 ApplyGetSenderArgs
-  var _result319 ApplyGetSenderResult
-  var _meta318 thrift.ResponseMeta
-  _meta318, _err = p.Client_().Call(ctx, "get_sender", &_args317, &_result319)
-  p.SetLastResponseMeta_(_meta318)
+  var _args318 ApplyGetSenderArgs
+  var _result320 ApplyGetSenderResult
+  var _meta319 thrift.ResponseMeta
+  _meta319, _err = p.Client_().Call(ctx, "get_sender", &_args318, &_result320)
+  p.SetLastResponseMeta_(_meta319)
   if _err != nil {
     return
   }
-  if _ret320 := _result319.GetSuccess(); _ret320 != nil {
-    return _ret320, nil
+  if _ret321 := _result320.GetSuccess(); _ret321 != nil {
+    return _ret321, nil
   }
   return nil, thrift.NewTApplicationException(thrift.MISSING_RESULT, "get_sender failed: unknown result")
 }
@@ -11841,13 +11880,13 @@ func (p *ApplyClient) GetSender(ctx context.Context) (_r *Uint64, _err error) {
 //  - Data
 //  - Hash
 func (p *ApplyClient) AssertSha256(ctx context.Context, data []byte, hash []byte) (_err error) {
-  var _args321 ApplyAssertSha256Args
-  _args321.Data = data
-  _args321.Hash = hash
-  var _result323 ApplyAssertSha256Result
-  var _meta322 thrift.ResponseMeta
-  _meta322, _err = p.Client_().Call(ctx, "assert_sha256", &_args321, &_result323)
-  p.SetLastResponseMeta_(_meta322)
+  var _args322 ApplyAssertSha256Args
+  _args322.Data = data
+  _args322.Hash = hash
+  var _result324 ApplyAssertSha256Result
+  var _meta323 thrift.ResponseMeta
+  _meta323, _err = p.Client_().Call(ctx, "assert_sha256", &_args322, &_result324)
+  p.SetLastResponseMeta_(_meta323)
   if _err != nil {
     return
   }
@@ -11858,13 +11897,13 @@ func (p *ApplyClient) AssertSha256(ctx context.Context, data []byte, hash []byte
 //  - Data
 //  - Hash
 func (p *ApplyClient) AssertSha1(ctx context.Context, data []byte, hash []byte) (_err error) {
-  var _args324 ApplyAssertSha1Args
-  _args324.Data = data
-  _args324.Hash = hash
-  var _result326 ApplyAssertSha1Result
-  var _meta325 thrift.ResponseMeta
-  _meta325, _err = p.Client_().Call(ctx, "assert_sha1", &_args324, &_result326)
-  p.SetLastResponseMeta_(_meta325)
+  var _args325 ApplyAssertSha1Args
+  _args325.Data = data
+  _args325.Hash = hash
+  var _result327 ApplyAssertSha1Result
+  var _meta326 thrift.ResponseMeta
+  _meta326, _err = p.Client_().Call(ctx, "assert_sha1", &_args325, &_result327)
+  p.SetLastResponseMeta_(_meta326)
   if _err != nil {
     return
   }
@@ -11875,13 +11914,13 @@ func (p *ApplyClient) AssertSha1(ctx context.Context, data []byte, hash []byte) 
 //  - Data
 //  - Hash
 func (p *ApplyClient) AssertSha512(ctx context.Context, data []byte, hash []byte) (_err error) {
-  var _args327 ApplyAssertSha512Args
-  _args327.Data = data
-  _args327.Hash = hash
-  var _result329 ApplyAssertSha512Result
-  var _meta328 thrift.ResponseMeta
-  _meta328, _err = p.Client_().Call(ctx, "assert_sha512", &_args327, &_result329)
-  p.SetLastResponseMeta_(_meta328)
+  var _args328 ApplyAssertSha512Args
+  _args328.Data = data
+  _args328.Hash = hash
+  var _result330 ApplyAssertSha512Result
+  var _meta329 thrift.ResponseMeta
+  _meta329, _err = p.Client_().Call(ctx, "assert_sha512", &_args328, &_result330)
+  p.SetLastResponseMeta_(_meta329)
   if _err != nil {
     return
   }
@@ -11892,13 +11931,13 @@ func (p *ApplyClient) AssertSha512(ctx context.Context, data []byte, hash []byte
 //  - Data
 //  - Hash
 func (p *ApplyClient) AssertRipemd160(ctx context.Context, data []byte, hash []byte) (_err error) {
-  var _args330 ApplyAssertRipemd160Args
-  _args330.Data = data
-  _args330.Hash = hash
-  var _result332 ApplyAssertRipemd160Result
-  var _meta331 thrift.ResponseMeta
-  _meta331, _err = p.Client_().Call(ctx, "assert_ripemd160", &_args330, &_result332)
-  p.SetLastResponseMeta_(_meta331)
+  var _args331 ApplyAssertRipemd160Args
+  _args331.Data = data
+  _args331.Hash = hash
+  var _result333 ApplyAssertRipemd160Result
+  var _meta332 thrift.ResponseMeta
+  _meta332, _err = p.Client_().Call(ctx, "assert_ripemd160", &_args331, &_result333)
+  p.SetLastResponseMeta_(_meta332)
   if _err != nil {
     return
   }
@@ -11908,78 +11947,78 @@ func (p *ApplyClient) AssertRipemd160(ctx context.Context, data []byte, hash []b
 // Parameters:
 //  - Data
 func (p *ApplyClient) Sha256(ctx context.Context, data []byte) (_r []byte, _err error) {
-  var _args333 ApplySha256Args
-  _args333.Data = data
-  var _result335 ApplySha256Result
-  var _meta334 thrift.ResponseMeta
-  _meta334, _err = p.Client_().Call(ctx, "sha256", &_args333, &_result335)
-  p.SetLastResponseMeta_(_meta334)
+  var _args334 ApplySha256Args
+  _args334.Data = data
+  var _result336 ApplySha256Result
+  var _meta335 thrift.ResponseMeta
+  _meta335, _err = p.Client_().Call(ctx, "sha256", &_args334, &_result336)
+  p.SetLastResponseMeta_(_meta335)
   if _err != nil {
     return
   }
-  return _result335.GetSuccess(), nil
+  return _result336.GetSuccess(), nil
 }
 
 // Parameters:
 //  - Data
 func (p *ApplyClient) Sha1(ctx context.Context, data []byte) (_r []byte, _err error) {
-  var _args336 ApplySha1Args
-  _args336.Data = data
-  var _result338 ApplySha1Result
-  var _meta337 thrift.ResponseMeta
-  _meta337, _err = p.Client_().Call(ctx, "sha1", &_args336, &_result338)
-  p.SetLastResponseMeta_(_meta337)
+  var _args337 ApplySha1Args
+  _args337.Data = data
+  var _result339 ApplySha1Result
+  var _meta338 thrift.ResponseMeta
+  _meta338, _err = p.Client_().Call(ctx, "sha1", &_args337, &_result339)
+  p.SetLastResponseMeta_(_meta338)
   if _err != nil {
     return
   }
-  return _result338.GetSuccess(), nil
+  return _result339.GetSuccess(), nil
 }
 
 // Parameters:
 //  - Data
 func (p *ApplyClient) Sha512(ctx context.Context, data []byte) (_r []byte, _err error) {
-  var _args339 ApplySha512Args
-  _args339.Data = data
-  var _result341 ApplySha512Result
-  var _meta340 thrift.ResponseMeta
-  _meta340, _err = p.Client_().Call(ctx, "sha512", &_args339, &_result341)
-  p.SetLastResponseMeta_(_meta340)
+  var _args340 ApplySha512Args
+  _args340.Data = data
+  var _result342 ApplySha512Result
+  var _meta341 thrift.ResponseMeta
+  _meta341, _err = p.Client_().Call(ctx, "sha512", &_args340, &_result342)
+  p.SetLastResponseMeta_(_meta341)
   if _err != nil {
     return
   }
-  return _result341.GetSuccess(), nil
+  return _result342.GetSuccess(), nil
 }
 
 // Parameters:
 //  - Data
 func (p *ApplyClient) Ripemd160(ctx context.Context, data []byte) (_r []byte, _err error) {
-  var _args342 ApplyRipemd160Args
-  _args342.Data = data
-  var _result344 ApplyRipemd160Result
-  var _meta343 thrift.ResponseMeta
-  _meta343, _err = p.Client_().Call(ctx, "ripemd160", &_args342, &_result344)
-  p.SetLastResponseMeta_(_meta343)
+  var _args343 ApplyRipemd160Args
+  _args343.Data = data
+  var _result345 ApplyRipemd160Result
+  var _meta344 thrift.ResponseMeta
+  _meta344, _err = p.Client_().Call(ctx, "ripemd160", &_args343, &_result345)
+  p.SetLastResponseMeta_(_meta344)
   if _err != nil {
     return
   }
-  return _result344.GetSuccess(), nil
+  return _result345.GetSuccess(), nil
 }
 
 // Parameters:
 //  - Digest
 //  - Sig
 func (p *ApplyClient) RecoverKey(ctx context.Context, digest []byte, sig []byte) (_r []byte, _err error) {
-  var _args345 ApplyRecoverKeyArgs
-  _args345.Digest = digest
-  _args345.Sig = sig
-  var _result347 ApplyRecoverKeyResult
-  var _meta346 thrift.ResponseMeta
-  _meta346, _err = p.Client_().Call(ctx, "recover_key", &_args345, &_result347)
-  p.SetLastResponseMeta_(_meta346)
+  var _args346 ApplyRecoverKeyArgs
+  _args346.Digest = digest
+  _args346.Sig = sig
+  var _result348 ApplyRecoverKeyResult
+  var _meta347 thrift.ResponseMeta
+  _meta347, _err = p.Client_().Call(ctx, "recover_key", &_args346, &_result348)
+  p.SetLastResponseMeta_(_meta347)
   if _err != nil {
     return
   }
-  return _result347.GetSuccess(), nil
+  return _result348.GetSuccess(), nil
 }
 
 // Parameters:
@@ -11987,14 +12026,14 @@ func (p *ApplyClient) RecoverKey(ctx context.Context, digest []byte, sig []byte)
 //  - Sig
 //  - Pub
 func (p *ApplyClient) AssertRecoverKey(ctx context.Context, digest []byte, sig []byte, pub []byte) (_err error) {
-  var _args348 ApplyAssertRecoverKeyArgs
-  _args348.Digest = digest
-  _args348.Sig = sig
-  _args348.Pub = pub
-  var _result350 ApplyAssertRecoverKeyResult
-  var _meta349 thrift.ResponseMeta
-  _meta349, _err = p.Client_().Call(ctx, "assert_recover_key", &_args348, &_result350)
-  p.SetLastResponseMeta_(_meta349)
+  var _args349 ApplyAssertRecoverKeyArgs
+  _args349.Digest = digest
+  _args349.Sig = sig
+  _args349.Pub = pub
+  var _result351 ApplyAssertRecoverKeyResult
+  var _meta350 thrift.ResponseMeta
+  _meta350, _err = p.Client_().Call(ctx, "assert_recover_key", &_args349, &_result351)
+  p.SetLastResponseMeta_(_meta350)
   if _err != nil {
     return
   }
@@ -12007,15 +12046,15 @@ func (p *ApplyClient) AssertRecoverKey(ctx context.Context, digest []byte, sig [
 //  - SerializedTransaction
 //  - ReplaceExisting
 func (p *ApplyClient) SendDeferred(ctx context.Context, sender_id []byte, payer *Uint64, serialized_transaction []byte, replace_existing int32) (_err error) {
-  var _args351 ApplySendDeferredArgs
-  _args351.SenderID = sender_id
-  _args351.Payer = payer
-  _args351.SerializedTransaction = serialized_transaction
-  _args351.ReplaceExisting = replace_existing
-  var _result353 ApplySendDeferredResult
-  var _meta352 thrift.ResponseMeta
-  _meta352, _err = p.Client_().Call(ctx, "send_deferred", &_args351, &_result353)
-  p.SetLastResponseMeta_(_meta352)
+  var _args352 ApplySendDeferredArgs
+  _args352.SenderID = sender_id
+  _args352.Payer = payer
+  _args352.SerializedTransaction = serialized_transaction
+  _args352.ReplaceExisting = replace_existing
+  var _result354 ApplySendDeferredResult
+  var _meta353 thrift.ResponseMeta
+  _meta353, _err = p.Client_().Call(ctx, "send_deferred", &_args352, &_result354)
+  p.SetLastResponseMeta_(_meta353)
   if _err != nil {
     return
   }
@@ -12025,108 +12064,108 @@ func (p *ApplyClient) SendDeferred(ctx context.Context, sender_id []byte, payer 
 // Parameters:
 //  - SenderID
 func (p *ApplyClient) CancelDeferred(ctx context.Context, sender_id []byte) (_r int32, _err error) {
-  var _args354 ApplyCancelDeferredArgs
-  _args354.SenderID = sender_id
-  var _result356 ApplyCancelDeferredResult
-  var _meta355 thrift.ResponseMeta
-  _meta355, _err = p.Client_().Call(ctx, "cancel_deferred", &_args354, &_result356)
-  p.SetLastResponseMeta_(_meta355)
+  var _args355 ApplyCancelDeferredArgs
+  _args355.SenderID = sender_id
+  var _result357 ApplyCancelDeferredResult
+  var _meta356 thrift.ResponseMeta
+  _meta356, _err = p.Client_().Call(ctx, "cancel_deferred", &_args355, &_result357)
+  p.SetLastResponseMeta_(_meta356)
   if _err != nil {
     return
   }
-  return _result356.GetSuccess(), nil
+  return _result357.GetSuccess(), nil
 }
 
 func (p *ApplyClient) ReadTransaction(ctx context.Context) (_r []byte, _err error) {
-  var _args357 ApplyReadTransactionArgs
-  var _result359 ApplyReadTransactionResult
-  var _meta358 thrift.ResponseMeta
-  _meta358, _err = p.Client_().Call(ctx, "read_transaction", &_args357, &_result359)
-  p.SetLastResponseMeta_(_meta358)
+  var _args358 ApplyReadTransactionArgs
+  var _result360 ApplyReadTransactionResult
+  var _meta359 thrift.ResponseMeta
+  _meta359, _err = p.Client_().Call(ctx, "read_transaction", &_args358, &_result360)
+  p.SetLastResponseMeta_(_meta359)
   if _err != nil {
     return
   }
-  return _result359.GetSuccess(), nil
+  return _result360.GetSuccess(), nil
 }
 
 func (p *ApplyClient) TransactionSize(ctx context.Context) (_r int32, _err error) {
-  var _args360 ApplyTransactionSizeArgs
-  var _result362 ApplyTransactionSizeResult
-  var _meta361 thrift.ResponseMeta
-  _meta361, _err = p.Client_().Call(ctx, "transaction_size", &_args360, &_result362)
-  p.SetLastResponseMeta_(_meta361)
+  var _args361 ApplyTransactionSizeArgs
+  var _result363 ApplyTransactionSizeResult
+  var _meta362 thrift.ResponseMeta
+  _meta362, _err = p.Client_().Call(ctx, "transaction_size", &_args361, &_result363)
+  p.SetLastResponseMeta_(_meta362)
   if _err != nil {
     return
   }
-  return _result362.GetSuccess(), nil
+  return _result363.GetSuccess(), nil
 }
 
 func (p *ApplyClient) TaposBlockNum(ctx context.Context) (_r int32, _err error) {
-  var _args363 ApplyTaposBlockNumArgs
-  var _result365 ApplyTaposBlockNumResult
-  var _meta364 thrift.ResponseMeta
-  _meta364, _err = p.Client_().Call(ctx, "tapos_block_num", &_args363, &_result365)
-  p.SetLastResponseMeta_(_meta364)
+  var _args364 ApplyTaposBlockNumArgs
+  var _result366 ApplyTaposBlockNumResult
+  var _meta365 thrift.ResponseMeta
+  _meta365, _err = p.Client_().Call(ctx, "tapos_block_num", &_args364, &_result366)
+  p.SetLastResponseMeta_(_meta365)
   if _err != nil {
     return
   }
-  return _result365.GetSuccess(), nil
+  return _result366.GetSuccess(), nil
 }
 
 func (p *ApplyClient) TaposBlockPrefix(ctx context.Context) (_r int32, _err error) {
-  var _args366 ApplyTaposBlockPrefixArgs
-  var _result368 ApplyTaposBlockPrefixResult
-  var _meta367 thrift.ResponseMeta
-  _meta367, _err = p.Client_().Call(ctx, "tapos_block_prefix", &_args366, &_result368)
-  p.SetLastResponseMeta_(_meta367)
+  var _args367 ApplyTaposBlockPrefixArgs
+  var _result369 ApplyTaposBlockPrefixResult
+  var _meta368 thrift.ResponseMeta
+  _meta368, _err = p.Client_().Call(ctx, "tapos_block_prefix", &_args367, &_result369)
+  p.SetLastResponseMeta_(_meta368)
   if _err != nil {
     return
   }
-  return _result368.GetSuccess(), nil
+  return _result369.GetSuccess(), nil
 }
 
 func (p *ApplyClient) Expiration(ctx context.Context) (_r int64, _err error) {
-  var _args369 ApplyExpirationArgs
-  var _result371 ApplyExpirationResult
-  var _meta370 thrift.ResponseMeta
-  _meta370, _err = p.Client_().Call(ctx, "expiration", &_args369, &_result371)
-  p.SetLastResponseMeta_(_meta370)
+  var _args370 ApplyExpirationArgs
+  var _result372 ApplyExpirationResult
+  var _meta371 thrift.ResponseMeta
+  _meta371, _err = p.Client_().Call(ctx, "expiration", &_args370, &_result372)
+  p.SetLastResponseMeta_(_meta371)
   if _err != nil {
     return
   }
-  return _result371.GetSuccess(), nil
+  return _result372.GetSuccess(), nil
 }
 
 // Parameters:
 //  - _type
 //  - Index
 func (p *ApplyClient) GetAction(ctx context.Context, _type int32, index int32) (_r []byte, _err error) {
-  var _args372 ApplyGetActionArgs
-  _args372._type = _type
-  _args372.Index = index
-  var _result374 ApplyGetActionResult
-  var _meta373 thrift.ResponseMeta
-  _meta373, _err = p.Client_().Call(ctx, "get_action", &_args372, &_result374)
-  p.SetLastResponseMeta_(_meta373)
+  var _args373 ApplyGetActionArgs
+  _args373._type = _type
+  _args373.Index = index
+  var _result375 ApplyGetActionResult
+  var _meta374 thrift.ResponseMeta
+  _meta374, _err = p.Client_().Call(ctx, "get_action", &_args373, &_result375)
+  p.SetLastResponseMeta_(_meta374)
   if _err != nil {
     return
   }
-  return _result374.GetSuccess(), nil
+  return _result375.GetSuccess(), nil
 }
 
 // Parameters:
 //  - Index
 func (p *ApplyClient) GetContextFreeData(ctx context.Context, index int32) (_r []byte, _err error) {
-  var _args375 ApplyGetContextFreeDataArgs
-  _args375.Index = index
-  var _result377 ApplyGetContextFreeDataResult
-  var _meta376 thrift.ResponseMeta
-  _meta376, _err = p.Client_().Call(ctx, "get_context_free_data", &_args375, &_result377)
-  p.SetLastResponseMeta_(_meta376)
+  var _args376 ApplyGetContextFreeDataArgs
+  _args376.Index = index
+  var _result378 ApplyGetContextFreeDataResult
+  var _meta377 thrift.ResponseMeta
+  _meta377, _err = p.Client_().Call(ctx, "get_context_free_data", &_args376, &_result378)
+  p.SetLastResponseMeta_(_meta377)
   if _err != nil {
     return
   }
-  return _result377.GetSuccess(), nil
+  return _result378.GetSuccess(), nil
 }
 
 // Parameters:
@@ -12136,20 +12175,20 @@ func (p *ApplyClient) GetContextFreeData(ctx context.Context, index int32) (_r [
 //  - ID
 //  - Data
 func (p *ApplyClient) DbStoreI64(ctx context.Context, scope *Uint64, table *Uint64, payer *Uint64, id *Uint64, data []byte) (_r int32, _err error) {
-  var _args378 ApplyDbStoreI64Args
-  _args378.Scope = scope
-  _args378.Table = table
-  _args378.Payer = payer
-  _args378.ID = id
-  _args378.Data = data
-  var _result380 ApplyDbStoreI64Result
-  var _meta379 thrift.ResponseMeta
-  _meta379, _err = p.Client_().Call(ctx, "db_store_i64", &_args378, &_result380)
-  p.SetLastResponseMeta_(_meta379)
+  var _args379 ApplyDbStoreI64Args
+  _args379.Scope = scope
+  _args379.Table = table
+  _args379.Payer = payer
+  _args379.ID = id
+  _args379.Data = data
+  var _result381 ApplyDbStoreI64Result
+  var _meta380 thrift.ResponseMeta
+  _meta380, _err = p.Client_().Call(ctx, "db_store_i64", &_args379, &_result381)
+  p.SetLastResponseMeta_(_meta380)
   if _err != nil {
     return
   }
-  return _result380.GetSuccess(), nil
+  return _result381.GetSuccess(), nil
 }
 
 // Parameters:
@@ -12157,14 +12196,14 @@ func (p *ApplyClient) DbStoreI64(ctx context.Context, scope *Uint64, table *Uint
 //  - Payer
 //  - Data
 func (p *ApplyClient) DbUpdateI64(ctx context.Context, iterator int32, payer *Uint64, data []byte) (_err error) {
-  var _args381 ApplyDbUpdateI64Args
-  _args381.Iterator = iterator
-  _args381.Payer = payer
-  _args381.Data = data
-  var _result383 ApplyDbUpdateI64Result
-  var _meta382 thrift.ResponseMeta
-  _meta382, _err = p.Client_().Call(ctx, "db_update_i64", &_args381, &_result383)
-  p.SetLastResponseMeta_(_meta382)
+  var _args382 ApplyDbUpdateI64Args
+  _args382.Iterator = iterator
+  _args382.Payer = payer
+  _args382.Data = data
+  var _result384 ApplyDbUpdateI64Result
+  var _meta383 thrift.ResponseMeta
+  _meta383, _err = p.Client_().Call(ctx, "db_update_i64", &_args382, &_result384)
+  p.SetLastResponseMeta_(_meta383)
   if _err != nil {
     return
   }
@@ -12174,12 +12213,12 @@ func (p *ApplyClient) DbUpdateI64(ctx context.Context, iterator int32, payer *Ui
 // Parameters:
 //  - Iterator
 func (p *ApplyClient) DbRemoveI64(ctx context.Context, iterator int32) (_err error) {
-  var _args384 ApplyDbRemoveI64Args
-  _args384.Iterator = iterator
-  var _result386 ApplyDbRemoveI64Result
-  var _meta385 thrift.ResponseMeta
-  _meta385, _err = p.Client_().Call(ctx, "db_remove_i64", &_args384, &_result386)
-  p.SetLastResponseMeta_(_meta385)
+  var _args385 ApplyDbRemoveI64Args
+  _args385.Iterator = iterator
+  var _result387 ApplyDbRemoveI64Result
+  var _meta386 thrift.ResponseMeta
+  _meta386, _err = p.Client_().Call(ctx, "db_remove_i64", &_args385, &_result387)
+  p.SetLastResponseMeta_(_meta386)
   if _err != nil {
     return
   }
@@ -12189,32 +12228,32 @@ func (p *ApplyClient) DbRemoveI64(ctx context.Context, iterator int32) (_err err
 // Parameters:
 //  - Iterator
 func (p *ApplyClient) DbGetI64(ctx context.Context, iterator int32) (_r []byte, _err error) {
-  var _args387 ApplyDbGetI64Args
-  _args387.Iterator = iterator
-  var _result389 ApplyDbGetI64Result
-  var _meta388 thrift.ResponseMeta
-  _meta388, _err = p.Client_().Call(ctx, "db_get_i64", &_args387, &_result389)
-  p.SetLastResponseMeta_(_meta388)
+  var _args388 ApplyDbGetI64Args
+  _args388.Iterator = iterator
+  var _result390 ApplyDbGetI64Result
+  var _meta389 thrift.ResponseMeta
+  _meta389, _err = p.Client_().Call(ctx, "db_get_i64", &_args388, &_result390)
+  p.SetLastResponseMeta_(_meta389)
   if _err != nil {
     return
   }
-  return _result389.GetSuccess(), nil
+  return _result390.GetSuccess(), nil
 }
 
 // Parameters:
 //  - Iterator
 func (p *ApplyClient) DbNextI64(ctx context.Context, iterator int32) (_r *NextPreviousReturn, _err error) {
-  var _args390 ApplyDbNextI64Args
-  _args390.Iterator = iterator
-  var _result392 ApplyDbNextI64Result
-  var _meta391 thrift.ResponseMeta
-  _meta391, _err = p.Client_().Call(ctx, "db_next_i64", &_args390, &_result392)
-  p.SetLastResponseMeta_(_meta391)
+  var _args391 ApplyDbNextI64Args
+  _args391.Iterator = iterator
+  var _result393 ApplyDbNextI64Result
+  var _meta392 thrift.ResponseMeta
+  _meta392, _err = p.Client_().Call(ctx, "db_next_i64", &_args391, &_result393)
+  p.SetLastResponseMeta_(_meta392)
   if _err != nil {
     return
   }
-  if _ret393 := _result392.GetSuccess(); _ret393 != nil {
-    return _ret393, nil
+  if _ret394 := _result393.GetSuccess(); _ret394 != nil {
+    return _ret394, nil
   }
   return nil, thrift.NewTApplicationException(thrift.MISSING_RESULT, "db_next_i64 failed: unknown result")
 }
@@ -12222,17 +12261,17 @@ func (p *ApplyClient) DbNextI64(ctx context.Context, iterator int32) (_r *NextPr
 // Parameters:
 //  - Iterator
 func (p *ApplyClient) DbPreviousI64(ctx context.Context, iterator int32) (_r *NextPreviousReturn, _err error) {
-  var _args394 ApplyDbPreviousI64Args
-  _args394.Iterator = iterator
-  var _result396 ApplyDbPreviousI64Result
-  var _meta395 thrift.ResponseMeta
-  _meta395, _err = p.Client_().Call(ctx, "db_previous_i64", &_args394, &_result396)
-  p.SetLastResponseMeta_(_meta395)
+  var _args395 ApplyDbPreviousI64Args
+  _args395.Iterator = iterator
+  var _result397 ApplyDbPreviousI64Result
+  var _meta396 thrift.ResponseMeta
+  _meta396, _err = p.Client_().Call(ctx, "db_previous_i64", &_args395, &_result397)
+  p.SetLastResponseMeta_(_meta396)
   if _err != nil {
     return
   }
-  if _ret397 := _result396.GetSuccess(); _ret397 != nil {
-    return _ret397, nil
+  if _ret398 := _result397.GetSuccess(); _ret398 != nil {
+    return _ret398, nil
   }
   return nil, thrift.NewTApplicationException(thrift.MISSING_RESULT, "db_previous_i64 failed: unknown result")
 }
@@ -12243,19 +12282,19 @@ func (p *ApplyClient) DbPreviousI64(ctx context.Context, iterator int32) (_r *Ne
 //  - Table
 //  - ID
 func (p *ApplyClient) DbFindI64(ctx context.Context, code *Uint64, scope *Uint64, table *Uint64, id *Uint64) (_r int32, _err error) {
-  var _args398 ApplyDbFindI64Args
-  _args398.Code = code
-  _args398.Scope = scope
-  _args398.Table = table
-  _args398.ID = id
-  var _result400 ApplyDbFindI64Result
-  var _meta399 thrift.ResponseMeta
-  _meta399, _err = p.Client_().Call(ctx, "db_find_i64", &_args398, &_result400)
-  p.SetLastResponseMeta_(_meta399)
+  var _args399 ApplyDbFindI64Args
+  _args399.Code = code
+  _args399.Scope = scope
+  _args399.Table = table
+  _args399.ID = id
+  var _result401 ApplyDbFindI64Result
+  var _meta400 thrift.ResponseMeta
+  _meta400, _err = p.Client_().Call(ctx, "db_find_i64", &_args399, &_result401)
+  p.SetLastResponseMeta_(_meta400)
   if _err != nil {
     return
   }
-  return _result400.GetSuccess(), nil
+  return _result401.GetSuccess(), nil
 }
 
 // Parameters:
@@ -12264,19 +12303,19 @@ func (p *ApplyClient) DbFindI64(ctx context.Context, code *Uint64, scope *Uint64
 //  - Table
 //  - ID
 func (p *ApplyClient) DbLowerboundI64(ctx context.Context, code *Uint64, scope *Uint64, table *Uint64, id *Uint64) (_r int32, _err error) {
-  var _args401 ApplyDbLowerboundI64Args
-  _args401.Code = code
-  _args401.Scope = scope
-  _args401.Table = table
-  _args401.ID = id
-  var _result403 ApplyDbLowerboundI64Result
-  var _meta402 thrift.ResponseMeta
-  _meta402, _err = p.Client_().Call(ctx, "db_lowerbound_i64", &_args401, &_result403)
-  p.SetLastResponseMeta_(_meta402)
+  var _args402 ApplyDbLowerboundI64Args
+  _args402.Code = code
+  _args402.Scope = scope
+  _args402.Table = table
+  _args402.ID = id
+  var _result404 ApplyDbLowerboundI64Result
+  var _meta403 thrift.ResponseMeta
+  _meta403, _err = p.Client_().Call(ctx, "db_lowerbound_i64", &_args402, &_result404)
+  p.SetLastResponseMeta_(_meta403)
   if _err != nil {
     return
   }
-  return _result403.GetSuccess(), nil
+  return _result404.GetSuccess(), nil
 }
 
 // Parameters:
@@ -12285,19 +12324,19 @@ func (p *ApplyClient) DbLowerboundI64(ctx context.Context, code *Uint64, scope *
 //  - Table
 //  - ID
 func (p *ApplyClient) DbUpperboundI64(ctx context.Context, code *Uint64, scope *Uint64, table *Uint64, id *Uint64) (_r int32, _err error) {
-  var _args404 ApplyDbUpperboundI64Args
-  _args404.Code = code
-  _args404.Scope = scope
-  _args404.Table = table
-  _args404.ID = id
-  var _result406 ApplyDbUpperboundI64Result
-  var _meta405 thrift.ResponseMeta
-  _meta405, _err = p.Client_().Call(ctx, "db_upperbound_i64", &_args404, &_result406)
-  p.SetLastResponseMeta_(_meta405)
+  var _args405 ApplyDbUpperboundI64Args
+  _args405.Code = code
+  _args405.Scope = scope
+  _args405.Table = table
+  _args405.ID = id
+  var _result407 ApplyDbUpperboundI64Result
+  var _meta406 thrift.ResponseMeta
+  _meta406, _err = p.Client_().Call(ctx, "db_upperbound_i64", &_args405, &_result407)
+  p.SetLastResponseMeta_(_meta406)
   if _err != nil {
     return
   }
-  return _result406.GetSuccess(), nil
+  return _result407.GetSuccess(), nil
 }
 
 // Parameters:
@@ -12305,18 +12344,18 @@ func (p *ApplyClient) DbUpperboundI64(ctx context.Context, code *Uint64, scope *
 //  - Scope
 //  - Table
 func (p *ApplyClient) DbEndI64(ctx context.Context, code *Uint64, scope *Uint64, table *Uint64) (_r int32, _err error) {
-  var _args407 ApplyDbEndI64Args
-  _args407.Code = code
-  _args407.Scope = scope
-  _args407.Table = table
-  var _result409 ApplyDbEndI64Result
-  var _meta408 thrift.ResponseMeta
-  _meta408, _err = p.Client_().Call(ctx, "db_end_i64", &_args407, &_result409)
-  p.SetLastResponseMeta_(_meta408)
+  var _args408 ApplyDbEndI64Args
+  _args408.Code = code
+  _args408.Scope = scope
+  _args408.Table = table
+  var _result410 ApplyDbEndI64Result
+  var _meta409 thrift.ResponseMeta
+  _meta409, _err = p.Client_().Call(ctx, "db_end_i64", &_args408, &_result410)
+  p.SetLastResponseMeta_(_meta409)
   if _err != nil {
     return
   }
-  return _result409.GetSuccess(), nil
+  return _result410.GetSuccess(), nil
 }
 
 // Parameters:
@@ -12326,20 +12365,20 @@ func (p *ApplyClient) DbEndI64(ctx context.Context, code *Uint64, scope *Uint64,
 //  - ID
 //  - Secondary
 func (p *ApplyClient) DbIdx64Store(ctx context.Context, scope *Uint64, table *Uint64, payer *Uint64, id *Uint64, secondary *Uint64) (_r int32, _err error) {
-  var _args410 ApplyDbIdx64StoreArgs
-  _args410.Scope = scope
-  _args410.Table = table
-  _args410.Payer = payer
-  _args410.ID = id
-  _args410.Secondary = secondary
-  var _result412 ApplyDbIdx64StoreResult
-  var _meta411 thrift.ResponseMeta
-  _meta411, _err = p.Client_().Call(ctx, "db_idx64_store", &_args410, &_result412)
-  p.SetLastResponseMeta_(_meta411)
+  var _args411 ApplyDbIdx64StoreArgs
+  _args411.Scope = scope
+  _args411.Table = table
+  _args411.Payer = payer
+  _args411.ID = id
+  _args411.Secondary = secondary
+  var _result413 ApplyDbIdx64StoreResult
+  var _meta412 thrift.ResponseMeta
+  _meta412, _err = p.Client_().Call(ctx, "db_idx64_store", &_args411, &_result413)
+  p.SetLastResponseMeta_(_meta412)
   if _err != nil {
     return
   }
-  return _result412.GetSuccess(), nil
+  return _result413.GetSuccess(), nil
 }
 
 // Parameters:
@@ -12347,14 +12386,14 @@ func (p *ApplyClient) DbIdx64Store(ctx context.Context, scope *Uint64, table *Ui
 //  - Payer
 //  - Secondary
 func (p *ApplyClient) DbIdx64Update(ctx context.Context, iterator int32, payer *Uint64, secondary *Uint64) (_err error) {
-  var _args413 ApplyDbIdx64UpdateArgs
-  _args413.Iterator = iterator
-  _args413.Payer = payer
-  _args413.Secondary = secondary
-  var _result415 ApplyDbIdx64UpdateResult
-  var _meta414 thrift.ResponseMeta
-  _meta414, _err = p.Client_().Call(ctx, "db_idx64_update", &_args413, &_result415)
-  p.SetLastResponseMeta_(_meta414)
+  var _args414 ApplyDbIdx64UpdateArgs
+  _args414.Iterator = iterator
+  _args414.Payer = payer
+  _args414.Secondary = secondary
+  var _result416 ApplyDbIdx64UpdateResult
+  var _meta415 thrift.ResponseMeta
+  _meta415, _err = p.Client_().Call(ctx, "db_idx64_update", &_args414, &_result416)
+  p.SetLastResponseMeta_(_meta415)
   if _err != nil {
     return
   }
@@ -12364,12 +12403,12 @@ func (p *ApplyClient) DbIdx64Update(ctx context.Context, iterator int32, payer *
 // Parameters:
 //  - Iterator
 func (p *ApplyClient) DbIdx64Remove(ctx context.Context, iterator int32) (_err error) {
-  var _args416 ApplyDbIdx64RemoveArgs
-  _args416.Iterator = iterator
-  var _result418 ApplyDbIdx64RemoveResult
-  var _meta417 thrift.ResponseMeta
-  _meta417, _err = p.Client_().Call(ctx, "db_idx64_remove", &_args416, &_result418)
-  p.SetLastResponseMeta_(_meta417)
+  var _args417 ApplyDbIdx64RemoveArgs
+  _args417.Iterator = iterator
+  var _result419 ApplyDbIdx64RemoveResult
+  var _meta418 thrift.ResponseMeta
+  _meta418, _err = p.Client_().Call(ctx, "db_idx64_remove", &_args417, &_result419)
+  p.SetLastResponseMeta_(_meta418)
   if _err != nil {
     return
   }
@@ -12379,17 +12418,17 @@ func (p *ApplyClient) DbIdx64Remove(ctx context.Context, iterator int32) (_err e
 // Parameters:
 //  - Iterator
 func (p *ApplyClient) DbIdx64Next(ctx context.Context, iterator int32) (_r *NextPreviousReturn, _err error) {
-  var _args419 ApplyDbIdx64NextArgs
-  _args419.Iterator = iterator
-  var _result421 ApplyDbIdx64NextResult
-  var _meta420 thrift.ResponseMeta
-  _meta420, _err = p.Client_().Call(ctx, "db_idx64_next", &_args419, &_result421)
-  p.SetLastResponseMeta_(_meta420)
+  var _args420 ApplyDbIdx64NextArgs
+  _args420.Iterator = iterator
+  var _result422 ApplyDbIdx64NextResult
+  var _meta421 thrift.ResponseMeta
+  _meta421, _err = p.Client_().Call(ctx, "db_idx64_next", &_args420, &_result422)
+  p.SetLastResponseMeta_(_meta421)
   if _err != nil {
     return
   }
-  if _ret422 := _result421.GetSuccess(); _ret422 != nil {
-    return _ret422, nil
+  if _ret423 := _result422.GetSuccess(); _ret423 != nil {
+    return _ret423, nil
   }
   return nil, thrift.NewTApplicationException(thrift.MISSING_RESULT, "db_idx64_next failed: unknown result")
 }
@@ -12397,17 +12436,17 @@ func (p *ApplyClient) DbIdx64Next(ctx context.Context, iterator int32) (_r *Next
 // Parameters:
 //  - Iteratory
 func (p *ApplyClient) DbIdx64Previous(ctx context.Context, iteratory int32) (_r *NextPreviousReturn, _err error) {
-  var _args423 ApplyDbIdx64PreviousArgs
-  _args423.Iteratory = iteratory
-  var _result425 ApplyDbIdx64PreviousResult
-  var _meta424 thrift.ResponseMeta
-  _meta424, _err = p.Client_().Call(ctx, "db_idx64_previous", &_args423, &_result425)
-  p.SetLastResponseMeta_(_meta424)
+  var _args424 ApplyDbIdx64PreviousArgs
+  _args424.Iteratory = iteratory
+  var _result426 ApplyDbIdx64PreviousResult
+  var _meta425 thrift.ResponseMeta
+  _meta425, _err = p.Client_().Call(ctx, "db_idx64_previous", &_args424, &_result426)
+  p.SetLastResponseMeta_(_meta425)
   if _err != nil {
     return
   }
-  if _ret426 := _result425.GetSuccess(); _ret426 != nil {
-    return _ret426, nil
+  if _ret427 := _result426.GetSuccess(); _ret427 != nil {
+    return _ret427, nil
   }
   return nil, thrift.NewTApplicationException(thrift.MISSING_RESULT, "db_idx64_previous failed: unknown result")
 }
@@ -12418,20 +12457,20 @@ func (p *ApplyClient) DbIdx64Previous(ctx context.Context, iteratory int32) (_r 
 //  - Table
 //  - Primary
 func (p *ApplyClient) DbIdx64FindPrimary(ctx context.Context, code *Uint64, scope *Uint64, table *Uint64, primary *Uint64) (_r *FindPrimaryReturn, _err error) {
-  var _args427 ApplyDbIdx64FindPrimaryArgs
-  _args427.Code = code
-  _args427.Scope = scope
-  _args427.Table = table
-  _args427.Primary = primary
-  var _result429 ApplyDbIdx64FindPrimaryResult
-  var _meta428 thrift.ResponseMeta
-  _meta428, _err = p.Client_().Call(ctx, "db_idx64_find_primary", &_args427, &_result429)
-  p.SetLastResponseMeta_(_meta428)
+  var _args428 ApplyDbIdx64FindPrimaryArgs
+  _args428.Code = code
+  _args428.Scope = scope
+  _args428.Table = table
+  _args428.Primary = primary
+  var _result430 ApplyDbIdx64FindPrimaryResult
+  var _meta429 thrift.ResponseMeta
+  _meta429, _err = p.Client_().Call(ctx, "db_idx64_find_primary", &_args428, &_result430)
+  p.SetLastResponseMeta_(_meta429)
   if _err != nil {
     return
   }
-  if _ret430 := _result429.GetSuccess(); _ret430 != nil {
-    return _ret430, nil
+  if _ret431 := _result430.GetSuccess(); _ret431 != nil {
+    return _ret431, nil
   }
   return nil, thrift.NewTApplicationException(thrift.MISSING_RESULT, "db_idx64_find_primary failed: unknown result")
 }
@@ -12442,20 +12481,20 @@ func (p *ApplyClient) DbIdx64FindPrimary(ctx context.Context, code *Uint64, scop
 //  - Table
 //  - Secondary
 func (p *ApplyClient) DbIdx64FindSecondary(ctx context.Context, code *Uint64, scope *Uint64, table *Uint64, secondary *Uint64) (_r *FindSecondaryReturn, _err error) {
-  var _args431 ApplyDbIdx64FindSecondaryArgs
-  _args431.Code = code
-  _args431.Scope = scope
-  _args431.Table = table
-  _args431.Secondary = secondary
-  var _result433 ApplyDbIdx64FindSecondaryResult
-  var _meta432 thrift.ResponseMeta
-  _meta432, _err = p.Client_().Call(ctx, "db_idx64_find_secondary", &_args431, &_result433)
-  p.SetLastResponseMeta_(_meta432)
+  var _args432 ApplyDbIdx64FindSecondaryArgs
+  _args432.Code = code
+  _args432.Scope = scope
+  _args432.Table = table
+  _args432.Secondary = secondary
+  var _result434 ApplyDbIdx64FindSecondaryResult
+  var _meta433 thrift.ResponseMeta
+  _meta433, _err = p.Client_().Call(ctx, "db_idx64_find_secondary", &_args432, &_result434)
+  p.SetLastResponseMeta_(_meta433)
   if _err != nil {
     return
   }
-  if _ret434 := _result433.GetSuccess(); _ret434 != nil {
-    return _ret434, nil
+  if _ret435 := _result434.GetSuccess(); _ret435 != nil {
+    return _ret435, nil
   }
   return nil, thrift.NewTApplicationException(thrift.MISSING_RESULT, "db_idx64_find_secondary failed: unknown result")
 }
@@ -12467,21 +12506,21 @@ func (p *ApplyClient) DbIdx64FindSecondary(ctx context.Context, code *Uint64, sc
 //  - Secondary
 //  - Primary
 func (p *ApplyClient) DbIdx64Lowerbound(ctx context.Context, code *Uint64, scope *Uint64, table *Uint64, secondary *Uint64, primary *Uint64) (_r *LowerBoundUpperBoundReturn, _err error) {
-  var _args435 ApplyDbIdx64LowerboundArgs
-  _args435.Code = code
-  _args435.Scope = scope
-  _args435.Table = table
-  _args435.Secondary = secondary
-  _args435.Primary = primary
-  var _result437 ApplyDbIdx64LowerboundResult
-  var _meta436 thrift.ResponseMeta
-  _meta436, _err = p.Client_().Call(ctx, "db_idx64_lowerbound", &_args435, &_result437)
-  p.SetLastResponseMeta_(_meta436)
+  var _args436 ApplyDbIdx64LowerboundArgs
+  _args436.Code = code
+  _args436.Scope = scope
+  _args436.Table = table
+  _args436.Secondary = secondary
+  _args436.Primary = primary
+  var _result438 ApplyDbIdx64LowerboundResult
+  var _meta437 thrift.ResponseMeta
+  _meta437, _err = p.Client_().Call(ctx, "db_idx64_lowerbound", &_args436, &_result438)
+  p.SetLastResponseMeta_(_meta437)
   if _err != nil {
     return
   }
-  if _ret438 := _result437.GetSuccess(); _ret438 != nil {
-    return _ret438, nil
+  if _ret439 := _result438.GetSuccess(); _ret439 != nil {
+    return _ret439, nil
   }
   return nil, thrift.NewTApplicationException(thrift.MISSING_RESULT, "db_idx64_lowerbound failed: unknown result")
 }
@@ -12493,21 +12532,21 @@ func (p *ApplyClient) DbIdx64Lowerbound(ctx context.Context, code *Uint64, scope
 //  - Secondary
 //  - Primary
 func (p *ApplyClient) DbIdx64Upperbound(ctx context.Context, code *Uint64, scope *Uint64, table *Uint64, secondary *Uint64, primary *Uint64) (_r *LowerBoundUpperBoundReturn, _err error) {
-  var _args439 ApplyDbIdx64UpperboundArgs
-  _args439.Code = code
-  _args439.Scope = scope
-  _args439.Table = table
-  _args439.Secondary = secondary
-  _args439.Primary = primary
-  var _result441 ApplyDbIdx64UpperboundResult
-  var _meta440 thrift.ResponseMeta
-  _meta440, _err = p.Client_().Call(ctx, "db_idx64_upperbound", &_args439, &_result441)
-  p.SetLastResponseMeta_(_meta440)
+  var _args440 ApplyDbIdx64UpperboundArgs
+  _args440.Code = code
+  _args440.Scope = scope
+  _args440.Table = table
+  _args440.Secondary = secondary
+  _args440.Primary = primary
+  var _result442 ApplyDbIdx64UpperboundResult
+  var _meta441 thrift.ResponseMeta
+  _meta441, _err = p.Client_().Call(ctx, "db_idx64_upperbound", &_args440, &_result442)
+  p.SetLastResponseMeta_(_meta441)
   if _err != nil {
     return
   }
-  if _ret442 := _result441.GetSuccess(); _ret442 != nil {
-    return _ret442, nil
+  if _ret443 := _result442.GetSuccess(); _ret443 != nil {
+    return _ret443, nil
   }
   return nil, thrift.NewTApplicationException(thrift.MISSING_RESULT, "db_idx64_upperbound failed: unknown result")
 }
@@ -12517,18 +12556,18 @@ func (p *ApplyClient) DbIdx64Upperbound(ctx context.Context, code *Uint64, scope
 //  - Scope
 //  - Table
 func (p *ApplyClient) DbIdx64End(ctx context.Context, code *Uint64, scope *Uint64, table *Uint64) (_r int32, _err error) {
-  var _args443 ApplyDbIdx64EndArgs
-  _args443.Code = code
-  _args443.Scope = scope
-  _args443.Table = table
-  var _result445 ApplyDbIdx64EndResult
-  var _meta444 thrift.ResponseMeta
-  _meta444, _err = p.Client_().Call(ctx, "db_idx64_end", &_args443, &_result445)
-  p.SetLastResponseMeta_(_meta444)
+  var _args444 ApplyDbIdx64EndArgs
+  _args444.Code = code
+  _args444.Scope = scope
+  _args444.Table = table
+  var _result446 ApplyDbIdx64EndResult
+  var _meta445 thrift.ResponseMeta
+  _meta445, _err = p.Client_().Call(ctx, "db_idx64_end", &_args444, &_result446)
+  p.SetLastResponseMeta_(_meta445)
   if _err != nil {
     return
   }
-  return _result445.GetSuccess(), nil
+  return _result446.GetSuccess(), nil
 }
 
 // Parameters:
@@ -12538,20 +12577,20 @@ func (p *ApplyClient) DbIdx64End(ctx context.Context, code *Uint64, scope *Uint6
 //  - ID
 //  - Secondary
 func (p *ApplyClient) DbIdx128Store(ctx context.Context, scope *Uint64, table *Uint64, payer *Uint64, id *Uint64, secondary []byte) (_r int32, _err error) {
-  var _args446 ApplyDbIdx128StoreArgs
-  _args446.Scope = scope
-  _args446.Table = table
-  _args446.Payer = payer
-  _args446.ID = id
-  _args446.Secondary = secondary
-  var _result448 ApplyDbIdx128StoreResult
-  var _meta447 thrift.ResponseMeta
-  _meta447, _err = p.Client_().Call(ctx, "db_idx128_store", &_args446, &_result448)
-  p.SetLastResponseMeta_(_meta447)
+  var _args447 ApplyDbIdx128StoreArgs
+  _args447.Scope = scope
+  _args447.Table = table
+  _args447.Payer = payer
+  _args447.ID = id
+  _args447.Secondary = secondary
+  var _result449 ApplyDbIdx128StoreResult
+  var _meta448 thrift.ResponseMeta
+  _meta448, _err = p.Client_().Call(ctx, "db_idx128_store", &_args447, &_result449)
+  p.SetLastResponseMeta_(_meta448)
   if _err != nil {
     return
   }
-  return _result448.GetSuccess(), nil
+  return _result449.GetSuccess(), nil
 }
 
 // Parameters:
@@ -12559,14 +12598,14 @@ func (p *ApplyClient) DbIdx128Store(ctx context.Context, scope *Uint64, table *U
 //  - Payer
 //  - Secondary
 func (p *ApplyClient) DbIdx128Update(ctx context.Context, iterator int32, payer *Uint64, secondary []byte) (_err error) {
-  var _args449 ApplyDbIdx128UpdateArgs
-  _args449.Iterator = iterator
-  _args449.Payer = payer
-  _args449.Secondary = secondary
-  var _result451 ApplyDbIdx128UpdateResult
-  var _meta450 thrift.ResponseMeta
-  _meta450, _err = p.Client_().Call(ctx, "db_idx128_update", &_args449, &_result451)
-  p.SetLastResponseMeta_(_meta450)
+  var _args450 ApplyDbIdx128UpdateArgs
+  _args450.Iterator = iterator
+  _args450.Payer = payer
+  _args450.Secondary = secondary
+  var _result452 ApplyDbIdx128UpdateResult
+  var _meta451 thrift.ResponseMeta
+  _meta451, _err = p.Client_().Call(ctx, "db_idx128_update", &_args450, &_result452)
+  p.SetLastResponseMeta_(_meta451)
   if _err != nil {
     return
   }
@@ -12576,12 +12615,12 @@ func (p *ApplyClient) DbIdx128Update(ctx context.Context, iterator int32, payer 
 // Parameters:
 //  - Iterator
 func (p *ApplyClient) DbIdx128Remove(ctx context.Context, iterator int32) (_err error) {
-  var _args452 ApplyDbIdx128RemoveArgs
-  _args452.Iterator = iterator
-  var _result454 ApplyDbIdx128RemoveResult
-  var _meta453 thrift.ResponseMeta
-  _meta453, _err = p.Client_().Call(ctx, "db_idx128_remove", &_args452, &_result454)
-  p.SetLastResponseMeta_(_meta453)
+  var _args453 ApplyDbIdx128RemoveArgs
+  _args453.Iterator = iterator
+  var _result455 ApplyDbIdx128RemoveResult
+  var _meta454 thrift.ResponseMeta
+  _meta454, _err = p.Client_().Call(ctx, "db_idx128_remove", &_args453, &_result455)
+  p.SetLastResponseMeta_(_meta454)
   if _err != nil {
     return
   }
@@ -12591,17 +12630,17 @@ func (p *ApplyClient) DbIdx128Remove(ctx context.Context, iterator int32) (_err 
 // Parameters:
 //  - Iterator
 func (p *ApplyClient) DbIdx128Next(ctx context.Context, iterator int32) (_r *NextPreviousReturn, _err error) {
-  var _args455 ApplyDbIdx128NextArgs
-  _args455.Iterator = iterator
-  var _result457 ApplyDbIdx128NextResult
-  var _meta456 thrift.ResponseMeta
-  _meta456, _err = p.Client_().Call(ctx, "db_idx128_next", &_args455, &_result457)
-  p.SetLastResponseMeta_(_meta456)
+  var _args456 ApplyDbIdx128NextArgs
+  _args456.Iterator = iterator
+  var _result458 ApplyDbIdx128NextResult
+  var _meta457 thrift.ResponseMeta
+  _meta457, _err = p.Client_().Call(ctx, "db_idx128_next", &_args456, &_result458)
+  p.SetLastResponseMeta_(_meta457)
   if _err != nil {
     return
   }
-  if _ret458 := _result457.GetSuccess(); _ret458 != nil {
-    return _ret458, nil
+  if _ret459 := _result458.GetSuccess(); _ret459 != nil {
+    return _ret459, nil
   }
   return nil, thrift.NewTApplicationException(thrift.MISSING_RESULT, "db_idx128_next failed: unknown result")
 }
@@ -12609,17 +12648,17 @@ func (p *ApplyClient) DbIdx128Next(ctx context.Context, iterator int32) (_r *Nex
 // Parameters:
 //  - Iterator
 func (p *ApplyClient) DbIdx128Previous(ctx context.Context, iterator int32) (_r *NextPreviousReturn, _err error) {
-  var _args459 ApplyDbIdx128PreviousArgs
-  _args459.Iterator = iterator
-  var _result461 ApplyDbIdx128PreviousResult
-  var _meta460 thrift.ResponseMeta
-  _meta460, _err = p.Client_().Call(ctx, "db_idx128_previous", &_args459, &_result461)
-  p.SetLastResponseMeta_(_meta460)
+  var _args460 ApplyDbIdx128PreviousArgs
+  _args460.Iterator = iterator
+  var _result462 ApplyDbIdx128PreviousResult
+  var _meta461 thrift.ResponseMeta
+  _meta461, _err = p.Client_().Call(ctx, "db_idx128_previous", &_args460, &_result462)
+  p.SetLastResponseMeta_(_meta461)
   if _err != nil {
     return
   }
-  if _ret462 := _result461.GetSuccess(); _ret462 != nil {
-    return _ret462, nil
+  if _ret463 := _result462.GetSuccess(); _ret463 != nil {
+    return _ret463, nil
   }
   return nil, thrift.NewTApplicationException(thrift.MISSING_RESULT, "db_idx128_previous failed: unknown result")
 }
@@ -12630,20 +12669,20 @@ func (p *ApplyClient) DbIdx128Previous(ctx context.Context, iterator int32) (_r 
 //  - Table
 //  - Primary
 func (p *ApplyClient) DbIdx128FindPrimary(ctx context.Context, code *Uint64, scope *Uint64, table *Uint64, primary *Uint64) (_r *FindPrimaryReturn, _err error) {
-  var _args463 ApplyDbIdx128FindPrimaryArgs
-  _args463.Code = code
-  _args463.Scope = scope
-  _args463.Table = table
-  _args463.Primary = primary
-  var _result465 ApplyDbIdx128FindPrimaryResult
-  var _meta464 thrift.ResponseMeta
-  _meta464, _err = p.Client_().Call(ctx, "db_idx128_find_primary", &_args463, &_result465)
-  p.SetLastResponseMeta_(_meta464)
+  var _args464 ApplyDbIdx128FindPrimaryArgs
+  _args464.Code = code
+  _args464.Scope = scope
+  _args464.Table = table
+  _args464.Primary = primary
+  var _result466 ApplyDbIdx128FindPrimaryResult
+  var _meta465 thrift.ResponseMeta
+  _meta465, _err = p.Client_().Call(ctx, "db_idx128_find_primary", &_args464, &_result466)
+  p.SetLastResponseMeta_(_meta465)
   if _err != nil {
     return
   }
-  if _ret466 := _result465.GetSuccess(); _ret466 != nil {
-    return _ret466, nil
+  if _ret467 := _result466.GetSuccess(); _ret467 != nil {
+    return _ret467, nil
   }
   return nil, thrift.NewTApplicationException(thrift.MISSING_RESULT, "db_idx128_find_primary failed: unknown result")
 }
@@ -12654,20 +12693,20 @@ func (p *ApplyClient) DbIdx128FindPrimary(ctx context.Context, code *Uint64, sco
 //  - Table
 //  - Secondary
 func (p *ApplyClient) DbIdx128FindSecondary(ctx context.Context, code *Uint64, scope *Uint64, table *Uint64, secondary []byte) (_r *FindSecondaryReturn, _err error) {
-  var _args467 ApplyDbIdx128FindSecondaryArgs
-  _args467.Code = code
-  _args467.Scope = scope
-  _args467.Table = table
-  _args467.Secondary = secondary
-  var _result469 ApplyDbIdx128FindSecondaryResult
-  var _meta468 thrift.ResponseMeta
-  _meta468, _err = p.Client_().Call(ctx, "db_idx128_find_secondary", &_args467, &_result469)
-  p.SetLastResponseMeta_(_meta468)
+  var _args468 ApplyDbIdx128FindSecondaryArgs
+  _args468.Code = code
+  _args468.Scope = scope
+  _args468.Table = table
+  _args468.Secondary = secondary
+  var _result470 ApplyDbIdx128FindSecondaryResult
+  var _meta469 thrift.ResponseMeta
+  _meta469, _err = p.Client_().Call(ctx, "db_idx128_find_secondary", &_args468, &_result470)
+  p.SetLastResponseMeta_(_meta469)
   if _err != nil {
     return
   }
-  if _ret470 := _result469.GetSuccess(); _ret470 != nil {
-    return _ret470, nil
+  if _ret471 := _result470.GetSuccess(); _ret471 != nil {
+    return _ret471, nil
   }
   return nil, thrift.NewTApplicationException(thrift.MISSING_RESULT, "db_idx128_find_secondary failed: unknown result")
 }
@@ -12679,21 +12718,21 @@ func (p *ApplyClient) DbIdx128FindSecondary(ctx context.Context, code *Uint64, s
 //  - Secondary
 //  - Primary
 func (p *ApplyClient) DbIdx128Lowerbound(ctx context.Context, code *Uint64, scope *Uint64, table *Uint64, secondary []byte, primary *Uint64) (_r *LowerBoundUpperBoundReturn, _err error) {
-  var _args471 ApplyDbIdx128LowerboundArgs
-  _args471.Code = code
-  _args471.Scope = scope
-  _args471.Table = table
-  _args471.Secondary = secondary
-  _args471.Primary = primary
-  var _result473 ApplyDbIdx128LowerboundResult
-  var _meta472 thrift.ResponseMeta
-  _meta472, _err = p.Client_().Call(ctx, "db_idx128_lowerbound", &_args471, &_result473)
-  p.SetLastResponseMeta_(_meta472)
+  var _args472 ApplyDbIdx128LowerboundArgs
+  _args472.Code = code
+  _args472.Scope = scope
+  _args472.Table = table
+  _args472.Secondary = secondary
+  _args472.Primary = primary
+  var _result474 ApplyDbIdx128LowerboundResult
+  var _meta473 thrift.ResponseMeta
+  _meta473, _err = p.Client_().Call(ctx, "db_idx128_lowerbound", &_args472, &_result474)
+  p.SetLastResponseMeta_(_meta473)
   if _err != nil {
     return
   }
-  if _ret474 := _result473.GetSuccess(); _ret474 != nil {
-    return _ret474, nil
+  if _ret475 := _result474.GetSuccess(); _ret475 != nil {
+    return _ret475, nil
   }
   return nil, thrift.NewTApplicationException(thrift.MISSING_RESULT, "db_idx128_lowerbound failed: unknown result")
 }
@@ -12705,21 +12744,21 @@ func (p *ApplyClient) DbIdx128Lowerbound(ctx context.Context, code *Uint64, scop
 //  - Secondary
 //  - Primary
 func (p *ApplyClient) DbIdx128Upperbound(ctx context.Context, code *Uint64, scope *Uint64, table *Uint64, secondary []byte, primary *Uint64) (_r *LowerBoundUpperBoundReturn, _err error) {
-  var _args475 ApplyDbIdx128UpperboundArgs
-  _args475.Code = code
-  _args475.Scope = scope
-  _args475.Table = table
-  _args475.Secondary = secondary
-  _args475.Primary = primary
-  var _result477 ApplyDbIdx128UpperboundResult
-  var _meta476 thrift.ResponseMeta
-  _meta476, _err = p.Client_().Call(ctx, "db_idx128_upperbound", &_args475, &_result477)
-  p.SetLastResponseMeta_(_meta476)
+  var _args476 ApplyDbIdx128UpperboundArgs
+  _args476.Code = code
+  _args476.Scope = scope
+  _args476.Table = table
+  _args476.Secondary = secondary
+  _args476.Primary = primary
+  var _result478 ApplyDbIdx128UpperboundResult
+  var _meta477 thrift.ResponseMeta
+  _meta477, _err = p.Client_().Call(ctx, "db_idx128_upperbound", &_args476, &_result478)
+  p.SetLastResponseMeta_(_meta477)
   if _err != nil {
     return
   }
-  if _ret478 := _result477.GetSuccess(); _ret478 != nil {
-    return _ret478, nil
+  if _ret479 := _result478.GetSuccess(); _ret479 != nil {
+    return _ret479, nil
   }
   return nil, thrift.NewTApplicationException(thrift.MISSING_RESULT, "db_idx128_upperbound failed: unknown result")
 }
@@ -12729,18 +12768,18 @@ func (p *ApplyClient) DbIdx128Upperbound(ctx context.Context, code *Uint64, scop
 //  - Scope
 //  - Table
 func (p *ApplyClient) DbIdx128End(ctx context.Context, code *Uint64, scope *Uint64, table *Uint64) (_r int32, _err error) {
-  var _args479 ApplyDbIdx128EndArgs
-  _args479.Code = code
-  _args479.Scope = scope
-  _args479.Table = table
-  var _result481 ApplyDbIdx128EndResult
-  var _meta480 thrift.ResponseMeta
-  _meta480, _err = p.Client_().Call(ctx, "db_idx128_end", &_args479, &_result481)
-  p.SetLastResponseMeta_(_meta480)
+  var _args480 ApplyDbIdx128EndArgs
+  _args480.Code = code
+  _args480.Scope = scope
+  _args480.Table = table
+  var _result482 ApplyDbIdx128EndResult
+  var _meta481 thrift.ResponseMeta
+  _meta481, _err = p.Client_().Call(ctx, "db_idx128_end", &_args480, &_result482)
+  p.SetLastResponseMeta_(_meta481)
   if _err != nil {
     return
   }
-  return _result481.GetSuccess(), nil
+  return _result482.GetSuccess(), nil
 }
 
 // Parameters:
@@ -12750,20 +12789,20 @@ func (p *ApplyClient) DbIdx128End(ctx context.Context, code *Uint64, scope *Uint
 //  - ID
 //  - Data
 func (p *ApplyClient) DbIdx256Store(ctx context.Context, scope *Uint64, table *Uint64, payer *Uint64, id *Uint64, data []byte) (_r int32, _err error) {
-  var _args482 ApplyDbIdx256StoreArgs
-  _args482.Scope = scope
-  _args482.Table = table
-  _args482.Payer = payer
-  _args482.ID = id
-  _args482.Data = data
-  var _result484 ApplyDbIdx256StoreResult
-  var _meta483 thrift.ResponseMeta
-  _meta483, _err = p.Client_().Call(ctx, "db_idx256_store", &_args482, &_result484)
-  p.SetLastResponseMeta_(_meta483)
+  var _args483 ApplyDbIdx256StoreArgs
+  _args483.Scope = scope
+  _args483.Table = table
+  _args483.Payer = payer
+  _args483.ID = id
+  _args483.Data = data
+  var _result485 ApplyDbIdx256StoreResult
+  var _meta484 thrift.ResponseMeta
+  _meta484, _err = p.Client_().Call(ctx, "db_idx256_store", &_args483, &_result485)
+  p.SetLastResponseMeta_(_meta484)
   if _err != nil {
     return
   }
-  return _result484.GetSuccess(), nil
+  return _result485.GetSuccess(), nil
 }
 
 // Parameters:
@@ -12771,14 +12810,14 @@ func (p *ApplyClient) DbIdx256Store(ctx context.Context, scope *Uint64, table *U
 //  - Payer
 //  - Data
 func (p *ApplyClient) DbIdx256Update(ctx context.Context, iterator int32, payer *Uint64, data []byte) (_err error) {
-  var _args485 ApplyDbIdx256UpdateArgs
-  _args485.Iterator = iterator
-  _args485.Payer = payer
-  _args485.Data = data
-  var _result487 ApplyDbIdx256UpdateResult
-  var _meta486 thrift.ResponseMeta
-  _meta486, _err = p.Client_().Call(ctx, "db_idx256_update", &_args485, &_result487)
-  p.SetLastResponseMeta_(_meta486)
+  var _args486 ApplyDbIdx256UpdateArgs
+  _args486.Iterator = iterator
+  _args486.Payer = payer
+  _args486.Data = data
+  var _result488 ApplyDbIdx256UpdateResult
+  var _meta487 thrift.ResponseMeta
+  _meta487, _err = p.Client_().Call(ctx, "db_idx256_update", &_args486, &_result488)
+  p.SetLastResponseMeta_(_meta487)
   if _err != nil {
     return
   }
@@ -12788,12 +12827,12 @@ func (p *ApplyClient) DbIdx256Update(ctx context.Context, iterator int32, payer 
 // Parameters:
 //  - Iterator
 func (p *ApplyClient) DbIdx256Remove(ctx context.Context, iterator int32) (_err error) {
-  var _args488 ApplyDbIdx256RemoveArgs
-  _args488.Iterator = iterator
-  var _result490 ApplyDbIdx256RemoveResult
-  var _meta489 thrift.ResponseMeta
-  _meta489, _err = p.Client_().Call(ctx, "db_idx256_remove", &_args488, &_result490)
-  p.SetLastResponseMeta_(_meta489)
+  var _args489 ApplyDbIdx256RemoveArgs
+  _args489.Iterator = iterator
+  var _result491 ApplyDbIdx256RemoveResult
+  var _meta490 thrift.ResponseMeta
+  _meta490, _err = p.Client_().Call(ctx, "db_idx256_remove", &_args489, &_result491)
+  p.SetLastResponseMeta_(_meta490)
   if _err != nil {
     return
   }
@@ -12803,17 +12842,17 @@ func (p *ApplyClient) DbIdx256Remove(ctx context.Context, iterator int32) (_err 
 // Parameters:
 //  - Iterator
 func (p *ApplyClient) DbIdx256Next(ctx context.Context, iterator int32) (_r *NextPreviousReturn, _err error) {
-  var _args491 ApplyDbIdx256NextArgs
-  _args491.Iterator = iterator
-  var _result493 ApplyDbIdx256NextResult
-  var _meta492 thrift.ResponseMeta
-  _meta492, _err = p.Client_().Call(ctx, "db_idx256_next", &_args491, &_result493)
-  p.SetLastResponseMeta_(_meta492)
+  var _args492 ApplyDbIdx256NextArgs
+  _args492.Iterator = iterator
+  var _result494 ApplyDbIdx256NextResult
+  var _meta493 thrift.ResponseMeta
+  _meta493, _err = p.Client_().Call(ctx, "db_idx256_next", &_args492, &_result494)
+  p.SetLastResponseMeta_(_meta493)
   if _err != nil {
     return
   }
-  if _ret494 := _result493.GetSuccess(); _ret494 != nil {
-    return _ret494, nil
+  if _ret495 := _result494.GetSuccess(); _ret495 != nil {
+    return _ret495, nil
   }
   return nil, thrift.NewTApplicationException(thrift.MISSING_RESULT, "db_idx256_next failed: unknown result")
 }
@@ -12821,17 +12860,17 @@ func (p *ApplyClient) DbIdx256Next(ctx context.Context, iterator int32) (_r *Nex
 // Parameters:
 //  - Iterator
 func (p *ApplyClient) DbIdx256Previous(ctx context.Context, iterator int32) (_r *NextPreviousReturn, _err error) {
-  var _args495 ApplyDbIdx256PreviousArgs
-  _args495.Iterator = iterator
-  var _result497 ApplyDbIdx256PreviousResult
-  var _meta496 thrift.ResponseMeta
-  _meta496, _err = p.Client_().Call(ctx, "db_idx256_previous", &_args495, &_result497)
-  p.SetLastResponseMeta_(_meta496)
+  var _args496 ApplyDbIdx256PreviousArgs
+  _args496.Iterator = iterator
+  var _result498 ApplyDbIdx256PreviousResult
+  var _meta497 thrift.ResponseMeta
+  _meta497, _err = p.Client_().Call(ctx, "db_idx256_previous", &_args496, &_result498)
+  p.SetLastResponseMeta_(_meta497)
   if _err != nil {
     return
   }
-  if _ret498 := _result497.GetSuccess(); _ret498 != nil {
-    return _ret498, nil
+  if _ret499 := _result498.GetSuccess(); _ret499 != nil {
+    return _ret499, nil
   }
   return nil, thrift.NewTApplicationException(thrift.MISSING_RESULT, "db_idx256_previous failed: unknown result")
 }
@@ -12842,20 +12881,20 @@ func (p *ApplyClient) DbIdx256Previous(ctx context.Context, iterator int32) (_r 
 //  - Table
 //  - Primary
 func (p *ApplyClient) DbIdx256FindPrimary(ctx context.Context, code *Uint64, scope *Uint64, table *Uint64, primary *Uint64) (_r *FindPrimaryReturn, _err error) {
-  var _args499 ApplyDbIdx256FindPrimaryArgs
-  _args499.Code = code
-  _args499.Scope = scope
-  _args499.Table = table
-  _args499.Primary = primary
-  var _result501 ApplyDbIdx256FindPrimaryResult
-  var _meta500 thrift.ResponseMeta
-  _meta500, _err = p.Client_().Call(ctx, "db_idx256_find_primary", &_args499, &_result501)
-  p.SetLastResponseMeta_(_meta500)
+  var _args500 ApplyDbIdx256FindPrimaryArgs
+  _args500.Code = code
+  _args500.Scope = scope
+  _args500.Table = table
+  _args500.Primary = primary
+  var _result502 ApplyDbIdx256FindPrimaryResult
+  var _meta501 thrift.ResponseMeta
+  _meta501, _err = p.Client_().Call(ctx, "db_idx256_find_primary", &_args500, &_result502)
+  p.SetLastResponseMeta_(_meta501)
   if _err != nil {
     return
   }
-  if _ret502 := _result501.GetSuccess(); _ret502 != nil {
-    return _ret502, nil
+  if _ret503 := _result502.GetSuccess(); _ret503 != nil {
+    return _ret503, nil
   }
   return nil, thrift.NewTApplicationException(thrift.MISSING_RESULT, "db_idx256_find_primary failed: unknown result")
 }
@@ -12866,20 +12905,20 @@ func (p *ApplyClient) DbIdx256FindPrimary(ctx context.Context, code *Uint64, sco
 //  - Table
 //  - Data
 func (p *ApplyClient) DbIdx256FindSecondary(ctx context.Context, code *Uint64, scope *Uint64, table *Uint64, data []byte) (_r *FindSecondaryReturn, _err error) {
-  var _args503 ApplyDbIdx256FindSecondaryArgs
-  _args503.Code = code
-  _args503.Scope = scope
-  _args503.Table = table
-  _args503.Data = data
-  var _result505 ApplyDbIdx256FindSecondaryResult
-  var _meta504 thrift.ResponseMeta
-  _meta504, _err = p.Client_().Call(ctx, "db_idx256_find_secondary", &_args503, &_result505)
-  p.SetLastResponseMeta_(_meta504)
+  var _args504 ApplyDbIdx256FindSecondaryArgs
+  _args504.Code = code
+  _args504.Scope = scope
+  _args504.Table = table
+  _args504.Data = data
+  var _result506 ApplyDbIdx256FindSecondaryResult
+  var _meta505 thrift.ResponseMeta
+  _meta505, _err = p.Client_().Call(ctx, "db_idx256_find_secondary", &_args504, &_result506)
+  p.SetLastResponseMeta_(_meta505)
   if _err != nil {
     return
   }
-  if _ret506 := _result505.GetSuccess(); _ret506 != nil {
-    return _ret506, nil
+  if _ret507 := _result506.GetSuccess(); _ret507 != nil {
+    return _ret507, nil
   }
   return nil, thrift.NewTApplicationException(thrift.MISSING_RESULT, "db_idx256_find_secondary failed: unknown result")
 }
@@ -12891,21 +12930,21 @@ func (p *ApplyClient) DbIdx256FindSecondary(ctx context.Context, code *Uint64, s
 //  - Data
 //  - Primary
 func (p *ApplyClient) DbIdx256Lowerbound(ctx context.Context, code *Uint64, scope *Uint64, table *Uint64, data []byte, primary *Uint64) (_r *LowerBoundUpperBoundReturn, _err error) {
-  var _args507 ApplyDbIdx256LowerboundArgs
-  _args507.Code = code
-  _args507.Scope = scope
-  _args507.Table = table
-  _args507.Data = data
-  _args507.Primary = primary
-  var _result509 ApplyDbIdx256LowerboundResult
-  var _meta508 thrift.ResponseMeta
-  _meta508, _err = p.Client_().Call(ctx, "db_idx256_lowerbound", &_args507, &_result509)
-  p.SetLastResponseMeta_(_meta508)
+  var _args508 ApplyDbIdx256LowerboundArgs
+  _args508.Code = code
+  _args508.Scope = scope
+  _args508.Table = table
+  _args508.Data = data
+  _args508.Primary = primary
+  var _result510 ApplyDbIdx256LowerboundResult
+  var _meta509 thrift.ResponseMeta
+  _meta509, _err = p.Client_().Call(ctx, "db_idx256_lowerbound", &_args508, &_result510)
+  p.SetLastResponseMeta_(_meta509)
   if _err != nil {
     return
   }
-  if _ret510 := _result509.GetSuccess(); _ret510 != nil {
-    return _ret510, nil
+  if _ret511 := _result510.GetSuccess(); _ret511 != nil {
+    return _ret511, nil
   }
   return nil, thrift.NewTApplicationException(thrift.MISSING_RESULT, "db_idx256_lowerbound failed: unknown result")
 }
@@ -12917,21 +12956,21 @@ func (p *ApplyClient) DbIdx256Lowerbound(ctx context.Context, code *Uint64, scop
 //  - Data
 //  - Primary
 func (p *ApplyClient) DbIdx256Upperbound(ctx context.Context, code *Uint64, scope *Uint64, table *Uint64, data []byte, primary *Uint64) (_r *LowerBoundUpperBoundReturn, _err error) {
-  var _args511 ApplyDbIdx256UpperboundArgs
-  _args511.Code = code
-  _args511.Scope = scope
-  _args511.Table = table
-  _args511.Data = data
-  _args511.Primary = primary
-  var _result513 ApplyDbIdx256UpperboundResult
-  var _meta512 thrift.ResponseMeta
-  _meta512, _err = p.Client_().Call(ctx, "db_idx256_upperbound", &_args511, &_result513)
-  p.SetLastResponseMeta_(_meta512)
+  var _args512 ApplyDbIdx256UpperboundArgs
+  _args512.Code = code
+  _args512.Scope = scope
+  _args512.Table = table
+  _args512.Data = data
+  _args512.Primary = primary
+  var _result514 ApplyDbIdx256UpperboundResult
+  var _meta513 thrift.ResponseMeta
+  _meta513, _err = p.Client_().Call(ctx, "db_idx256_upperbound", &_args512, &_result514)
+  p.SetLastResponseMeta_(_meta513)
   if _err != nil {
     return
   }
-  if _ret514 := _result513.GetSuccess(); _ret514 != nil {
-    return _ret514, nil
+  if _ret515 := _result514.GetSuccess(); _ret515 != nil {
+    return _ret515, nil
   }
   return nil, thrift.NewTApplicationException(thrift.MISSING_RESULT, "db_idx256_upperbound failed: unknown result")
 }
@@ -12941,18 +12980,18 @@ func (p *ApplyClient) DbIdx256Upperbound(ctx context.Context, code *Uint64, scop
 //  - Scope
 //  - Table
 func (p *ApplyClient) DbIdx256End(ctx context.Context, code *Uint64, scope *Uint64, table *Uint64) (_r int32, _err error) {
-  var _args515 ApplyDbIdx256EndArgs
-  _args515.Code = code
-  _args515.Scope = scope
-  _args515.Table = table
-  var _result517 ApplyDbIdx256EndResult
-  var _meta516 thrift.ResponseMeta
-  _meta516, _err = p.Client_().Call(ctx, "db_idx256_end", &_args515, &_result517)
-  p.SetLastResponseMeta_(_meta516)
+  var _args516 ApplyDbIdx256EndArgs
+  _args516.Code = code
+  _args516.Scope = scope
+  _args516.Table = table
+  var _result518 ApplyDbIdx256EndResult
+  var _meta517 thrift.ResponseMeta
+  _meta517, _err = p.Client_().Call(ctx, "db_idx256_end", &_args516, &_result518)
+  p.SetLastResponseMeta_(_meta517)
   if _err != nil {
     return
   }
-  return _result517.GetSuccess(), nil
+  return _result518.GetSuccess(), nil
 }
 
 // Parameters:
@@ -12962,20 +13001,20 @@ func (p *ApplyClient) DbIdx256End(ctx context.Context, code *Uint64, scope *Uint
 //  - ID
 //  - Secondary
 func (p *ApplyClient) DbIdxDoubleStore(ctx context.Context, scope *Uint64, table *Uint64, payer *Uint64, id *Uint64, secondary []byte) (_r int32, _err error) {
-  var _args518 ApplyDbIdxDoubleStoreArgs
-  _args518.Scope = scope
-  _args518.Table = table
-  _args518.Payer = payer
-  _args518.ID = id
-  _args518.Secondary = secondary
-  var _result520 ApplyDbIdxDoubleStoreResult
-  var _meta519 thrift.ResponseMeta
-  _meta519, _err = p.Client_().Call(ctx, "db_idx_double_store", &_args518, &_result520)
-  p.SetLastResponseMeta_(_meta519)
+  var _args519 ApplyDbIdxDoubleStoreArgs
+  _args519.Scope = scope
+  _args519.Table = table
+  _args519.Payer = payer
+  _args519.ID = id
+  _args519.Secondary = secondary
+  var _result521 ApplyDbIdxDoubleStoreResult
+  var _meta520 thrift.ResponseMeta
+  _meta520, _err = p.Client_().Call(ctx, "db_idx_double_store", &_args519, &_result521)
+  p.SetLastResponseMeta_(_meta520)
   if _err != nil {
     return
   }
-  return _result520.GetSuccess(), nil
+  return _result521.GetSuccess(), nil
 }
 
 // Parameters:
@@ -12983,14 +13022,14 @@ func (p *ApplyClient) DbIdxDoubleStore(ctx context.Context, scope *Uint64, table
 //  - Payer
 //  - Secondary
 func (p *ApplyClient) DbIdxDoubleUpdate(ctx context.Context, iterator int32, payer *Uint64, secondary []byte) (_err error) {
-  var _args521 ApplyDbIdxDoubleUpdateArgs
-  _args521.Iterator = iterator
-  _args521.Payer = payer
-  _args521.Secondary = secondary
-  var _result523 ApplyDbIdxDoubleUpdateResult
-  var _meta522 thrift.ResponseMeta
-  _meta522, _err = p.Client_().Call(ctx, "db_idx_double_update", &_args521, &_result523)
-  p.SetLastResponseMeta_(_meta522)
+  var _args522 ApplyDbIdxDoubleUpdateArgs
+  _args522.Iterator = iterator
+  _args522.Payer = payer
+  _args522.Secondary = secondary
+  var _result524 ApplyDbIdxDoubleUpdateResult
+  var _meta523 thrift.ResponseMeta
+  _meta523, _err = p.Client_().Call(ctx, "db_idx_double_update", &_args522, &_result524)
+  p.SetLastResponseMeta_(_meta523)
   if _err != nil {
     return
   }
@@ -13000,12 +13039,12 @@ func (p *ApplyClient) DbIdxDoubleUpdate(ctx context.Context, iterator int32, pay
 // Parameters:
 //  - Iterator
 func (p *ApplyClient) DbIdxDoubleRemove(ctx context.Context, iterator int32) (_err error) {
-  var _args524 ApplyDbIdxDoubleRemoveArgs
-  _args524.Iterator = iterator
-  var _result526 ApplyDbIdxDoubleRemoveResult
-  var _meta525 thrift.ResponseMeta
-  _meta525, _err = p.Client_().Call(ctx, "db_idx_double_remove", &_args524, &_result526)
-  p.SetLastResponseMeta_(_meta525)
+  var _args525 ApplyDbIdxDoubleRemoveArgs
+  _args525.Iterator = iterator
+  var _result527 ApplyDbIdxDoubleRemoveResult
+  var _meta526 thrift.ResponseMeta
+  _meta526, _err = p.Client_().Call(ctx, "db_idx_double_remove", &_args525, &_result527)
+  p.SetLastResponseMeta_(_meta526)
   if _err != nil {
     return
   }
@@ -13015,17 +13054,17 @@ func (p *ApplyClient) DbIdxDoubleRemove(ctx context.Context, iterator int32) (_e
 // Parameters:
 //  - Iterator
 func (p *ApplyClient) DbIdxDoubleNext(ctx context.Context, iterator int32) (_r *NextPreviousReturn, _err error) {
-  var _args527 ApplyDbIdxDoubleNextArgs
-  _args527.Iterator = iterator
-  var _result529 ApplyDbIdxDoubleNextResult
-  var _meta528 thrift.ResponseMeta
-  _meta528, _err = p.Client_().Call(ctx, "db_idx_double_next", &_args527, &_result529)
-  p.SetLastResponseMeta_(_meta528)
+  var _args528 ApplyDbIdxDoubleNextArgs
+  _args528.Iterator = iterator
+  var _result530 ApplyDbIdxDoubleNextResult
+  var _meta529 thrift.ResponseMeta
+  _meta529, _err = p.Client_().Call(ctx, "db_idx_double_next", &_args528, &_result530)
+  p.SetLastResponseMeta_(_meta529)
   if _err != nil {
     return
   }
-  if _ret530 := _result529.GetSuccess(); _ret530 != nil {
-    return _ret530, nil
+  if _ret531 := _result530.GetSuccess(); _ret531 != nil {
+    return _ret531, nil
   }
   return nil, thrift.NewTApplicationException(thrift.MISSING_RESULT, "db_idx_double_next failed: unknown result")
 }
@@ -13033,17 +13072,17 @@ func (p *ApplyClient) DbIdxDoubleNext(ctx context.Context, iterator int32) (_r *
 // Parameters:
 //  - Iterator
 func (p *ApplyClient) DbIdxDoublePrevious(ctx context.Context, iterator int32) (_r *NextPreviousReturn, _err error) {
-  var _args531 ApplyDbIdxDoublePreviousArgs
-  _args531.Iterator = iterator
-  var _result533 ApplyDbIdxDoublePreviousResult
-  var _meta532 thrift.ResponseMeta
-  _meta532, _err = p.Client_().Call(ctx, "db_idx_double_previous", &_args531, &_result533)
-  p.SetLastResponseMeta_(_meta532)
+  var _args532 ApplyDbIdxDoublePreviousArgs
+  _args532.Iterator = iterator
+  var _result534 ApplyDbIdxDoublePreviousResult
+  var _meta533 thrift.ResponseMeta
+  _meta533, _err = p.Client_().Call(ctx, "db_idx_double_previous", &_args532, &_result534)
+  p.SetLastResponseMeta_(_meta533)
   if _err != nil {
     return
   }
-  if _ret534 := _result533.GetSuccess(); _ret534 != nil {
-    return _ret534, nil
+  if _ret535 := _result534.GetSuccess(); _ret535 != nil {
+    return _ret535, nil
   }
   return nil, thrift.NewTApplicationException(thrift.MISSING_RESULT, "db_idx_double_previous failed: unknown result")
 }
@@ -13054,20 +13093,20 @@ func (p *ApplyClient) DbIdxDoublePrevious(ctx context.Context, iterator int32) (
 //  - Table
 //  - Primary
 func (p *ApplyClient) DbIdxDoubleFindPrimary(ctx context.Context, code *Uint64, scope *Uint64, table *Uint64, primary *Uint64) (_r *FindPrimaryReturn, _err error) {
-  var _args535 ApplyDbIdxDoubleFindPrimaryArgs
-  _args535.Code = code
-  _args535.Scope = scope
-  _args535.Table = table
-  _args535.Primary = primary
-  var _result537 ApplyDbIdxDoubleFindPrimaryResult
-  var _meta536 thrift.ResponseMeta
-  _meta536, _err = p.Client_().Call(ctx, "db_idx_double_find_primary", &_args535, &_result537)
-  p.SetLastResponseMeta_(_meta536)
+  var _args536 ApplyDbIdxDoubleFindPrimaryArgs
+  _args536.Code = code
+  _args536.Scope = scope
+  _args536.Table = table
+  _args536.Primary = primary
+  var _result538 ApplyDbIdxDoubleFindPrimaryResult
+  var _meta537 thrift.ResponseMeta
+  _meta537, _err = p.Client_().Call(ctx, "db_idx_double_find_primary", &_args536, &_result538)
+  p.SetLastResponseMeta_(_meta537)
   if _err != nil {
     return
   }
-  if _ret538 := _result537.GetSuccess(); _ret538 != nil {
-    return _ret538, nil
+  if _ret539 := _result538.GetSuccess(); _ret539 != nil {
+    return _ret539, nil
   }
   return nil, thrift.NewTApplicationException(thrift.MISSING_RESULT, "db_idx_double_find_primary failed: unknown result")
 }
@@ -13078,20 +13117,20 @@ func (p *ApplyClient) DbIdxDoubleFindPrimary(ctx context.Context, code *Uint64, 
 //  - Table
 //  - Secondary
 func (p *ApplyClient) DbIdxDoubleFindSecondary(ctx context.Context, code *Uint64, scope *Uint64, table *Uint64, secondary []byte) (_r *FindSecondaryReturn, _err error) {
-  var _args539 ApplyDbIdxDoubleFindSecondaryArgs
-  _args539.Code = code
-  _args539.Scope = scope
-  _args539.Table = table
-  _args539.Secondary = secondary
-  var _result541 ApplyDbIdxDoubleFindSecondaryResult
-  var _meta540 thrift.ResponseMeta
-  _meta540, _err = p.Client_().Call(ctx, "db_idx_double_find_secondary", &_args539, &_result541)
-  p.SetLastResponseMeta_(_meta540)
+  var _args540 ApplyDbIdxDoubleFindSecondaryArgs
+  _args540.Code = code
+  _args540.Scope = scope
+  _args540.Table = table
+  _args540.Secondary = secondary
+  var _result542 ApplyDbIdxDoubleFindSecondaryResult
+  var _meta541 thrift.ResponseMeta
+  _meta541, _err = p.Client_().Call(ctx, "db_idx_double_find_secondary", &_args540, &_result542)
+  p.SetLastResponseMeta_(_meta541)
   if _err != nil {
     return
   }
-  if _ret542 := _result541.GetSuccess(); _ret542 != nil {
-    return _ret542, nil
+  if _ret543 := _result542.GetSuccess(); _ret543 != nil {
+    return _ret543, nil
   }
   return nil, thrift.NewTApplicationException(thrift.MISSING_RESULT, "db_idx_double_find_secondary failed: unknown result")
 }
@@ -13103,21 +13142,21 @@ func (p *ApplyClient) DbIdxDoubleFindSecondary(ctx context.Context, code *Uint64
 //  - Secondary
 //  - Primary
 func (p *ApplyClient) DbIdxDoubleLowerbound(ctx context.Context, code *Uint64, scope *Uint64, table *Uint64, secondary []byte, primary *Uint64) (_r *LowerBoundUpperBoundReturn, _err error) {
-  var _args543 ApplyDbIdxDoubleLowerboundArgs
-  _args543.Code = code
-  _args543.Scope = scope
-  _args543.Table = table
-  _args543.Secondary = secondary
-  _args543.Primary = primary
-  var _result545 ApplyDbIdxDoubleLowerboundResult
-  var _meta544 thrift.ResponseMeta
-  _meta544, _err = p.Client_().Call(ctx, "db_idx_double_lowerbound", &_args543, &_result545)
-  p.SetLastResponseMeta_(_meta544)
+  var _args544 ApplyDbIdxDoubleLowerboundArgs
+  _args544.Code = code
+  _args544.Scope = scope
+  _args544.Table = table
+  _args544.Secondary = secondary
+  _args544.Primary = primary
+  var _result546 ApplyDbIdxDoubleLowerboundResult
+  var _meta545 thrift.ResponseMeta
+  _meta545, _err = p.Client_().Call(ctx, "db_idx_double_lowerbound", &_args544, &_result546)
+  p.SetLastResponseMeta_(_meta545)
   if _err != nil {
     return
   }
-  if _ret546 := _result545.GetSuccess(); _ret546 != nil {
-    return _ret546, nil
+  if _ret547 := _result546.GetSuccess(); _ret547 != nil {
+    return _ret547, nil
   }
   return nil, thrift.NewTApplicationException(thrift.MISSING_RESULT, "db_idx_double_lowerbound failed: unknown result")
 }
@@ -13129,21 +13168,21 @@ func (p *ApplyClient) DbIdxDoubleLowerbound(ctx context.Context, code *Uint64, s
 //  - Secondary
 //  - Primary
 func (p *ApplyClient) DbIdxDoubleUpperbound(ctx context.Context, code *Uint64, scope *Uint64, table *Uint64, secondary []byte, primary *Uint64) (_r *LowerBoundUpperBoundReturn, _err error) {
-  var _args547 ApplyDbIdxDoubleUpperboundArgs
-  _args547.Code = code
-  _args547.Scope = scope
-  _args547.Table = table
-  _args547.Secondary = secondary
-  _args547.Primary = primary
-  var _result549 ApplyDbIdxDoubleUpperboundResult
-  var _meta548 thrift.ResponseMeta
-  _meta548, _err = p.Client_().Call(ctx, "db_idx_double_upperbound", &_args547, &_result549)
-  p.SetLastResponseMeta_(_meta548)
+  var _args548 ApplyDbIdxDoubleUpperboundArgs
+  _args548.Code = code
+  _args548.Scope = scope
+  _args548.Table = table
+  _args548.Secondary = secondary
+  _args548.Primary = primary
+  var _result550 ApplyDbIdxDoubleUpperboundResult
+  var _meta549 thrift.ResponseMeta
+  _meta549, _err = p.Client_().Call(ctx, "db_idx_double_upperbound", &_args548, &_result550)
+  p.SetLastResponseMeta_(_meta549)
   if _err != nil {
     return
   }
-  if _ret550 := _result549.GetSuccess(); _ret550 != nil {
-    return _ret550, nil
+  if _ret551 := _result550.GetSuccess(); _ret551 != nil {
+    return _ret551, nil
   }
   return nil, thrift.NewTApplicationException(thrift.MISSING_RESULT, "db_idx_double_upperbound failed: unknown result")
 }
@@ -13153,18 +13192,18 @@ func (p *ApplyClient) DbIdxDoubleUpperbound(ctx context.Context, code *Uint64, s
 //  - Scope
 //  - Table
 func (p *ApplyClient) DbIdxDoubleEnd(ctx context.Context, code *Uint64, scope *Uint64, table *Uint64) (_r int32, _err error) {
-  var _args551 ApplyDbIdxDoubleEndArgs
-  _args551.Code = code
-  _args551.Scope = scope
-  _args551.Table = table
-  var _result553 ApplyDbIdxDoubleEndResult
-  var _meta552 thrift.ResponseMeta
-  _meta552, _err = p.Client_().Call(ctx, "db_idx_double_end", &_args551, &_result553)
-  p.SetLastResponseMeta_(_meta552)
+  var _args552 ApplyDbIdxDoubleEndArgs
+  _args552.Code = code
+  _args552.Scope = scope
+  _args552.Table = table
+  var _result554 ApplyDbIdxDoubleEndResult
+  var _meta553 thrift.ResponseMeta
+  _meta553, _err = p.Client_().Call(ctx, "db_idx_double_end", &_args552, &_result554)
+  p.SetLastResponseMeta_(_meta553)
   if _err != nil {
     return
   }
-  return _result553.GetSuccess(), nil
+  return _result554.GetSuccess(), nil
 }
 
 // Parameters:
@@ -13174,20 +13213,20 @@ func (p *ApplyClient) DbIdxDoubleEnd(ctx context.Context, code *Uint64, scope *U
 //  - ID
 //  - Secondary
 func (p *ApplyClient) DbIdxLongDoubleStore(ctx context.Context, scope *Uint64, table *Uint64, payer *Uint64, id *Uint64, secondary []byte) (_r int32, _err error) {
-  var _args554 ApplyDbIdxLongDoubleStoreArgs
-  _args554.Scope = scope
-  _args554.Table = table
-  _args554.Payer = payer
-  _args554.ID = id
-  _args554.Secondary = secondary
-  var _result556 ApplyDbIdxLongDoubleStoreResult
-  var _meta555 thrift.ResponseMeta
-  _meta555, _err = p.Client_().Call(ctx, "db_idx_long_double_store", &_args554, &_result556)
-  p.SetLastResponseMeta_(_meta555)
+  var _args555 ApplyDbIdxLongDoubleStoreArgs
+  _args555.Scope = scope
+  _args555.Table = table
+  _args555.Payer = payer
+  _args555.ID = id
+  _args555.Secondary = secondary
+  var _result557 ApplyDbIdxLongDoubleStoreResult
+  var _meta556 thrift.ResponseMeta
+  _meta556, _err = p.Client_().Call(ctx, "db_idx_long_double_store", &_args555, &_result557)
+  p.SetLastResponseMeta_(_meta556)
   if _err != nil {
     return
   }
-  return _result556.GetSuccess(), nil
+  return _result557.GetSuccess(), nil
 }
 
 // Parameters:
@@ -13195,14 +13234,14 @@ func (p *ApplyClient) DbIdxLongDoubleStore(ctx context.Context, scope *Uint64, t
 //  - Payer
 //  - Secondary
 func (p *ApplyClient) DbIdxLongDoubleUpdate(ctx context.Context, iterator int32, payer *Uint64, secondary []byte) (_err error) {
-  var _args557 ApplyDbIdxLongDoubleUpdateArgs
-  _args557.Iterator = iterator
-  _args557.Payer = payer
-  _args557.Secondary = secondary
-  var _result559 ApplyDbIdxLongDoubleUpdateResult
-  var _meta558 thrift.ResponseMeta
-  _meta558, _err = p.Client_().Call(ctx, "db_idx_long_double_update", &_args557, &_result559)
-  p.SetLastResponseMeta_(_meta558)
+  var _args558 ApplyDbIdxLongDoubleUpdateArgs
+  _args558.Iterator = iterator
+  _args558.Payer = payer
+  _args558.Secondary = secondary
+  var _result560 ApplyDbIdxLongDoubleUpdateResult
+  var _meta559 thrift.ResponseMeta
+  _meta559, _err = p.Client_().Call(ctx, "db_idx_long_double_update", &_args558, &_result560)
+  p.SetLastResponseMeta_(_meta559)
   if _err != nil {
     return
   }
@@ -13212,12 +13251,12 @@ func (p *ApplyClient) DbIdxLongDoubleUpdate(ctx context.Context, iterator int32,
 // Parameters:
 //  - Iterator
 func (p *ApplyClient) DbIdxLongDoubleRemove(ctx context.Context, iterator int32) (_err error) {
-  var _args560 ApplyDbIdxLongDoubleRemoveArgs
-  _args560.Iterator = iterator
-  var _result562 ApplyDbIdxLongDoubleRemoveResult
-  var _meta561 thrift.ResponseMeta
-  _meta561, _err = p.Client_().Call(ctx, "db_idx_long_double_remove", &_args560, &_result562)
-  p.SetLastResponseMeta_(_meta561)
+  var _args561 ApplyDbIdxLongDoubleRemoveArgs
+  _args561.Iterator = iterator
+  var _result563 ApplyDbIdxLongDoubleRemoveResult
+  var _meta562 thrift.ResponseMeta
+  _meta562, _err = p.Client_().Call(ctx, "db_idx_long_double_remove", &_args561, &_result563)
+  p.SetLastResponseMeta_(_meta562)
   if _err != nil {
     return
   }
@@ -13227,17 +13266,17 @@ func (p *ApplyClient) DbIdxLongDoubleRemove(ctx context.Context, iterator int32)
 // Parameters:
 //  - Iterator
 func (p *ApplyClient) DbIdxLongDoubleNext(ctx context.Context, iterator int32) (_r *NextPreviousReturn, _err error) {
-  var _args563 ApplyDbIdxLongDoubleNextArgs
-  _args563.Iterator = iterator
-  var _result565 ApplyDbIdxLongDoubleNextResult
-  var _meta564 thrift.ResponseMeta
-  _meta564, _err = p.Client_().Call(ctx, "db_idx_long_double_next", &_args563, &_result565)
-  p.SetLastResponseMeta_(_meta564)
+  var _args564 ApplyDbIdxLongDoubleNextArgs
+  _args564.Iterator = iterator
+  var _result566 ApplyDbIdxLongDoubleNextResult
+  var _meta565 thrift.ResponseMeta
+  _meta565, _err = p.Client_().Call(ctx, "db_idx_long_double_next", &_args564, &_result566)
+  p.SetLastResponseMeta_(_meta565)
   if _err != nil {
     return
   }
-  if _ret566 := _result565.GetSuccess(); _ret566 != nil {
-    return _ret566, nil
+  if _ret567 := _result566.GetSuccess(); _ret567 != nil {
+    return _ret567, nil
   }
   return nil, thrift.NewTApplicationException(thrift.MISSING_RESULT, "db_idx_long_double_next failed: unknown result")
 }
@@ -13245,17 +13284,17 @@ func (p *ApplyClient) DbIdxLongDoubleNext(ctx context.Context, iterator int32) (
 // Parameters:
 //  - Iterator
 func (p *ApplyClient) DbIdxLongDoublePrevious(ctx context.Context, iterator int32) (_r *NextPreviousReturn, _err error) {
-  var _args567 ApplyDbIdxLongDoublePreviousArgs
-  _args567.Iterator = iterator
-  var _result569 ApplyDbIdxLongDoublePreviousResult
-  var _meta568 thrift.ResponseMeta
-  _meta568, _err = p.Client_().Call(ctx, "db_idx_long_double_previous", &_args567, &_result569)
-  p.SetLastResponseMeta_(_meta568)
+  var _args568 ApplyDbIdxLongDoublePreviousArgs
+  _args568.Iterator = iterator
+  var _result570 ApplyDbIdxLongDoublePreviousResult
+  var _meta569 thrift.ResponseMeta
+  _meta569, _err = p.Client_().Call(ctx, "db_idx_long_double_previous", &_args568, &_result570)
+  p.SetLastResponseMeta_(_meta569)
   if _err != nil {
     return
   }
-  if _ret570 := _result569.GetSuccess(); _ret570 != nil {
-    return _ret570, nil
+  if _ret571 := _result570.GetSuccess(); _ret571 != nil {
+    return _ret571, nil
   }
   return nil, thrift.NewTApplicationException(thrift.MISSING_RESULT, "db_idx_long_double_previous failed: unknown result")
 }
@@ -13266,20 +13305,20 @@ func (p *ApplyClient) DbIdxLongDoublePrevious(ctx context.Context, iterator int3
 //  - Table
 //  - Primary
 func (p *ApplyClient) DbIdxLongDoubleFindPrimary(ctx context.Context, code *Uint64, scope *Uint64, table *Uint64, primary *Uint64) (_r *FindPrimaryReturn, _err error) {
-  var _args571 ApplyDbIdxLongDoubleFindPrimaryArgs
-  _args571.Code = code
-  _args571.Scope = scope
-  _args571.Table = table
-  _args571.Primary = primary
-  var _result573 ApplyDbIdxLongDoubleFindPrimaryResult
-  var _meta572 thrift.ResponseMeta
-  _meta572, _err = p.Client_().Call(ctx, "db_idx_long_double_find_primary", &_args571, &_result573)
-  p.SetLastResponseMeta_(_meta572)
+  var _args572 ApplyDbIdxLongDoubleFindPrimaryArgs
+  _args572.Code = code
+  _args572.Scope = scope
+  _args572.Table = table
+  _args572.Primary = primary
+  var _result574 ApplyDbIdxLongDoubleFindPrimaryResult
+  var _meta573 thrift.ResponseMeta
+  _meta573, _err = p.Client_().Call(ctx, "db_idx_long_double_find_primary", &_args572, &_result574)
+  p.SetLastResponseMeta_(_meta573)
   if _err != nil {
     return
   }
-  if _ret574 := _result573.GetSuccess(); _ret574 != nil {
-    return _ret574, nil
+  if _ret575 := _result574.GetSuccess(); _ret575 != nil {
+    return _ret575, nil
   }
   return nil, thrift.NewTApplicationException(thrift.MISSING_RESULT, "db_idx_long_double_find_primary failed: unknown result")
 }
@@ -13290,20 +13329,20 @@ func (p *ApplyClient) DbIdxLongDoubleFindPrimary(ctx context.Context, code *Uint
 //  - Table
 //  - Secondary
 func (p *ApplyClient) DbIdxLongDoubleFindSecondary(ctx context.Context, code *Uint64, scope *Uint64, table *Uint64, secondary []byte) (_r *FindSecondaryReturn, _err error) {
-  var _args575 ApplyDbIdxLongDoubleFindSecondaryArgs
-  _args575.Code = code
-  _args575.Scope = scope
-  _args575.Table = table
-  _args575.Secondary = secondary
-  var _result577 ApplyDbIdxLongDoubleFindSecondaryResult
-  var _meta576 thrift.ResponseMeta
-  _meta576, _err = p.Client_().Call(ctx, "db_idx_long_double_find_secondary", &_args575, &_result577)
-  p.SetLastResponseMeta_(_meta576)
+  var _args576 ApplyDbIdxLongDoubleFindSecondaryArgs
+  _args576.Code = code
+  _args576.Scope = scope
+  _args576.Table = table
+  _args576.Secondary = secondary
+  var _result578 ApplyDbIdxLongDoubleFindSecondaryResult
+  var _meta577 thrift.ResponseMeta
+  _meta577, _err = p.Client_().Call(ctx, "db_idx_long_double_find_secondary", &_args576, &_result578)
+  p.SetLastResponseMeta_(_meta577)
   if _err != nil {
     return
   }
-  if _ret578 := _result577.GetSuccess(); _ret578 != nil {
-    return _ret578, nil
+  if _ret579 := _result578.GetSuccess(); _ret579 != nil {
+    return _ret579, nil
   }
   return nil, thrift.NewTApplicationException(thrift.MISSING_RESULT, "db_idx_long_double_find_secondary failed: unknown result")
 }
@@ -13315,21 +13354,21 @@ func (p *ApplyClient) DbIdxLongDoubleFindSecondary(ctx context.Context, code *Ui
 //  - Secondary
 //  - Primary
 func (p *ApplyClient) DbIdxLongDoubleLowerbound(ctx context.Context, code *Uint64, scope *Uint64, table *Uint64, secondary []byte, primary *Uint64) (_r *LowerBoundUpperBoundReturn, _err error) {
-  var _args579 ApplyDbIdxLongDoubleLowerboundArgs
-  _args579.Code = code
-  _args579.Scope = scope
-  _args579.Table = table
-  _args579.Secondary = secondary
-  _args579.Primary = primary
-  var _result581 ApplyDbIdxLongDoubleLowerboundResult
-  var _meta580 thrift.ResponseMeta
-  _meta580, _err = p.Client_().Call(ctx, "db_idx_long_double_lowerbound", &_args579, &_result581)
-  p.SetLastResponseMeta_(_meta580)
+  var _args580 ApplyDbIdxLongDoubleLowerboundArgs
+  _args580.Code = code
+  _args580.Scope = scope
+  _args580.Table = table
+  _args580.Secondary = secondary
+  _args580.Primary = primary
+  var _result582 ApplyDbIdxLongDoubleLowerboundResult
+  var _meta581 thrift.ResponseMeta
+  _meta581, _err = p.Client_().Call(ctx, "db_idx_long_double_lowerbound", &_args580, &_result582)
+  p.SetLastResponseMeta_(_meta581)
   if _err != nil {
     return
   }
-  if _ret582 := _result581.GetSuccess(); _ret582 != nil {
-    return _ret582, nil
+  if _ret583 := _result582.GetSuccess(); _ret583 != nil {
+    return _ret583, nil
   }
   return nil, thrift.NewTApplicationException(thrift.MISSING_RESULT, "db_idx_long_double_lowerbound failed: unknown result")
 }
@@ -13341,21 +13380,21 @@ func (p *ApplyClient) DbIdxLongDoubleLowerbound(ctx context.Context, code *Uint6
 //  - Secondary
 //  - Primary
 func (p *ApplyClient) DbIdxLongDoubleUpperbound(ctx context.Context, code *Uint64, scope *Uint64, table *Uint64, secondary []byte, primary *Uint64) (_r *LowerBoundUpperBoundReturn, _err error) {
-  var _args583 ApplyDbIdxLongDoubleUpperboundArgs
-  _args583.Code = code
-  _args583.Scope = scope
-  _args583.Table = table
-  _args583.Secondary = secondary
-  _args583.Primary = primary
-  var _result585 ApplyDbIdxLongDoubleUpperboundResult
-  var _meta584 thrift.ResponseMeta
-  _meta584, _err = p.Client_().Call(ctx, "db_idx_long_double_upperbound", &_args583, &_result585)
-  p.SetLastResponseMeta_(_meta584)
+  var _args584 ApplyDbIdxLongDoubleUpperboundArgs
+  _args584.Code = code
+  _args584.Scope = scope
+  _args584.Table = table
+  _args584.Secondary = secondary
+  _args584.Primary = primary
+  var _result586 ApplyDbIdxLongDoubleUpperboundResult
+  var _meta585 thrift.ResponseMeta
+  _meta585, _err = p.Client_().Call(ctx, "db_idx_long_double_upperbound", &_args584, &_result586)
+  p.SetLastResponseMeta_(_meta585)
   if _err != nil {
     return
   }
-  if _ret586 := _result585.GetSuccess(); _ret586 != nil {
-    return _ret586, nil
+  if _ret587 := _result586.GetSuccess(); _ret587 != nil {
+    return _ret587, nil
   }
   return nil, thrift.NewTApplicationException(thrift.MISSING_RESULT, "db_idx_long_double_upperbound failed: unknown result")
 }
@@ -13365,29 +13404,29 @@ func (p *ApplyClient) DbIdxLongDoubleUpperbound(ctx context.Context, code *Uint6
 //  - Scope
 //  - Table
 func (p *ApplyClient) DbIdxLongDoubleEnd(ctx context.Context, code *Uint64, scope *Uint64, table *Uint64) (_r int32, _err error) {
-  var _args587 ApplyDbIdxLongDoubleEndArgs
-  _args587.Code = code
-  _args587.Scope = scope
-  _args587.Table = table
-  var _result589 ApplyDbIdxLongDoubleEndResult
-  var _meta588 thrift.ResponseMeta
-  _meta588, _err = p.Client_().Call(ctx, "db_idx_long_double_end", &_args587, &_result589)
-  p.SetLastResponseMeta_(_meta588)
+  var _args588 ApplyDbIdxLongDoubleEndArgs
+  _args588.Code = code
+  _args588.Scope = scope
+  _args588.Table = table
+  var _result590 ApplyDbIdxLongDoubleEndResult
+  var _meta589 thrift.ResponseMeta
+  _meta589, _err = p.Client_().Call(ctx, "db_idx_long_double_end", &_args588, &_result590)
+  p.SetLastResponseMeta_(_meta589)
   if _err != nil {
     return
   }
-  return _result589.GetSuccess(), nil
+  return _result590.GetSuccess(), nil
 }
 
 // Parameters:
 //  - Data
 func (p *ApplyClient) SetActionReturnValue(ctx context.Context, data []byte) (_err error) {
-  var _args590 ApplySetActionReturnValueArgs
-  _args590.Data = data
-  var _result592 ApplySetActionReturnValueResult
-  var _meta591 thrift.ResponseMeta
-  _meta591, _err = p.Client_().Call(ctx, "set_action_return_value", &_args590, &_result592)
-  p.SetLastResponseMeta_(_meta591)
+  var _args591 ApplySetActionReturnValueArgs
+  _args591.Data = data
+  var _result593 ApplySetActionReturnValueResult
+  var _meta592 thrift.ResponseMeta
+  _meta592, _err = p.Client_().Call(ctx, "set_action_return_value", &_args591, &_result593)
+  p.SetLastResponseMeta_(_meta592)
   if _err != nil {
     return
   }
@@ -13398,46 +13437,46 @@ func (p *ApplyClient) SetActionReturnValue(ctx context.Context, data []byte) (_e
 //  - Account
 //  - StructVersion
 func (p *ApplyClient) GetCodeHash(ctx context.Context, account *Uint64, struct_version int64) (_r []byte, _err error) {
-  var _args593 ApplyGetCodeHashArgs
-  _args593.Account = account
-  _args593.StructVersion = struct_version
-  var _result595 ApplyGetCodeHashResult
-  var _meta594 thrift.ResponseMeta
-  _meta594, _err = p.Client_().Call(ctx, "get_code_hash", &_args593, &_result595)
-  p.SetLastResponseMeta_(_meta594)
+  var _args594 ApplyGetCodeHashArgs
+  _args594.Account = account
+  _args594.StructVersion = struct_version
+  var _result596 ApplyGetCodeHashResult
+  var _meta595 thrift.ResponseMeta
+  _meta595, _err = p.Client_().Call(ctx, "get_code_hash", &_args594, &_result596)
+  p.SetLastResponseMeta_(_meta595)
   if _err != nil {
     return
   }
-  return _result595.GetSuccess(), nil
+  return _result596.GetSuccess(), nil
 }
 
 func (p *ApplyClient) GetBlockNum(ctx context.Context) (_r int64, _err error) {
-  var _args596 ApplyGetBlockNumArgs
-  var _result598 ApplyGetBlockNumResult
-  var _meta597 thrift.ResponseMeta
-  _meta597, _err = p.Client_().Call(ctx, "get_block_num", &_args596, &_result598)
-  p.SetLastResponseMeta_(_meta597)
+  var _args597 ApplyGetBlockNumArgs
+  var _result599 ApplyGetBlockNumResult
+  var _meta598 thrift.ResponseMeta
+  _meta598, _err = p.Client_().Call(ctx, "get_block_num", &_args597, &_result599)
+  p.SetLastResponseMeta_(_meta598)
   if _err != nil {
     return
   }
-  return _result598.GetSuccess(), nil
+  return _result599.GetSuccess(), nil
 }
 
 // Parameters:
 //  - Data
 //  - Keccak
 func (p *ApplyClient) Sha3(ctx context.Context, data []byte, keccak int32) (_r []byte, _err error) {
-  var _args599 ApplySha3Args
-  _args599.Data = data
-  _args599.Keccak = keccak
-  var _result601 ApplySha3Result
-  var _meta600 thrift.ResponseMeta
-  _meta600, _err = p.Client_().Call(ctx, "sha3", &_args599, &_result601)
-  p.SetLastResponseMeta_(_meta600)
+  var _args600 ApplySha3Args
+  _args600.Data = data
+  _args600.Keccak = keccak
+  var _result602 ApplySha3Result
+  var _meta601 thrift.ResponseMeta
+  _meta601, _err = p.Client_().Call(ctx, "sha3", &_args600, &_result602)
+  p.SetLastResponseMeta_(_meta601)
   if _err != nil {
     return
   }
-  return _result601.GetSuccess(), nil
+  return _result602.GetSuccess(), nil
 }
 
 // Parameters:
@@ -13448,87 +13487,87 @@ func (p *ApplyClient) Sha3(ctx context.Context, data []byte, keccak int32) (_r [
 //  - T1Offset
 //  - Final
 func (p *ApplyClient) Blake2F(ctx context.Context, rounds int64, state []byte, msg []byte, t0_offset []byte, t1_offset []byte, final int32) (_r []byte, _err error) {
-  var _args602 ApplyBlake2FArgs
-  _args602.Rounds = rounds
-  _args602.State = state
-  _args602.Msg = msg
-  _args602.T0Offset = t0_offset
-  _args602.T1Offset = t1_offset
-  _args602.Final = final
-  var _result604 ApplyBlake2FResult
-  var _meta603 thrift.ResponseMeta
-  _meta603, _err = p.Client_().Call(ctx, "blake2_f", &_args602, &_result604)
-  p.SetLastResponseMeta_(_meta603)
+  var _args603 ApplyBlake2FArgs
+  _args603.Rounds = rounds
+  _args603.State = state
+  _args603.Msg = msg
+  _args603.T0Offset = t0_offset
+  _args603.T1Offset = t1_offset
+  _args603.Final = final
+  var _result605 ApplyBlake2FResult
+  var _meta604 thrift.ResponseMeta
+  _meta604, _err = p.Client_().Call(ctx, "blake2_f", &_args603, &_result605)
+  p.SetLastResponseMeta_(_meta604)
   if _err != nil {
     return
   }
-  return _result604.GetSuccess(), nil
+  return _result605.GetSuccess(), nil
 }
 
 // Parameters:
 //  - Sig
 //  - Dig
 func (p *ApplyClient) K1Recover(ctx context.Context, sig []byte, dig []byte) (_r []byte, _err error) {
-  var _args605 ApplyK1RecoverArgs
-  _args605.Sig = sig
-  _args605.Dig = dig
-  var _result607 ApplyK1RecoverResult
-  var _meta606 thrift.ResponseMeta
-  _meta606, _err = p.Client_().Call(ctx, "k1_recover", &_args605, &_result607)
-  p.SetLastResponseMeta_(_meta606)
+  var _args606 ApplyK1RecoverArgs
+  _args606.Sig = sig
+  _args606.Dig = dig
+  var _result608 ApplyK1RecoverResult
+  var _meta607 thrift.ResponseMeta
+  _meta607, _err = p.Client_().Call(ctx, "k1_recover", &_args606, &_result608)
+  p.SetLastResponseMeta_(_meta607)
   if _err != nil {
     return
   }
-  return _result607.GetSuccess(), nil
+  return _result608.GetSuccess(), nil
 }
 
 // Parameters:
 //  - Op1
 //  - Op2
 func (p *ApplyClient) AltBn128Add(ctx context.Context, op1 []byte, op2 []byte) (_r []byte, _err error) {
-  var _args608 ApplyAltBn128AddArgs
-  _args608.Op1 = op1
-  _args608.Op2 = op2
-  var _result610 ApplyAltBn128AddResult
-  var _meta609 thrift.ResponseMeta
-  _meta609, _err = p.Client_().Call(ctx, "alt_bn128_add", &_args608, &_result610)
-  p.SetLastResponseMeta_(_meta609)
+  var _args609 ApplyAltBn128AddArgs
+  _args609.Op1 = op1
+  _args609.Op2 = op2
+  var _result611 ApplyAltBn128AddResult
+  var _meta610 thrift.ResponseMeta
+  _meta610, _err = p.Client_().Call(ctx, "alt_bn128_add", &_args609, &_result611)
+  p.SetLastResponseMeta_(_meta610)
   if _err != nil {
     return
   }
-  return _result610.GetSuccess(), nil
+  return _result611.GetSuccess(), nil
 }
 
 // Parameters:
 //  - G1
 //  - Scalar
 func (p *ApplyClient) AltBn128Mul(ctx context.Context, g1 []byte, scalar []byte) (_r []byte, _err error) {
-  var _args611 ApplyAltBn128MulArgs
-  _args611.G1 = g1
-  _args611.Scalar = scalar
-  var _result613 ApplyAltBn128MulResult
-  var _meta612 thrift.ResponseMeta
-  _meta612, _err = p.Client_().Call(ctx, "alt_bn128_mul", &_args611, &_result613)
-  p.SetLastResponseMeta_(_meta612)
+  var _args612 ApplyAltBn128MulArgs
+  _args612.G1 = g1
+  _args612.Scalar = scalar
+  var _result614 ApplyAltBn128MulResult
+  var _meta613 thrift.ResponseMeta
+  _meta613, _err = p.Client_().Call(ctx, "alt_bn128_mul", &_args612, &_result614)
+  p.SetLastResponseMeta_(_meta613)
   if _err != nil {
     return
   }
-  return _result613.GetSuccess(), nil
+  return _result614.GetSuccess(), nil
 }
 
 // Parameters:
 //  - Pairs
 func (p *ApplyClient) AltBn128Pair(ctx context.Context, pairs []byte) (_r int32, _err error) {
-  var _args614 ApplyAltBn128PairArgs
-  _args614.Pairs = pairs
-  var _result616 ApplyAltBn128PairResult
-  var _meta615 thrift.ResponseMeta
-  _meta615, _err = p.Client_().Call(ctx, "alt_bn128_pair", &_args614, &_result616)
-  p.SetLastResponseMeta_(_meta615)
+  var _args615 ApplyAltBn128PairArgs
+  _args615.Pairs = pairs
+  var _result617 ApplyAltBn128PairResult
+  var _meta616 thrift.ResponseMeta
+  _meta616, _err = p.Client_().Call(ctx, "alt_bn128_pair", &_args615, &_result617)
+  p.SetLastResponseMeta_(_meta616)
   if _err != nil {
     return
   }
-  return _result616.GetSuccess(), nil
+  return _result617.GetSuccess(), nil
 }
 
 // Parameters:
@@ -13536,18 +13575,18 @@ func (p *ApplyClient) AltBn128Pair(ctx context.Context, pairs []byte) (_r int32,
 //  - Exp
 //  - Mod
 func (p *ApplyClient) ModExp(ctx context.Context, base []byte, exp []byte, mod []byte) (_r []byte, _err error) {
-  var _args617 ApplyModExpArgs
-  _args617.Base = base
-  _args617.Exp = exp
-  _args617.Mod = mod
-  var _result619 ApplyModExpResult
-  var _meta618 thrift.ResponseMeta
-  _meta618, _err = p.Client_().Call(ctx, "mod_exp", &_args617, &_result619)
-  p.SetLastResponseMeta_(_meta618)
+  var _args618 ApplyModExpArgs
+  _args618.Base = base
+  _args618.Exp = exp
+  _args618.Mod = mod
+  var _result620 ApplyModExpResult
+  var _meta619 thrift.ResponseMeta
+  _meta619, _err = p.Client_().Call(ctx, "mod_exp", &_args618, &_result620)
+  p.SetLastResponseMeta_(_meta619)
   if _err != nil {
     return
   }
-  return _result619.GetSuccess(), nil
+  return _result620.GetSuccess(), nil
 }
 
 type ApplyProcessor struct {
@@ -13570,141 +13609,141 @@ func (p *ApplyProcessor) ProcessorMap() map[string]thrift.TProcessorFunction {
 
 func NewApplyProcessor(handler Apply) *ApplyProcessor {
 
-  self620 := &ApplyProcessor{handler:handler, processorMap:make(map[string]thrift.TProcessorFunction)}
-  self620.processorMap["end_apply"] = &applyProcessorEndApply{handler:handler}
-  self620.processorMap["get_active_producers"] = &applyProcessorGetActiveProducers{handler:handler}
-  self620.processorMap["get_resource_limits"] = &applyProcessorGetResourceLimits{handler:handler}
-  self620.processorMap["set_resource_limits"] = &applyProcessorSetResourceLimits{handler:handler}
-  self620.processorMap["set_proposed_producers"] = &applyProcessorSetProposedProducers{handler:handler}
-  self620.processorMap["set_proposed_producers_ex"] = &applyProcessorSetProposedProducersEx{handler:handler}
-  self620.processorMap["is_privileged"] = &applyProcessorIsPrivileged{handler:handler}
-  self620.processorMap["set_privileged"] = &applyProcessorSetPrivileged{handler:handler}
-  self620.processorMap["set_blockchain_parameters_packed"] = &applyProcessorSetBlockchainParametersPacked{handler:handler}
-  self620.processorMap["get_blockchain_parameters_packed"] = &applyProcessorGetBlockchainParametersPacked{handler:handler}
-  self620.processorMap["preactivate_feature"] = &applyProcessorPreactivateFeature{handler:handler}
-  self620.processorMap["check_transaction_authorization"] = &applyProcessorCheckTransactionAuthorization{handler:handler}
-  self620.processorMap["check_permission_authorization"] = &applyProcessorCheckPermissionAuthorization{handler:handler}
-  self620.processorMap["get_permission_last_used"] = &applyProcessorGetPermissionLastUsed{handler:handler}
-  self620.processorMap["get_account_creation_time"] = &applyProcessorGetAccountCreationTime{handler:handler}
-  self620.processorMap["prints"] = &applyProcessorPrints{handler:handler}
-  self620.processorMap["prints_l"] = &applyProcessorPrintsL{handler:handler}
-  self620.processorMap["printi"] = &applyProcessorPrinti{handler:handler}
-  self620.processorMap["printui"] = &applyProcessorPrintui{handler:handler}
-  self620.processorMap["printi128"] = &applyProcessorPrinti128{handler:handler}
-  self620.processorMap["printui128"] = &applyProcessorPrintui128{handler:handler}
-  self620.processorMap["printsf"] = &applyProcessorPrintsf{handler:handler}
-  self620.processorMap["printdf"] = &applyProcessorPrintdf{handler:handler}
-  self620.processorMap["printqf"] = &applyProcessorPrintqf{handler:handler}
-  self620.processorMap["printn"] = &applyProcessorPrintn{handler:handler}
-  self620.processorMap["printhex"] = &applyProcessorPrinthex{handler:handler}
-  self620.processorMap["action_data_size"] = &applyProcessorActionDataSize{handler:handler}
-  self620.processorMap["read_action_data"] = &applyProcessorReadActionData{handler:handler}
-  self620.processorMap["require_recipient"] = &applyProcessorRequireRecipient{handler:handler}
-  self620.processorMap["require_auth"] = &applyProcessorRequireAuth{handler:handler}
-  self620.processorMap["has_auth"] = &applyProcessorHasAuth{handler:handler}
-  self620.processorMap["require_auth2"] = &applyProcessorRequireAuth2{handler:handler}
-  self620.processorMap["is_account"] = &applyProcessorIsAccount{handler:handler}
-  self620.processorMap["send_inline"] = &applyProcessorSendInline{handler:handler}
-  self620.processorMap["send_context_free_inline"] = &applyProcessorSendContextFreeInline{handler:handler}
-  self620.processorMap["publication_time"] = &applyProcessorPublicationTime{handler:handler}
-  self620.processorMap["current_receiver"] = &applyProcessorCurrentReceiver{handler:handler}
-  self620.processorMap["eosio_assert"] = &applyProcessorEosioAssert{handler:handler}
-  self620.processorMap["eosio_assert_message"] = &applyProcessorEosioAssertMessage{handler:handler}
-  self620.processorMap["eosio_assert_code"] = &applyProcessorEosioAssertCode{handler:handler}
-  self620.processorMap["eosio_exit"] = &applyProcessorEosioExit{handler:handler}
-  self620.processorMap["current_time"] = &applyProcessorCurrentTime{handler:handler}
-  self620.processorMap["is_feature_activated"] = &applyProcessorIsFeatureActivated{handler:handler}
-  self620.processorMap["get_sender"] = &applyProcessorGetSender{handler:handler}
-  self620.processorMap["assert_sha256"] = &applyProcessorAssertSha256{handler:handler}
-  self620.processorMap["assert_sha1"] = &applyProcessorAssertSha1{handler:handler}
-  self620.processorMap["assert_sha512"] = &applyProcessorAssertSha512{handler:handler}
-  self620.processorMap["assert_ripemd160"] = &applyProcessorAssertRipemd160{handler:handler}
-  self620.processorMap["sha256"] = &applyProcessorSha256{handler:handler}
-  self620.processorMap["sha1"] = &applyProcessorSha1{handler:handler}
-  self620.processorMap["sha512"] = &applyProcessorSha512{handler:handler}
-  self620.processorMap["ripemd160"] = &applyProcessorRipemd160{handler:handler}
-  self620.processorMap["recover_key"] = &applyProcessorRecoverKey{handler:handler}
-  self620.processorMap["assert_recover_key"] = &applyProcessorAssertRecoverKey{handler:handler}
-  self620.processorMap["send_deferred"] = &applyProcessorSendDeferred{handler:handler}
-  self620.processorMap["cancel_deferred"] = &applyProcessorCancelDeferred{handler:handler}
-  self620.processorMap["read_transaction"] = &applyProcessorReadTransaction{handler:handler}
-  self620.processorMap["transaction_size"] = &applyProcessorTransactionSize{handler:handler}
-  self620.processorMap["tapos_block_num"] = &applyProcessorTaposBlockNum{handler:handler}
-  self620.processorMap["tapos_block_prefix"] = &applyProcessorTaposBlockPrefix{handler:handler}
-  self620.processorMap["expiration"] = &applyProcessorExpiration{handler:handler}
-  self620.processorMap["get_action"] = &applyProcessorGetAction{handler:handler}
-  self620.processorMap["get_context_free_data"] = &applyProcessorGetContextFreeData{handler:handler}
-  self620.processorMap["db_store_i64"] = &applyProcessorDbStoreI64{handler:handler}
-  self620.processorMap["db_update_i64"] = &applyProcessorDbUpdateI64{handler:handler}
-  self620.processorMap["db_remove_i64"] = &applyProcessorDbRemoveI64{handler:handler}
-  self620.processorMap["db_get_i64"] = &applyProcessorDbGetI64{handler:handler}
-  self620.processorMap["db_next_i64"] = &applyProcessorDbNextI64{handler:handler}
-  self620.processorMap["db_previous_i64"] = &applyProcessorDbPreviousI64{handler:handler}
-  self620.processorMap["db_find_i64"] = &applyProcessorDbFindI64{handler:handler}
-  self620.processorMap["db_lowerbound_i64"] = &applyProcessorDbLowerboundI64{handler:handler}
-  self620.processorMap["db_upperbound_i64"] = &applyProcessorDbUpperboundI64{handler:handler}
-  self620.processorMap["db_end_i64"] = &applyProcessorDbEndI64{handler:handler}
-  self620.processorMap["db_idx64_store"] = &applyProcessorDbIdx64Store{handler:handler}
-  self620.processorMap["db_idx64_update"] = &applyProcessorDbIdx64Update{handler:handler}
-  self620.processorMap["db_idx64_remove"] = &applyProcessorDbIdx64Remove{handler:handler}
-  self620.processorMap["db_idx64_next"] = &applyProcessorDbIdx64Next{handler:handler}
-  self620.processorMap["db_idx64_previous"] = &applyProcessorDbIdx64Previous{handler:handler}
-  self620.processorMap["db_idx64_find_primary"] = &applyProcessorDbIdx64FindPrimary{handler:handler}
-  self620.processorMap["db_idx64_find_secondary"] = &applyProcessorDbIdx64FindSecondary{handler:handler}
-  self620.processorMap["db_idx64_lowerbound"] = &applyProcessorDbIdx64Lowerbound{handler:handler}
-  self620.processorMap["db_idx64_upperbound"] = &applyProcessorDbIdx64Upperbound{handler:handler}
-  self620.processorMap["db_idx64_end"] = &applyProcessorDbIdx64End{handler:handler}
-  self620.processorMap["db_idx128_store"] = &applyProcessorDbIdx128Store{handler:handler}
-  self620.processorMap["db_idx128_update"] = &applyProcessorDbIdx128Update{handler:handler}
-  self620.processorMap["db_idx128_remove"] = &applyProcessorDbIdx128Remove{handler:handler}
-  self620.processorMap["db_idx128_next"] = &applyProcessorDbIdx128Next{handler:handler}
-  self620.processorMap["db_idx128_previous"] = &applyProcessorDbIdx128Previous{handler:handler}
-  self620.processorMap["db_idx128_find_primary"] = &applyProcessorDbIdx128FindPrimary{handler:handler}
-  self620.processorMap["db_idx128_find_secondary"] = &applyProcessorDbIdx128FindSecondary{handler:handler}
-  self620.processorMap["db_idx128_lowerbound"] = &applyProcessorDbIdx128Lowerbound{handler:handler}
-  self620.processorMap["db_idx128_upperbound"] = &applyProcessorDbIdx128Upperbound{handler:handler}
-  self620.processorMap["db_idx128_end"] = &applyProcessorDbIdx128End{handler:handler}
-  self620.processorMap["db_idx256_store"] = &applyProcessorDbIdx256Store{handler:handler}
-  self620.processorMap["db_idx256_update"] = &applyProcessorDbIdx256Update{handler:handler}
-  self620.processorMap["db_idx256_remove"] = &applyProcessorDbIdx256Remove{handler:handler}
-  self620.processorMap["db_idx256_next"] = &applyProcessorDbIdx256Next{handler:handler}
-  self620.processorMap["db_idx256_previous"] = &applyProcessorDbIdx256Previous{handler:handler}
-  self620.processorMap["db_idx256_find_primary"] = &applyProcessorDbIdx256FindPrimary{handler:handler}
-  self620.processorMap["db_idx256_find_secondary"] = &applyProcessorDbIdx256FindSecondary{handler:handler}
-  self620.processorMap["db_idx256_lowerbound"] = &applyProcessorDbIdx256Lowerbound{handler:handler}
-  self620.processorMap["db_idx256_upperbound"] = &applyProcessorDbIdx256Upperbound{handler:handler}
-  self620.processorMap["db_idx256_end"] = &applyProcessorDbIdx256End{handler:handler}
-  self620.processorMap["db_idx_double_store"] = &applyProcessorDbIdxDoubleStore{handler:handler}
-  self620.processorMap["db_idx_double_update"] = &applyProcessorDbIdxDoubleUpdate{handler:handler}
-  self620.processorMap["db_idx_double_remove"] = &applyProcessorDbIdxDoubleRemove{handler:handler}
-  self620.processorMap["db_idx_double_next"] = &applyProcessorDbIdxDoubleNext{handler:handler}
-  self620.processorMap["db_idx_double_previous"] = &applyProcessorDbIdxDoublePrevious{handler:handler}
-  self620.processorMap["db_idx_double_find_primary"] = &applyProcessorDbIdxDoubleFindPrimary{handler:handler}
-  self620.processorMap["db_idx_double_find_secondary"] = &applyProcessorDbIdxDoubleFindSecondary{handler:handler}
-  self620.processorMap["db_idx_double_lowerbound"] = &applyProcessorDbIdxDoubleLowerbound{handler:handler}
-  self620.processorMap["db_idx_double_upperbound"] = &applyProcessorDbIdxDoubleUpperbound{handler:handler}
-  self620.processorMap["db_idx_double_end"] = &applyProcessorDbIdxDoubleEnd{handler:handler}
-  self620.processorMap["db_idx_long_double_store"] = &applyProcessorDbIdxLongDoubleStore{handler:handler}
-  self620.processorMap["db_idx_long_double_update"] = &applyProcessorDbIdxLongDoubleUpdate{handler:handler}
-  self620.processorMap["db_idx_long_double_remove"] = &applyProcessorDbIdxLongDoubleRemove{handler:handler}
-  self620.processorMap["db_idx_long_double_next"] = &applyProcessorDbIdxLongDoubleNext{handler:handler}
-  self620.processorMap["db_idx_long_double_previous"] = &applyProcessorDbIdxLongDoublePrevious{handler:handler}
-  self620.processorMap["db_idx_long_double_find_primary"] = &applyProcessorDbIdxLongDoubleFindPrimary{handler:handler}
-  self620.processorMap["db_idx_long_double_find_secondary"] = &applyProcessorDbIdxLongDoubleFindSecondary{handler:handler}
-  self620.processorMap["db_idx_long_double_lowerbound"] = &applyProcessorDbIdxLongDoubleLowerbound{handler:handler}
-  self620.processorMap["db_idx_long_double_upperbound"] = &applyProcessorDbIdxLongDoubleUpperbound{handler:handler}
-  self620.processorMap["db_idx_long_double_end"] = &applyProcessorDbIdxLongDoubleEnd{handler:handler}
-  self620.processorMap["set_action_return_value"] = &applyProcessorSetActionReturnValue{handler:handler}
-  self620.processorMap["get_code_hash"] = &applyProcessorGetCodeHash{handler:handler}
-  self620.processorMap["get_block_num"] = &applyProcessorGetBlockNum{handler:handler}
-  self620.processorMap["sha3"] = &applyProcessorSha3{handler:handler}
-  self620.processorMap["blake2_f"] = &applyProcessorBlake2F{handler:handler}
-  self620.processorMap["k1_recover"] = &applyProcessorK1Recover{handler:handler}
-  self620.processorMap["alt_bn128_add"] = &applyProcessorAltBn128Add{handler:handler}
-  self620.processorMap["alt_bn128_mul"] = &applyProcessorAltBn128Mul{handler:handler}
-  self620.processorMap["alt_bn128_pair"] = &applyProcessorAltBn128Pair{handler:handler}
-  self620.processorMap["mod_exp"] = &applyProcessorModExp{handler:handler}
-return self620
+  self621 := &ApplyProcessor{handler:handler, processorMap:make(map[string]thrift.TProcessorFunction)}
+  self621.processorMap["end_apply"] = &applyProcessorEndApply{handler:handler}
+  self621.processorMap["get_active_producers"] = &applyProcessorGetActiveProducers{handler:handler}
+  self621.processorMap["get_resource_limits"] = &applyProcessorGetResourceLimits{handler:handler}
+  self621.processorMap["set_resource_limits"] = &applyProcessorSetResourceLimits{handler:handler}
+  self621.processorMap["set_proposed_producers"] = &applyProcessorSetProposedProducers{handler:handler}
+  self621.processorMap["set_proposed_producers_ex"] = &applyProcessorSetProposedProducersEx{handler:handler}
+  self621.processorMap["is_privileged"] = &applyProcessorIsPrivileged{handler:handler}
+  self621.processorMap["set_privileged"] = &applyProcessorSetPrivileged{handler:handler}
+  self621.processorMap["set_blockchain_parameters_packed"] = &applyProcessorSetBlockchainParametersPacked{handler:handler}
+  self621.processorMap["get_blockchain_parameters_packed"] = &applyProcessorGetBlockchainParametersPacked{handler:handler}
+  self621.processorMap["preactivate_feature"] = &applyProcessorPreactivateFeature{handler:handler}
+  self621.processorMap["check_transaction_authorization"] = &applyProcessorCheckTransactionAuthorization{handler:handler}
+  self621.processorMap["check_permission_authorization"] = &applyProcessorCheckPermissionAuthorization{handler:handler}
+  self621.processorMap["get_permission_last_used"] = &applyProcessorGetPermissionLastUsed{handler:handler}
+  self621.processorMap["get_account_creation_time"] = &applyProcessorGetAccountCreationTime{handler:handler}
+  self621.processorMap["prints"] = &applyProcessorPrints{handler:handler}
+  self621.processorMap["prints_l"] = &applyProcessorPrintsL{handler:handler}
+  self621.processorMap["printi"] = &applyProcessorPrinti{handler:handler}
+  self621.processorMap["printui"] = &applyProcessorPrintui{handler:handler}
+  self621.processorMap["printi128"] = &applyProcessorPrinti128{handler:handler}
+  self621.processorMap["printui128"] = &applyProcessorPrintui128{handler:handler}
+  self621.processorMap["printsf"] = &applyProcessorPrintsf{handler:handler}
+  self621.processorMap["printdf"] = &applyProcessorPrintdf{handler:handler}
+  self621.processorMap["printqf"] = &applyProcessorPrintqf{handler:handler}
+  self621.processorMap["printn"] = &applyProcessorPrintn{handler:handler}
+  self621.processorMap["printhex"] = &applyProcessorPrinthex{handler:handler}
+  self621.processorMap["action_data_size"] = &applyProcessorActionDataSize{handler:handler}
+  self621.processorMap["read_action_data"] = &applyProcessorReadActionData{handler:handler}
+  self621.processorMap["require_recipient"] = &applyProcessorRequireRecipient{handler:handler}
+  self621.processorMap["require_auth"] = &applyProcessorRequireAuth{handler:handler}
+  self621.processorMap["has_auth"] = &applyProcessorHasAuth{handler:handler}
+  self621.processorMap["require_auth2"] = &applyProcessorRequireAuth2{handler:handler}
+  self621.processorMap["is_account"] = &applyProcessorIsAccount{handler:handler}
+  self621.processorMap["send_inline"] = &applyProcessorSendInline{handler:handler}
+  self621.processorMap["send_context_free_inline"] = &applyProcessorSendContextFreeInline{handler:handler}
+  self621.processorMap["publication_time"] = &applyProcessorPublicationTime{handler:handler}
+  self621.processorMap["current_receiver"] = &applyProcessorCurrentReceiver{handler:handler}
+  self621.processorMap["eosio_assert"] = &applyProcessorEosioAssert{handler:handler}
+  self621.processorMap["eosio_assert_message"] = &applyProcessorEosioAssertMessage{handler:handler}
+  self621.processorMap["eosio_assert_code"] = &applyProcessorEosioAssertCode{handler:handler}
+  self621.processorMap["eosio_exit"] = &applyProcessorEosioExit{handler:handler}
+  self621.processorMap["current_time"] = &applyProcessorCurrentTime{handler:handler}
+  self621.processorMap["is_feature_activated"] = &applyProcessorIsFeatureActivated{handler:handler}
+  self621.processorMap["get_sender"] = &applyProcessorGetSender{handler:handler}
+  self621.processorMap["assert_sha256"] = &applyProcessorAssertSha256{handler:handler}
+  self621.processorMap["assert_sha1"] = &applyProcessorAssertSha1{handler:handler}
+  self621.processorMap["assert_sha512"] = &applyProcessorAssertSha512{handler:handler}
+  self621.processorMap["assert_ripemd160"] = &applyProcessorAssertRipemd160{handler:handler}
+  self621.processorMap["sha256"] = &applyProcessorSha256{handler:handler}
+  self621.processorMap["sha1"] = &applyProcessorSha1{handler:handler}
+  self621.processorMap["sha512"] = &applyProcessorSha512{handler:handler}
+  self621.processorMap["ripemd160"] = &applyProcessorRipemd160{handler:handler}
+  self621.processorMap["recover_key"] = &applyProcessorRecoverKey{handler:handler}
+  self621.processorMap["assert_recover_key"] = &applyProcessorAssertRecoverKey{handler:handler}
+  self621.processorMap["send_deferred"] = &applyProcessorSendDeferred{handler:handler}
+  self621.processorMap["cancel_deferred"] = &applyProcessorCancelDeferred{handler:handler}
+  self621.processorMap["read_transaction"] = &applyProcessorReadTransaction{handler:handler}
+  self621.processorMap["transaction_size"] = &applyProcessorTransactionSize{handler:handler}
+  self621.processorMap["tapos_block_num"] = &applyProcessorTaposBlockNum{handler:handler}
+  self621.processorMap["tapos_block_prefix"] = &applyProcessorTaposBlockPrefix{handler:handler}
+  self621.processorMap["expiration"] = &applyProcessorExpiration{handler:handler}
+  self621.processorMap["get_action"] = &applyProcessorGetAction{handler:handler}
+  self621.processorMap["get_context_free_data"] = &applyProcessorGetContextFreeData{handler:handler}
+  self621.processorMap["db_store_i64"] = &applyProcessorDbStoreI64{handler:handler}
+  self621.processorMap["db_update_i64"] = &applyProcessorDbUpdateI64{handler:handler}
+  self621.processorMap["db_remove_i64"] = &applyProcessorDbRemoveI64{handler:handler}
+  self621.processorMap["db_get_i64"] = &applyProcessorDbGetI64{handler:handler}
+  self621.processorMap["db_next_i64"] = &applyProcessorDbNextI64{handler:handler}
+  self621.processorMap["db_previous_i64"] = &applyProcessorDbPreviousI64{handler:handler}
+  self621.processorMap["db_find_i64"] = &applyProcessorDbFindI64{handler:handler}
+  self621.processorMap["db_lowerbound_i64"] = &applyProcessorDbLowerboundI64{handler:handler}
+  self621.processorMap["db_upperbound_i64"] = &applyProcessorDbUpperboundI64{handler:handler}
+  self621.processorMap["db_end_i64"] = &applyProcessorDbEndI64{handler:handler}
+  self621.processorMap["db_idx64_store"] = &applyProcessorDbIdx64Store{handler:handler}
+  self621.processorMap["db_idx64_update"] = &applyProcessorDbIdx64Update{handler:handler}
+  self621.processorMap["db_idx64_remove"] = &applyProcessorDbIdx64Remove{handler:handler}
+  self621.processorMap["db_idx64_next"] = &applyProcessorDbIdx64Next{handler:handler}
+  self621.processorMap["db_idx64_previous"] = &applyProcessorDbIdx64Previous{handler:handler}
+  self621.processorMap["db_idx64_find_primary"] = &applyProcessorDbIdx64FindPrimary{handler:handler}
+  self621.processorMap["db_idx64_find_secondary"] = &applyProcessorDbIdx64FindSecondary{handler:handler}
+  self621.processorMap["db_idx64_lowerbound"] = &applyProcessorDbIdx64Lowerbound{handler:handler}
+  self621.processorMap["db_idx64_upperbound"] = &applyProcessorDbIdx64Upperbound{handler:handler}
+  self621.processorMap["db_idx64_end"] = &applyProcessorDbIdx64End{handler:handler}
+  self621.processorMap["db_idx128_store"] = &applyProcessorDbIdx128Store{handler:handler}
+  self621.processorMap["db_idx128_update"] = &applyProcessorDbIdx128Update{handler:handler}
+  self621.processorMap["db_idx128_remove"] = &applyProcessorDbIdx128Remove{handler:handler}
+  self621.processorMap["db_idx128_next"] = &applyProcessorDbIdx128Next{handler:handler}
+  self621.processorMap["db_idx128_previous"] = &applyProcessorDbIdx128Previous{handler:handler}
+  self621.processorMap["db_idx128_find_primary"] = &applyProcessorDbIdx128FindPrimary{handler:handler}
+  self621.processorMap["db_idx128_find_secondary"] = &applyProcessorDbIdx128FindSecondary{handler:handler}
+  self621.processorMap["db_idx128_lowerbound"] = &applyProcessorDbIdx128Lowerbound{handler:handler}
+  self621.processorMap["db_idx128_upperbound"] = &applyProcessorDbIdx128Upperbound{handler:handler}
+  self621.processorMap["db_idx128_end"] = &applyProcessorDbIdx128End{handler:handler}
+  self621.processorMap["db_idx256_store"] = &applyProcessorDbIdx256Store{handler:handler}
+  self621.processorMap["db_idx256_update"] = &applyProcessorDbIdx256Update{handler:handler}
+  self621.processorMap["db_idx256_remove"] = &applyProcessorDbIdx256Remove{handler:handler}
+  self621.processorMap["db_idx256_next"] = &applyProcessorDbIdx256Next{handler:handler}
+  self621.processorMap["db_idx256_previous"] = &applyProcessorDbIdx256Previous{handler:handler}
+  self621.processorMap["db_idx256_find_primary"] = &applyProcessorDbIdx256FindPrimary{handler:handler}
+  self621.processorMap["db_idx256_find_secondary"] = &applyProcessorDbIdx256FindSecondary{handler:handler}
+  self621.processorMap["db_idx256_lowerbound"] = &applyProcessorDbIdx256Lowerbound{handler:handler}
+  self621.processorMap["db_idx256_upperbound"] = &applyProcessorDbIdx256Upperbound{handler:handler}
+  self621.processorMap["db_idx256_end"] = &applyProcessorDbIdx256End{handler:handler}
+  self621.processorMap["db_idx_double_store"] = &applyProcessorDbIdxDoubleStore{handler:handler}
+  self621.processorMap["db_idx_double_update"] = &applyProcessorDbIdxDoubleUpdate{handler:handler}
+  self621.processorMap["db_idx_double_remove"] = &applyProcessorDbIdxDoubleRemove{handler:handler}
+  self621.processorMap["db_idx_double_next"] = &applyProcessorDbIdxDoubleNext{handler:handler}
+  self621.processorMap["db_idx_double_previous"] = &applyProcessorDbIdxDoublePrevious{handler:handler}
+  self621.processorMap["db_idx_double_find_primary"] = &applyProcessorDbIdxDoubleFindPrimary{handler:handler}
+  self621.processorMap["db_idx_double_find_secondary"] = &applyProcessorDbIdxDoubleFindSecondary{handler:handler}
+  self621.processorMap["db_idx_double_lowerbound"] = &applyProcessorDbIdxDoubleLowerbound{handler:handler}
+  self621.processorMap["db_idx_double_upperbound"] = &applyProcessorDbIdxDoubleUpperbound{handler:handler}
+  self621.processorMap["db_idx_double_end"] = &applyProcessorDbIdxDoubleEnd{handler:handler}
+  self621.processorMap["db_idx_long_double_store"] = &applyProcessorDbIdxLongDoubleStore{handler:handler}
+  self621.processorMap["db_idx_long_double_update"] = &applyProcessorDbIdxLongDoubleUpdate{handler:handler}
+  self621.processorMap["db_idx_long_double_remove"] = &applyProcessorDbIdxLongDoubleRemove{handler:handler}
+  self621.processorMap["db_idx_long_double_next"] = &applyProcessorDbIdxLongDoubleNext{handler:handler}
+  self621.processorMap["db_idx_long_double_previous"] = &applyProcessorDbIdxLongDoublePrevious{handler:handler}
+  self621.processorMap["db_idx_long_double_find_primary"] = &applyProcessorDbIdxLongDoubleFindPrimary{handler:handler}
+  self621.processorMap["db_idx_long_double_find_secondary"] = &applyProcessorDbIdxLongDoubleFindSecondary{handler:handler}
+  self621.processorMap["db_idx_long_double_lowerbound"] = &applyProcessorDbIdxLongDoubleLowerbound{handler:handler}
+  self621.processorMap["db_idx_long_double_upperbound"] = &applyProcessorDbIdxLongDoubleUpperbound{handler:handler}
+  self621.processorMap["db_idx_long_double_end"] = &applyProcessorDbIdxLongDoubleEnd{handler:handler}
+  self621.processorMap["set_action_return_value"] = &applyProcessorSetActionReturnValue{handler:handler}
+  self621.processorMap["get_code_hash"] = &applyProcessorGetCodeHash{handler:handler}
+  self621.processorMap["get_block_num"] = &applyProcessorGetBlockNum{handler:handler}
+  self621.processorMap["sha3"] = &applyProcessorSha3{handler:handler}
+  self621.processorMap["blake2_f"] = &applyProcessorBlake2F{handler:handler}
+  self621.processorMap["k1_recover"] = &applyProcessorK1Recover{handler:handler}
+  self621.processorMap["alt_bn128_add"] = &applyProcessorAltBn128Add{handler:handler}
+  self621.processorMap["alt_bn128_mul"] = &applyProcessorAltBn128Mul{handler:handler}
+  self621.processorMap["alt_bn128_pair"] = &applyProcessorAltBn128Pair{handler:handler}
+  self621.processorMap["mod_exp"] = &applyProcessorModExp{handler:handler}
+return self621
 }
 
 func (p *ApplyProcessor) Process(ctx context.Context, iprot, oprot thrift.TProtocol) (success bool, err thrift.TException) {
@@ -13715,12 +13754,12 @@ func (p *ApplyProcessor) Process(ctx context.Context, iprot, oprot thrift.TProto
   }
   iprot.Skip(ctx, thrift.STRUCT)
   iprot.ReadMessageEnd(ctx)
-  x621 := thrift.NewTApplicationException(thrift.UNKNOWN_METHOD, "Unknown function " + name)
+  x622 := thrift.NewTApplicationException(thrift.UNKNOWN_METHOD, "Unknown function " + name)
   oprot.WriteMessageBegin(ctx, name, thrift.EXCEPTION, seqId)
-  x621.Write(ctx, oprot)
+  x622.Write(ctx, oprot)
   oprot.WriteMessageEnd(ctx)
   oprot.Flush(ctx)
-  return false, x621
+  return false, x622
 
 }
 
